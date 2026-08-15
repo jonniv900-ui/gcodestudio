@@ -373,6 +373,10 @@
   }
   .stat-inline{font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap;}
   .stat-inline b{color:var(--accent-cyan);}
+  .gpu-status{display:inline-flex;align-items:center;gap:6px;padding:3px 7px;border:1px solid var(--border);border-radius:999px;font:10px var(--mono);color:var(--text-dim);white-space:nowrap;}
+  .gpu-status i{width:7px;height:7px;border-radius:50%;background:var(--accent-amber);box-shadow:0 0 6px currentColor;}
+  .gpu-status.webgl2{color:var(--accent-green);border-color:#3ddc8455;}
+  .gpu-status.canvas2d{color:var(--accent-amber);border-color:#ffb02055;}
   .toolbar .btn.compact{padding:5px 7px;}
 
 
@@ -771,6 +775,60 @@
   #canvas{z-index:0;}
   .canvas-overlay,.z-slice-box,.machine-hud,.measure-badge{z-index:10;}
 
+
+
+  /* ============================================================
+     CAD 2D EMBUTIDO - unidades internas sempre em milimetros
+  ============================================================ */
+  .cad-dialog{width:min(1180px,calc(100vw - 24px));height:min(86vh,820px);padding:0;color:var(--text-primary);background:var(--bg-panel);border:1px solid var(--border);border-radius:12px;box-shadow:0 22px 68px rgba(0,0,0,.78)}
+  .cad-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(4px)}
+  .cad-head{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);min-height:48px}
+  .cad-head strong{font:800 13px var(--mono);color:var(--accent-cyan);margin-right:6px}
+  .cad-body{height:calc(100% - 49px);display:grid;grid-template-columns:54px 1fr 260px;min-height:0}
+  .cad-tools{padding:7px 5px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:5px;background:var(--bg-elevated)}
+  .cad-tools .btn{justify-content:center;padding:7px 4px;font-size:16px;min-width:42px}.cad-tools .btn.active{border-color:var(--accent-cyan);color:var(--accent-cyan);background:#4fd1e512}.cad-text-wrap{position:relative}.cad-text-menu{position:absolute;left:46px;top:0;z-index:40;display:none;min-width:150px;padding:5px;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;box-shadow:0 10px 28px #000a}.cad-text-menu.open{display:block}.cad-text-menu button{width:100%;justify-content:flex-start!important;font-size:11px!important;min-width:0!important;padding:7px 9px!important}.cad-text-menu button+button{margin-top:4px}
+  .cad-stage{position:relative;overflow:hidden;background:#0e1114;min-width:0}
+  #cadSvg{display:block;width:100%;height:100%;cursor:crosshair;touch-action:none;user-select:none}
+  .cad-side{border-left:1px solid var(--border);padding:10px;overflow:auto;background:var(--bg-panel)}
+  .cad-section{margin-bottom:14px}.cad-section h4{margin:0 0 7px;font:700 10.5px var(--mono);color:var(--accent-green);letter-spacing:.4px}
+  .cad-field{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:7px;margin:6px 0;color:var(--text-dim);font:10.5px var(--mono)}
+  .cad-field input,.cad-field select{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-primary);padding:5px 6px;font:11px var(--mono)}
+  .cad-status{position:absolute;left:8px;bottom:8px;background:#111417dd;border:1px solid var(--border);border-radius:5px;padding:4px 7px;color:var(--text-dim);font:10px var(--mono);pointer-events:none}
+  .cad-entity{vector-effect:non-scaling-stroke}.cad-selection{fill:none;stroke:var(--accent-cyan);stroke-width:1;stroke-dasharray:5 4;vector-effect:non-scaling-stroke;pointer-events:none}
+  @media(max-width:900px){.cad-dialog{height:92dvh;width:calc(100vw - 10px)}.cad-body{grid-template-columns:48px 1fr}.cad-side{position:absolute;right:6px;top:58px;bottom:6px;width:min(250px,72vw);z-index:5;box-shadow:0 8px 30px #000a}.cad-head{overflow-x:auto}.cad-head>*{flex:0 0 auto}}
+
+
+/* ===== V1.2 PRO SUITE ===== */
+.proBtn{position:relative}.proBadge{position:absolute;right:-5px;top:-6px;font-size:9px;background:#0ea5e9;color:#fff;border-radius:8px;padding:1px 4px}
+#proDialog{width:min(1180px,96vw);height:min(820px,94vh);padding:0;background:#0b1220;color:#e5e7eb;border:1px solid #334155;border-radius:14px;overflow:hidden}
+.proHead{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#111827;border-bottom:1px solid #334155}.proHead strong{font-size:14px}.proTabs{display:flex;gap:4px;overflow:auto;padding:8px;background:#0f172a;border-bottom:1px solid #334155}.proTab{white-space:nowrap;padding:7px 9px;border:1px solid #334155;background:#111827;color:#cbd5e1;border-radius:7px;cursor:pointer}.proTab.active{background:#2563eb;color:white;border-color:#60a5fa}.proBody{height:calc(100% - 92px);overflow:auto;padding:12px}.proPage{display:none}.proPage.active{display:block}.proGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.proCard{background:#111827;border:1px solid #334155;border-radius:10px;padding:10px}.proCard h3{margin:0 0 8px;font-size:13px;color:#93c5fd}.proRow{display:flex;gap:7px;align-items:center;margin:6px 0;flex-wrap:wrap}.proRow label{font-size:11px;color:#94a3b8}.proRow input,.proRow select,.proRow textarea{background:#020617;color:#e5e7eb;border:1px solid #334155;border-radius:6px;padding:6px}.proRow input[type=number]{width:86px}.proSmall{font-size:11px;color:#94a3b8}.proList{display:flex;flex-direction:column;gap:5px}.proItem{display:flex;align-items:center;gap:6px;padding:7px;border:1px solid #334155;border-radius:7px;background:#0f172a}.proItem .grow{flex:1}.proItem button{padding:4px 7px}.proStat{font-size:20px;font-weight:700;color:#f8fafc}.proWarn{color:#fbbf24}.proOk{color:#4ade80}.proDanger{color:#fb7185}.proTimeline{width:100%;accent-color:#3b82f6}.proLegend{display:flex;gap:10px;flex-wrap:wrap;font-size:10px}.proSw{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:3px}.layerSlider{writing-mode:vertical-lr;direction:rtl;height:240px}.proCanvas{width:100%;height:260px;background:#020617;border:1px solid #334155;border-radius:8px}.proLayerRow{display:grid;grid-template-columns:28px 28px 1fr 54px 64px;gap:5px;align-items:center}.proCmd{width:100%;font-family:ui-monospace,monospace}.proClamp{border-left:3px solid #f59e0b}.proOp{border-left:3px solid #38bdf8}.proTool{border-left:3px solid #a78bfa}
+
+
+/* ===== PRODUCTIVITY SUITE / V1.0 INTERNAL REVISION ===== */
+.prodbar{display:flex;gap:6px;align-items:center;padding:6px 10px;border-top:1px solid var(--border);background:var(--bg-panel);font-size:11px}
+.prodbar select,.prodbar input{background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px}
+.prod-chip{padding:3px 7px;border-radius:999px;border:1px solid var(--border);color:var(--text-dim);font-family:var(--mono)}
+.prod-chip.on{color:var(--accent-green);border-color:#3ddc8466;background:#3ddc8410}
+#prodDialog{width:min(1080px,96vw);height:min(760px,92vh);padding:0;background:var(--bg-panel);color:var(--text-primary);border:1px solid var(--border);border-radius:12px}
+.prod-head{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.prod-tabs{display:flex;gap:5px;padding:8px 10px;border-bottom:1px solid var(--border);overflow:auto}
+.prod-tab{background:var(--bg-input);color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:6px 8px;cursor:pointer;white-space:nowrap}
+.prod-tab.active{color:#fff;background:#2563eb;border-color:#60a5fa}
+.prod-body{padding:12px;overflow:auto;height:calc(100% - 98px)}
+.prod-page{display:none}.prod-page.active{display:block}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.prod-card{background:var(--bg-input);border:1px solid var(--border-soft);border-radius:8px;padding:10px}
+.prod-card h4{margin:0 0 8px;color:var(--accent-cyan);font:700 12px var(--mono)}
+.prod-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.prod-row input,.prod-row select{background:#0b0d0f;color:#fff;border:1px solid var(--border);border-radius:4px;padding:5px 7px}
+.prod-row input[type=number]{width:90px}
+.prod-small{font-size:11px;color:var(--text-dim);line-height:1.45}
+.prod-list{display:flex;flex-direction:column;gap:5px}
+.prod-item{display:flex;gap:6px;align-items:center;padding:7px;background:#0f1418;border:1px solid var(--border-soft);border-radius:6px}
+.prod-item .grow{flex:1}
+.prod-meter{height:8px;background:#101316;border:1px solid var(--border);border-radius:999px;overflow:hidden}.prod-meter>i{display:block;height:100%;background:var(--accent-green);width:0%}
+.prod-kpi{font:700 20px var(--mono);color:#fff}
+
 </style>
 </head>
 <body>
@@ -813,6 +871,7 @@
     <button class="btn" id="btnSafety">Segurança</button>
     <button class="btn" id="btnProduction">Produção</button>
     <button class="btn" id="btnEditorPlus">Editor+</button>
+    <button class="btn primary" id="btnCad2D" title="Editor vetorial 2D em milímetros">CAD 2D</button>
     <button class="btn" id="btnHelp" title="Ajuda do G-Code Studio">? Ajuda</button>
     <button class="btn" id="btnAbout" title="Sobre o G-Code Studio">ⓘ Sobre</button>
   </div>
@@ -830,6 +889,7 @@
     <button class="btn" id="btnSnipRetract">+ Retração Z</button>
     <button class="btn" id="btnSnipFooter">+ Fim (M30)</button>
 
+    <span class="gpu-status" id="gpuStatus" title="Backend gráfico"><i></i><span id="gpuStatusText">Detectando GPU...</span></span>
     <div class="spacer"></div>
     <button class="btn" id="btnDlgLimits">Limites Máquina</button>
     <button class="btn" id="btnDlgStock">Bloco Material</button>
@@ -927,6 +987,18 @@
       </div>
     </section>
 
+  </div>
+
+
+  <div class="prodbar" id="prodBar">
+    <span class="prod-chip">Workspace</span>
+    <select id="wsSelect"><option value="cnc">CNC</option><option value="print">3D Print</option><option value="cad">CAD</option><option value="inspect">Inspeção</option></select>
+    <button class="btn mini-btn" id="btnSingleBlock">Single Block</button>
+    <span>Feed</span><input id="feedOverride" type="range" min="10" max="200" value="100" style="width:110px"><b id="feedOverrideVal">100%</b>
+    <span>Spindle</span><input id="spindleOverride" type="range" min="50" max="150" value="100" style="width:100px"><b id="spindleOverrideVal">100%</b>
+    <span class="spacer"></span>
+    <span class="prod-chip" id="perfChip">Parser: main</span>
+    <span class="prod-chip" id="dbChip">Storage: local</span>
   </div>
 
   <!-- DRO e Playback Bar -->
@@ -1258,6 +1330,98 @@
   <div class="msg-dialog-actions" id="msgDialogActions"></div>
 </dialog>
 
+
+
+<!-- CAD 2D EMBUTIDO -->
+<dialog class="cad-dialog" id="cadDialog">
+  <div class="cad-head">
+    <strong>CAD 2D · mm</strong>
+    <button class="btn" id="cadNew">Novo</button>
+    <button class="btn" id="cadOpenProject">Abrir projeto</button>
+    <input type="file" id="cadProjectInput" accept=".gcs,.json,application/json" hidden>
+    <button class="btn" id="cadSaveProject">Salvar projeto</button>
+    <button class="btn" id="cadRecoverProject" title="Recuperar autosave local">Recuperar</button>
+    <button class="btn" id="cadOpenSvg">Abrir SVG</button>
+    <input type="file" id="cadSvgInput" accept=".svg,image/svg+xml" hidden>
+    <button class="btn" id="cadOpenDxf">Abrir DXF</button>
+    <input type="file" id="cadDxfInput" accept=".dxf,application/dxf,text/plain" hidden>
+    <button class="btn" id="cadSaveSvg">Salvar SVG</button>
+    <button class="btn" id="cadExportDxf">Exportar DXF</button>
+    <button class="btn" id="cadFit">Ajustar</button>
+    <div class="spacer"></div>
+    <button class="btn primary" id="cadGenerate">Gerar G-code → Simulador</button>
+    <button class="btn" id="cadClose">Fechar</button>
+  </div>
+  <div class="cad-body">
+    <div class="cad-tools">
+      <button class="btn active" data-cad-tool="select" title="Selecionar / mover">↖</button>
+      <button class="btn" data-cad-tool="line" title="Linha">╱</button>
+      <button class="btn" data-cad-tool="polyline" title="Polilinha">⌁</button>
+      <button class="btn" data-cad-tool="rect" title="Retângulo">□</button>
+      <button class="btn" data-cad-tool="circle" title="Círculo">○</button>
+      <button class="btn" data-cad-tool="arc" title="Arco por 3 pontos">◔</button>
+      <div class="cad-text-wrap" id="cadTextWrap"><button class="btn" id="cadTextToolBtn" title="Texto">T</button><div class="cad-text-menu" id="cadTextMenu"><button class="btn" id="cadTextComment">Comentário</button><button class="btn primary" id="cadTextMachine">Texto usinado</button></div></div>
+      <button class="btn" id="cadDelete" title="Excluir">⌫</button>
+      <button class="btn" id="cadOffsetBtn" title="Offset da seleção">Offset</button>
+      <button class="btn" id="cadMirrorXBtn" title="Espelhar seleção no eixo X local">↔</button>
+      <button class="btn" id="cadRotate90Btn" title="Rotacionar seleção 90°">⟳90</button>
+      <button class="btn" id="cadJoinBtn" title="Unir linhas/polilinhas conectadas">Join</button>
+    </div>
+    <div class="cad-stage">
+      <svg id="cadSvg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="cadMinorGrid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0L0 0 0 10" fill="none" stroke="#20262b" stroke-width=".5"/></pattern>
+          <pattern id="cadMajorGrid" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#cadMinorGrid)"/><path d="M50 0L0 0 0 50" fill="none" stroke="#30383f" stroke-width=".8"/></pattern>
+        </defs>
+        <g id="cadViewport"><rect id="cadGrid" x="-10000" y="-10000" width="20000" height="20000" fill="url(#cadMajorGrid)"/><g id="cadEntities"></g><g id="cadOverlay"></g></g>
+      </svg>
+      <div class="cad-status" id="cadStatus">X 0.000 · Y 0.000 mm</div>
+    </div>
+    <aside class="cad-side">
+      <div class="cad-section"><h4>DESENHO</h4>
+        <div class="cad-field"><span>Grid</span><input id="cadGridSize" type="number" min="0.1" step="1" value="10"></div>
+        <div class="cad-field"><span>Snap</span><select id="cadSnap"><option value="1">Ligado</option><option value="0">Desligado</option></select></div>
+        <div class="cad-field"><span>Ortho</span><select id="cadOrtho"><option value="0">Desligado</option><option value="1">Ligado</option></select></div>
+        <div class="cad-field"><span>Texto</span><input id="cadTextValue" type="text" value="Texto" maxlength="200" placeholder="Digite o texto"></div>
+        <div class="cad-field"><span>Altura texto</span><input id="cadTextHeight" type="number" min="0.1" step="0.5" value="5"></div>
+        <div class="cad-field"><span>Uso texto</span><select id="cadTextPurpose"><option value="comment">Comentário</option><option value="machine">Usinar</option></select></div>
+      </div>
+      <div class="cad-section"><h4>CAM · GERAR G-CODE</h4>
+        <div class="cad-field"><span>Operação</span><select id="cadOperation"><option value="follow">Seguir geometria</option><option value="outside">Contorno externo</option><option value="inside">Contorno interno</option><option value="pocket">Pocket / desbaste</option><option value="drill">Furar círculos</option></select></div>
+        <div class="cad-field"><span>Ferramenta Ø</span><input id="cadToolDiameter" type="number" min="0.01" step="0.1" value="3.175"></div>
+        <div class="cad-field"><span>Ferramenta T</span><input id="cadToolNumber" type="number" min="1" step="1" value="1"></div>
+        <div class="cad-field"><span>Sobremetal</span><input id="cadAllowance" type="number" min="0" step="0.05" value="0"></div>
+        <div class="cad-field"><span>Acabamento</span><select id="cadFinishPass"><option value="1">Sim</option><option value="0">Não</option></select></div>
+        <div class="cad-field"><span>Stepover %</span><input id="cadStepover" type="number" min="5" max="95" step="5" value="45"></div>
+        <div class="cad-field"><span>Safe Z</span><input id="cadSafeZ" type="number" step="0.1" value="5"></div>
+        <div class="cad-field"><span>Prof. final</span><input id="cadDepth" type="number" step="0.1" value="-2"></div>
+        <div class="cad-field"><span>Passo Z</span><input id="cadStepDown" type="number" min="0.01" step="0.1" value="1"></div>
+        <div class="cad-field"><span>Avanço XY</span><input id="cadFeed" type="number" min="1" step="50" value="800"></div>
+        <div class="cad-field"><span>Avanço Z</span><input id="cadPlunge" type="number" min="1" step="25" value="250"></div>
+        <div class="cad-field"><span>Spindle</span><input id="cadSpindle" type="number" min="0" step="500" value="12000"></div>
+        <div class="cad-field"><span>Otimizar rota</span><select id="cadOptimize"><option value="1">Sim · menor G0</option><option value="0">Não · ordem desenho</option></select></div>
+        <div class="cad-field"><span>Retrair</span><select id="cadRetractEach"><option value="1">Entre objetos</option><option value="0">Somente quando preciso</option></select></div>
+        <div class="cad-field"><span>Entrada</span><select id="cadEntry"><option value="plunge">Vertical</option><option value="ramp">Rampa linear</option><option value="helix">Helicoidal</option></select></div>
+        <div class="cad-field"><span>Lead-in</span><select id="cadLeadIn"><option value="0">Desligado</option><option value="1">Ligado</option></select></div>
+        <div class="cad-field"><span>Lead-in mm</span><input id="cadLeadLen" type="number" min="0.1" step="0.5" value="3"></div>
+        <div class="cad-field"><span>Tabs qtd.</span><input id="cadTabsCount" type="number" min="0" max="12" step="1" value="0"></div>
+        <div class="cad-field"><span>Tab largura</span><input id="cadTabWidth" type="number" min="0.5" step="0.5" value="5"></div>
+        <div class="cad-field"><span>Tab altura</span><input id="cadTabHeight" type="number" min="0" step="0.1" value="0.8"></div>
+        <div class="cad-field"><span>Peck furo</span><input id="cadPeck" type="number" min="0" step="0.5" value="0" title="0 = furação direta"></div>
+        <div class="cad-field"><span>Pausa spindle</span><input id="cadSpindleDelay" type="number" min="0" step="0.1" value="0" title="Segundos após M3"></div>
+        <div id="cadCamSummary" style="font:10px/1.5 var(--mono);color:var(--accent-cyan);padding:6px 0"></div>
+        <div style="font:10px/1.5 var(--mono);color:var(--text-faint);margin-top:7px">G-code em mm (G21/G90/G17). A engine ordena trajetórias para reduzir G0, valida parâmetros, suporta rampa/helicoidal, tabs, acabamento, lead-in, peck drilling e pocket. Contornos/pockets de polilinhas fechadas usam offset/scanline. Texto “Usinar” vira traços vetoriais 5×7.</div>
+      </div>
+      <div class="cad-section"><h4>SELEÇÃO / MODIFICAR</h4>
+        <div class="cad-field"><span>Offset mm</span><input id="cadOffsetValue" type="number" step="0.5" value="2"></div>
+        <div id="cadSelectionInfo" style="font:10.5px/1.5 var(--mono);color:var(--text-dim)">Nenhum objeto.</div>
+      </div>
+    </aside>
+  </div>
+</dialog>
+
+
+
 <script>
 (function(){
   "use strict";
@@ -1336,7 +1500,7 @@ M30
       G54:{x:0,y:0,z:0},G55:{x:0,y:0,z:0},G56:{x:0,y:0,z:0},
       G57:{x:0,y:0,z:0},G58:{x:0,y:0,z:0},G59:{x:0,y:0,z:0}
     },
-    material:'aluminum'
+    material:'aluminum', simArcTolerance:0.05, simArcMaxSteps:4096, simAdaptive:true
   };
 
   const state = {
@@ -1391,6 +1555,455 @@ M30
   const xyzChart = document.getElementById('xyzChart');
   const xyzCtx = xyzChart.getContext('2d');
   const xyzChartWrap = document.getElementById('xyzChartWrap');
+
+
+  // ============================================================
+  // CAD 2D EMBUTIDO + CAM BÁSICO (unidade interna fixa: mm)
+  // ============================================================
+  const cadDialog=document.getElementById('cadDialog');
+  const cadSvg=document.getElementById('cadSvg'), cadViewport=document.getElementById('cadViewport');
+  const cadEntitiesG=document.getElementById('cadEntities'), cadOverlay=document.getElementById('cadOverlay');
+  const CADNS='http://www.w3.org/2000/svg';
+  const cad={tool:'select',textPurpose:'comment',entities:[],selected:null,nextId:1,zoom:1,panX:0,panY:0,grid:10,snap:true,ortho:false,drawing:null,drag:null,pan:null};
+  const cadClone=o=>JSON.parse(JSON.stringify(o));
+  function cadMake(tag,a={}){const n=document.createElementNS(CADNS,tag);Object.entries(a).forEach(([k,v])=>n.setAttribute(k,v));return n}
+  function cadArc(p1,p2,p3){const d=2*(p1.x*(p2.y-p3.y)+p2.x*(p3.y-p1.y)+p3.x*(p1.y-p2.y));if(Math.abs(d)<1e-9)return null;const ux=((p1.x*p1.x+p1.y*p1.y)*(p2.y-p3.y)+(p2.x*p2.x+p2.y*p2.y)*(p3.y-p1.y)+(p3.x*p3.x+p3.y*p3.y)*(p1.y-p2.y))/d;const uy=((p1.x*p1.x+p1.y*p1.y)*(p3.x-p2.x)+(p2.x*p2.x+p2.y*p2.y)*(p1.x-p3.x)+(p3.x*p3.x+p3.y*p3.y)*(p2.x-p1.x))/d;const r=Math.hypot(p1.x-ux,p1.y-uy),norm=a=>(a%(Math.PI*2)+Math.PI*2)%(Math.PI*2);const a1=norm(Math.atan2(p1.y-uy,p1.x-ux)),a2=norm(Math.atan2(p2.y-uy,p2.x-ux)),a3=norm(Math.atan2(p3.y-uy,p3.x-ux));const ccw=((a2-a1+Math.PI*2)%(Math.PI*2))<((a3-a1+Math.PI*2)%(Math.PI*2));return{cx:ux,cy:uy,r,a1,a3,ccw}}
+  function cadBBox(e){if(e.type==='line')return{x:Math.min(e.x1,e.x2),y:Math.min(e.y1,e.y2),w:Math.abs(e.x2-e.x1),h:Math.abs(e.y2-e.y1)};if(e.type==='rect')return{x:e.x,y:e.y,w:e.w,h:e.h};if(e.type==='circle')return{x:e.cx-e.r,y:e.cy-e.r,w:e.r*2,h:e.r*2};if(e.type==='text'){const h=Math.max(.1,+e.height||5),w=Math.max(h*.35,(e.text||'').length*h*.6);return{x:e.x,y:e.y,w,h}}const pts=e.type==='polyline'?e.points:e.type==='arc'?[e.p1,e.p2,e.p3]:[];if(pts.length){const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);return{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)}}return{x:0,y:0,w:0,h:0}}
+  function cadEl(e){const c={stroke:'#e6e8eb','stroke-width':.45,fill:'none',class:'cad-entity'};let n;if(e.type==='line')n=cadMake('line',{x1:e.x1,y1:e.y1,x2:e.x2,y2:e.y2,...c});if(e.type==='rect')n=cadMake('rect',{x:e.x,y:e.y,width:e.w,height:e.h,...c});if(e.type==='circle')n=cadMake('circle',{cx:e.cx,cy:e.cy,r:e.r,...c});if(e.type==='polyline')n=cadMake('polyline',{points:e.points.map(p=>`${p.x},${p.y}`).join(' '),...c});if(e.type==='arc'){const a=cadArc(e.p1,e.p2,e.p3);if(a){const large=((a.ccw?(a.a3-a.a1+Math.PI*2):(a.a1-a.a3+Math.PI*2))%(Math.PI*2))>Math.PI?1:0;n=cadMake('path',{d:`M${e.p1.x} ${e.p1.y} A${a.r} ${a.r} 0 ${large} ${a.ccw?1:0} ${e.p3.x} ${e.p3.y}`,...c})}}if(e.type==='text'){n=cadMake('text',{x:0,y:0,transform:`translate(${e.x} ${e.y}) scale(1 -1)`,fill:'#e6e8eb',stroke:'none','font-size':Math.max(.1,+e.height||5),'font-family':'Arial, sans-serif','dominant-baseline':'text-before-edge',class:'cad-entity'});n.textContent=e.text||''}if(n){n.dataset.id=e.id;n.style.pointerEvents=e.type==='text'?'all':'stroke';if(e.id===cad.selected){if(e.type==='text')n.setAttribute('fill','#4fd1e5');else n.setAttribute('stroke','#4fd1e5')}}return n}
+  function cadView(){cadViewport.setAttribute('transform',`translate(${cad.panX} ${cad.panY}) scale(${cad.zoom} ${-cad.zoom})`)}
+  function cadScreen(ev){const r=cadSvg.getBoundingClientRect();return{x:(ev.clientX-r.left-cad.panX)/cad.zoom,y:-(ev.clientY-r.top-cad.panY)/cad.zoom}}
+  function cadSnapP(p,anchor){let q={...p};if(cad.snap){q.x=Math.round(q.x/cad.grid)*cad.grid;q.y=Math.round(q.y/cad.grid)*cad.grid}if(cad.ortho&&anchor){if(Math.abs(q.x-anchor.x)>=Math.abs(q.y-anchor.y))q.y=anchor.y;else q.x=anchor.x}return q}
+  function cadRender(){cadEntitiesG.innerHTML='';cadOverlay.innerHTML='';cad.entities.forEach(e=>{const n=cadEl(e);if(n)cadEntitiesG.appendChild(n)});if(cad.selected){const e=cad.entities.find(x=>x.id===cad.selected);if(e){const b=cadBBox(e);cadOverlay.appendChild(cadMake('rect',{x:b.x-2/cad.zoom,y:b.y-2/cad.zoom,width:b.w+4/cad.zoom,height:b.h+4/cad.zoom,class:'cad-selection'}));document.getElementById('cadSelectionInfo').textContent=`${e.type.toUpperCase()} · X ${b.x.toFixed(3)} · Y ${b.y.toFixed(3)} · ${b.w.toFixed(3)} × ${b.h.toFixed(3)} mm`;if(e.type==='text'){document.getElementById('cadTextValue').value=e.text||'';document.getElementById('cadTextHeight').value=e.height||5;document.getElementById('cadTextPurpose').value=e.purpose==='machine'?'machine':'comment';document.getElementById('cadSelectionInfo').textContent+=` · ${e.purpose==='machine'?'USINAR':'COMENTÁRIO'}`}}}else document.getElementById('cadSelectionInfo').textContent='Nenhum objeto.';cadPreview();cadView();cadUpdateCamSummary()}
+  function cadPreview(){const d=cad.drawing;if(!d)return;const st={stroke:'#4fd1e5','stroke-width':1/cad.zoom,fill:'none','stroke-dasharray':`${5/cad.zoom} ${4/cad.zoom}`};if(d.type==='line'&&d.end)cadOverlay.appendChild(cadMake('line',{x1:d.start.x,y1:d.start.y,x2:d.end.x,y2:d.end.y,...st}));if(d.type==='rect'&&d.end)cadOverlay.appendChild(cadMake('rect',{x:Math.min(d.start.x,d.end.x),y:Math.min(d.start.y,d.end.y),width:Math.abs(d.end.x-d.start.x),height:Math.abs(d.end.y-d.start.y),...st}));if(d.type==='circle'&&d.end)cadOverlay.appendChild(cadMake('circle',{cx:d.start.x,cy:d.start.y,r:Math.hypot(d.end.x-d.start.x,d.end.y-d.start.y),...st}));if(d.type==='polyline'||d.type==='arc'){const p=[...d.points];if(d.end)p.push(d.end);cadOverlay.appendChild(cadMake('polyline',{points:p.map(x=>`${x.x},${x.y}`).join(' '),...st}))}}
+  function cadAdd(e){e.id='C'+String(cad.nextId++).padStart(4,'0');cad.entities.push(e);cad.selected=e.id;cadRender()}
+  function cadMove(e,dx,dy){if(e.type==='line'){e.x1+=dx;e.y1+=dy;e.x2+=dx;e.y2+=dy}else if(e.type==='rect'){e.x+=dx;e.y+=dy}else if(e.type==='circle'){e.cx+=dx;e.cy+=dy}else if(e.type==='polyline')e.points.forEach(p=>{p.x+=dx;p.y+=dy});else if(e.type==='arc')[e.p1,e.p2,e.p3].forEach(p=>{p.x+=dx;p.y+=dy});else if(e.type==='text'){e.x+=dx;e.y+=dy}}
+  function cadSetTool(t){cad.tool=t;cad.drawing=null;document.querySelectorAll('[data-cad-tool]').forEach(b=>b.classList.toggle('active',b.dataset.cadTool===t));document.getElementById('cadTextToolBtn').classList.toggle('active',t==='text');if(t!=='text')document.getElementById('cadTextMenu').classList.remove('open');cadRender()}
+  function cadFit(){const r=cadSvg.getBoundingClientRect();if(!cad.entities.length){cad.zoom=1;cad.panX=r.width/2;cad.panY=r.height/2;cadView();return}const bs=cad.entities.map(cadBBox),minX=Math.min(...bs.map(b=>b.x)),minY=Math.min(...bs.map(b=>b.y)),maxX=Math.max(...bs.map(b=>b.x+b.w)),maxY=Math.max(...bs.map(b=>b.y+b.h)),w=Math.max(1,maxX-minX),h=Math.max(1,maxY-minY);cad.zoom=Math.max(.05,Math.min(30,Math.min((r.width-100)/w,(r.height-100)/h)));cad.panX=r.width/2-(minX+w/2)*cad.zoom;cad.panY=r.height/2+(minY+h/2)*cad.zoom;cadView()}
+  cadSvg.addEventListener('pointerdown',ev=>{if(ev.button===1||(ev.button===0&&ev.shiftKey)){cad.pan={x:ev.clientX,y:ev.clientY,px:cad.panX,py:cad.panY};cadSvg.setPointerCapture(ev.pointerId);return}if(ev.button!==0)return;let p=cadSnapP(cadScreen(ev));if(cad.tool==='select'){const t=ev.target.closest('.cad-entity');cad.selected=t?t.dataset.id:null;if(cad.selected){cad.drag={id:cad.selected,last:p};cadSvg.setPointerCapture(ev.pointerId)}cadRender();return}if(cad.tool==='line'){if(!cad.drawing)cad.drawing={type:'line',start:p,end:p};else{p=cadSnapP(p,cad.drawing.start);cadAdd({type:'line',x1:cad.drawing.start.x,y1:cad.drawing.start.y,x2:p.x,y2:p.y});cad.drawing=null}cadRender();return}if(cad.tool==='rect'||cad.tool==='circle'){cad.drawing={type:cad.tool,start:p,end:p,dragging:true};cadSvg.setPointerCapture(ev.pointerId);cadRender();return}if(cad.tool==='polyline'){if(!cad.drawing)cad.drawing={type:'polyline',points:[p],end:p};else cad.drawing.points.push(cadSnapP(p,cad.drawing.points.at(-1)));cadRender();return}if(cad.tool==='arc'){if(!cad.drawing)cad.drawing={type:'arc',points:[p],end:p};else{cad.drawing.points.push(p);if(cad.drawing.points.length===3){cadAdd({type:'arc',p1:cad.drawing.points[0],p2:cad.drawing.points[1],p3:cad.drawing.points[2]});cad.drawing=null}}cadRender();return}if(cad.tool==='text'){const txt=document.getElementById('cadTextValue').value.trim(),h=Math.max(.1,+document.getElementById('cadTextHeight').value||5);if(!txt){alert('Digite o texto antes de posicioná-lo.');return}cadAdd({type:'text',x:p.x,y:p.y,text:txt,height:h,purpose:cad.textPurpose});return}});
+  cadSvg.addEventListener('pointermove',ev=>{let raw=cadScreen(ev);document.getElementById('cadStatus').textContent=`X ${raw.x.toFixed(3)} · Y ${raw.y.toFixed(3)} mm`;if(cad.pan){cad.panX=cad.pan.px+ev.clientX-cad.pan.x;cad.panY=cad.pan.py+ev.clientY-cad.pan.y;cadView();return}let p=cadSnapP(raw,cad.drawing?.start||cad.drawing?.points?.at(-1));if(cad.drag){const e=cad.entities.find(x=>x.id===cad.drag.id),dx=p.x-cad.drag.last.x,dy=p.y-cad.drag.last.y;if(e)cadMove(e,dx,dy);cad.drag.last=p;cadRender();return}if(cad.drawing){cad.drawing.end=p;cadRender()}});
+  cadSvg.addEventListener('pointerup',()=>{if(cad.pan){cad.pan=null;return}if(cad.drag){cad.drag=null;return}if(cad.drawing?.dragging){const d=cad.drawing,p=d.end;if(d.type==='rect'){const w=Math.abs(p.x-d.start.x),h=Math.abs(p.y-d.start.y);if(w||h)cadAdd({type:'rect',x:Math.min(d.start.x,p.x),y:Math.min(d.start.y,p.y),w,h})}else{const r=Math.hypot(p.x-d.start.x,p.y-d.start.y);if(r)cadAdd({type:'circle',cx:d.start.x,cy:d.start.y,r})}cad.drawing=null;cadRender()}});
+  cadSvg.addEventListener('dblclick',()=>{if(cad.tool==='polyline'&&cad.drawing?.points.length>=2){cadAdd({type:'polyline',points:cadClone(cad.drawing.points)});cad.drawing=null;cadRender()}});
+  cadSvg.addEventListener('wheel',ev=>{ev.preventDefault();const r=cadSvg.getBoundingClientRect(),sx=ev.clientX-r.left,sy=ev.clientY-r.top,old=cad.zoom,f=ev.deltaY<0?1.12:1/1.12;cad.zoom=Math.max(.05,Math.min(30,cad.zoom*f));const wx=(sx-cad.panX)/old,wy=(sy-cad.panY)/old;cad.panX=sx-wx*cad.zoom;cad.panY=sy-wy*cad.zoom;cadView()},{passive:false});
+  document.querySelectorAll('[data-cad-tool]').forEach(b=>b.addEventListener('click',()=>cadSetTool(b.dataset.cadTool)));
+  const cadTextToolBtn=document.getElementById('cadTextToolBtn'),cadTextMenu=document.getElementById('cadTextMenu');
+  cadTextToolBtn.addEventListener('click',ev=>{ev.stopPropagation();cadTextMenu.classList.toggle('open')});
+  function chooseCadTextTool(purpose){cad.textPurpose=purpose;document.getElementById('cadTextPurpose').value=purpose;cadTextMenu.classList.remove('open');cadSetTool('text');cadTextToolBtn.title=purpose==='machine'?'Texto usinado':'Texto comentário';cadTextToolBtn.textContent=purpose==='machine'?'T⚙':'T'}
+  document.getElementById('cadTextComment').addEventListener('click',ev=>{ev.stopPropagation();chooseCadTextTool('comment')});
+  document.getElementById('cadTextMachine').addEventListener('click',ev=>{ev.stopPropagation();chooseCadTextTool('machine')});
+  document.addEventListener('click',ev=>{if(!document.getElementById('cadTextWrap').contains(ev.target))cadTextMenu.classList.remove('open')});
+  document.getElementById('cadDelete').addEventListener('click',()=>{if(cad.selected){cad.entities=cad.entities.filter(e=>e.id!==cad.selected);cad.selected=null;cadRender()}});
+  document.getElementById('cadGridSize').addEventListener('change',e=>{cad.grid=Math.max(.1,+e.target.value||10);document.getElementById('cadMinorGrid').setAttribute('width',cad.grid);document.getElementById('cadMinorGrid').setAttribute('height',cad.grid);document.getElementById('cadMajorGrid').setAttribute('width',cad.grid*5);document.getElementById('cadMajorGrid').setAttribute('height',cad.grid*5)});
+  document.getElementById('cadSnap').addEventListener('change',e=>cad.snap=e.target.value==='1');document.getElementById('cadOrtho').addEventListener('change',e=>cad.ortho=e.target.value==='1');
+  document.getElementById('cadTextValue').addEventListener('change',e=>{const t=cad.entities.find(x=>x.id===cad.selected&&x.type==='text');if(t){t.text=e.target.value;cadRender()}});
+  document.getElementById('cadTextHeight').addEventListener('change',e=>{const t=cad.entities.find(x=>x.id===cad.selected&&x.type==='text');if(t){t.height=Math.max(.1,+e.target.value||5);cadRender()}});
+  document.getElementById('cadTextPurpose').addEventListener('change',e=>{const t=cad.entities.find(x=>x.id===cad.selected&&x.type==='text');if(t){t.purpose=e.target.value==='machine'?'machine':'comment';cadRender()}});
+  document.getElementById('cadFit').addEventListener('click',cadFit);document.getElementById('cadNew').addEventListener('click',()=>{if(!cad.entities.length||confirm('Limpar o desenho CAD atual?')){cad.entities=[];cad.selected=null;cad.nextId=1;cadRender();cadFit()}});
+  document.getElementById('btnCad2D').addEventListener('click',()=>{document.getElementById('cadSafeZ').value=config.safeZ||5;document.getElementById('cadSpindle').value=config.defaultSpindle||12000;document.getElementById('cadToolDiameter').value=config.toolDiameter||3.175;cadDialog.showModal();requestAnimationFrame(()=>{cadRender();cadFit();cadUpdateCamSummary()})});document.getElementById('cadClose').addEventListener('click',()=>cadDialog.close());
+  function cadDownload(name,text,type){
+    const blob=new Blob([text],{type:type||'application/octet-stream'});
+    const u=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=u;
+    a.download=name;
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(u),3000);
+  }
+  function cadSvgText(){const bs=cad.entities.map(cadBBox);let minX=0,minY=0,maxX=100,maxY=100;if(bs.length){minX=Math.min(...bs.map(b=>b.x));minY=Math.min(...bs.map(b=>b.y));maxX=Math.max(...bs.map(b=>b.x+b.w));maxY=Math.max(...bs.map(b=>b.y+b.h))}const m=10,w=maxX-minX+2*m,h=maxY-minY+2*m;let body='';cad.entities.forEach(e=>{const n=cadEl(e);if(n){n.removeAttribute('class');n.removeAttribute('data-id');body+=n.outerHTML}});return `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="${minX-m} ${-(maxY+m)} ${w} ${h}" width="${w}mm" height="${h}mm"><g transform="scale(1,-1)">${body}</g></svg>`}
+  document.getElementById('cadSaveSvg').addEventListener('click',()=>cadDownload('desenho.svg',cadSvgText(),'image/svg+xml'));
+  function cadDxf(){
+    const o=[];
+    const add=(code,value)=>{o.push(String(code),String(value));};
+    const num=v=>{
+      const n=Number(v);
+      if(!Number.isFinite(n)) return '0';
+      const s=n.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+      return s==='-0'?'0':s;
+    };
+
+    // DXF ASCII R12 (AC1009): formato simples e amplamente compatível.
+    // Todas as coordenadas são gravadas em milímetros por convenção do projeto.
+    let minX=0,minY=0,maxX=0,maxY=0;
+    if(cad.entities.length){
+      const bs=cad.entities.map(cadBBox);
+      minX=Math.min(...bs.map(b=>b.x));
+      minY=Math.min(...bs.map(b=>b.y));
+      maxX=Math.max(...bs.map(b=>b.x+b.w));
+      maxY=Math.max(...bs.map(b=>b.y+b.h));
+    }
+
+    add(0,'SECTION'); add(2,'HEADER');
+    add(9,'$ACADVER'); add(1,'AC1009');
+    add(9,'$MEASUREMENT'); add(70,1);
+    add(9,'$EXTMIN'); add(10,num(minX)); add(20,num(minY)); add(30,'0');
+    add(9,'$EXTMAX'); add(10,num(maxX)); add(20,num(maxY)); add(30,'0');
+    add(0,'ENDSEC');
+
+    add(0,'SECTION'); add(2,'TABLES');
+    add(0,'TABLE'); add(2,'LTYPE'); add(70,1);
+    add(0,'LTYPE'); add(2,'CONTINUOUS'); add(70,0); add(3,'Solid line'); add(72,65); add(73,0); add(40,0.0);
+    add(0,'ENDTAB');
+    add(0,'TABLE'); add(2,'LAYER'); add(70,1);
+    add(0,'LAYER'); add(2,'0'); add(70,0); add(62,7); add(6,'CONTINUOUS');
+    add(0,'ENDTAB');
+    add(0,'TABLE'); add(2,'STYLE'); add(70,1);
+    add(0,'STYLE'); add(2,'STANDARD'); add(70,0); add(40,0); add(41,1); add(50,0); add(71,0); add(42,2.5); add(3,'txt'); add(4,'');
+    add(0,'ENDTAB');
+    add(0,'ENDSEC');
+
+    add(0,'SECTION'); add(2,'BLOCKS'); add(0,'ENDSEC');
+    add(0,'SECTION'); add(2,'ENTITIES');
+
+    const addLine=(x1,y1,x2,y2)=>{
+      add(0,'LINE'); add(8,'0');
+      add(10,num(x1)); add(20,num(y1)); add(30,'0');
+      add(11,num(x2)); add(21,num(y2)); add(31,'0');
+    };
+    const addPolyline=(pts,closed=false)=>{
+      if(!pts || pts.length<2) return;
+      add(0,'POLYLINE'); add(8,'0'); add(66,1); add(70,closed?1:0); add(10,'0'); add(20,'0'); add(30,'0');
+      pts.forEach(p=>{
+        add(0,'VERTEX'); add(8,'0');
+        add(10,num(p.x)); add(20,num(p.y)); add(30,'0'); add(70,0);
+      });
+      add(0,'SEQEND'); add(8,'0');
+    };
+
+    cad.entities.forEach(e=>{
+      if(e.type==='line'){
+        addLine(e.x1,e.y1,e.x2,e.y2);
+      }else if(e.type==='rect'){
+        addPolyline([
+          {x:e.x,y:e.y},
+          {x:e.x+e.w,y:e.y},
+          {x:e.x+e.w,y:e.y+e.h},
+          {x:e.x,y:e.y+e.h}
+        ],true);
+      }else if(e.type==='polyline'){
+        addPolyline(e.points,false);
+      }else if(e.type==='circle'){
+        add(0,'CIRCLE'); add(8,'0');
+        add(10,num(e.cx)); add(20,num(e.cy)); add(30,'0'); add(40,num(e.r));
+      }else if(e.type==='text'){
+        add(0,'TEXT'); add(8,'0');
+        add(10,num(e.x)); add(20,num(e.y)); add(30,'0');
+        add(40,num(Math.max(.1,+e.height||5))); add(1,String(e.text||'')); add(7,'STANDARD'); add(50,'0');
+      }else if(e.type==='arc'){
+        const a=cadArc(e.p1,e.p2,e.p3);
+        if(a){
+          let sa=a.a1*180/Math.PI,ea=a.a3*180/Math.PI;
+          if(!a.ccw)[sa,ea]=[ea,sa];
+          sa=(sa%360+360)%360; ea=(ea%360+360)%360;
+          add(0,'ARC'); add(8,'0');
+          add(10,num(a.cx)); add(20,num(a.cy)); add(30,'0'); add(40,num(a.r));
+          add(50,num(sa)); add(51,num(ea));
+        }
+      }
+    });
+
+    add(0,'ENDSEC'); add(0,'EOF');
+    return o.join('\r\n')+'\r\n';
+  }
+  document.getElementById('cadExportDxf').addEventListener('click',()=>{if(!cad.entities.length)return alert('Desenhe ao menos uma geometria antes de exportar.');cadDownload('desenho.dxf',cadDxf(),'application/octet-stream');});
+  document.getElementById('cadOpenSvg').addEventListener('click',()=>document.getElementById('cadSvgInput').click());document.getElementById('cadSvgInput').addEventListener('change',async ev=>{const f=ev.target.files[0];if(!f)return;const doc=new DOMParser().parseFromString(await f.text(),'image/svg+xml');if(doc.querySelector('parsererror'))return alert('SVG inválido.');cad.entities=[];cad.nextId=1;doc.querySelectorAll('line,rect,circle,polyline,polygon,text').forEach(n=>{let e;if(n.tagName==='line')e={type:'line',x1:+n.getAttribute('x1')||0,y1:+n.getAttribute('y1')||0,x2:+n.getAttribute('x2')||0,y2:+n.getAttribute('y2')||0};else if(n.tagName==='rect')e={type:'rect',x:+n.getAttribute('x')||0,y:+n.getAttribute('y')||0,w:+n.getAttribute('width')||0,h:+n.getAttribute('height')||0};else if(n.tagName==='circle')e={type:'circle',cx:+n.getAttribute('cx')||0,cy:+n.getAttribute('cy')||0,r:+n.getAttribute('r')||0};else if(n.tagName==='text'){let x=+n.getAttribute('x')||0,y=+n.getAttribute('y')||0;const tr=n.getAttribute('transform')||'',m=tr.match(/translate\(\s*([-+0-9.eE]+)[ ,]+([-+0-9.eE]+)\s*\)/);if(m){x=+m[1]||0;y=+m[2]||0}e={type:'text',x,y,text:n.textContent||'',height:parseFloat(n.getAttribute('font-size'))||5,purpose:'comment'}}else{const p=(n.getAttribute('points')||'').trim().split(/\s+/).map(v=>v.split(',').map(Number)).filter(v=>v.length===2&&v.every(Number.isFinite)).map(([x,y])=>({x,y}));if(p.length>1)e={type:'polyline',points:p}}if(e)cadAdd(e)});cad.selected=null;cadRender();cadFit();ev.target.value=''});
+  function cadParseDxf(text){
+    const raw=text.replace(/\r/g,'').split('\n');
+    const pairs=[];
+    for(let i=0;i+1<raw.length;i+=2){const code=parseInt(raw[i].trim(),10);if(Number.isFinite(code))pairs.push([code,raw[i+1].trim()]);}
+    const ents=[];let inEntities=false,i=0;
+    const n=v=>{const x=parseFloat(v);return Number.isFinite(x)?x:0};
+    while(i<pairs.length){const [c,v]=pairs[i];
+      if(c===0&&v==='SECTION'&&pairs[i+1]?.[0]===2&&pairs[i+1]?.[1]==='ENTITIES'){inEntities=true;i+=2;continue}
+      if(inEntities&&c===0&&v==='ENDSEC'){break}
+      if(!inEntities){i++;continue}
+      if(c!==0){i++;continue}
+      const type=v; i++;
+      if(type==='POLYLINE'){
+        const pts=[];let closed=false;
+        while(i<pairs.length){
+          if(pairs[i][0]===70)closed=(parseInt(pairs[i][1],10)&1)!==0;
+          if(pairs[i][0]===0&&pairs[i][1]==='VERTEX'){
+            i++;let x=0,y=0;
+            while(i<pairs.length&&pairs[i][0]!==0){if(pairs[i][0]===10)x=n(pairs[i][1]);if(pairs[i][0]===20)y=n(pairs[i][1]);i++}
+            pts.push({x,y});continue;
+          }
+          if(pairs[i][0]===0&&pairs[i][1]==='SEQEND'){i++;break}
+          if(pairs[i][0]===0)break;i++;
+        }
+        if(pts.length>1){if(closed&&pts.length>=3){pts.push({...pts[0]})}ents.push({type:'polyline',points:pts});}
+        continue;
+      }
+      const data={};
+      while(i<pairs.length&&pairs[i][0]!==0){const [gc,gv]=pairs[i];(data[gc]||(data[gc]=[])).push(gv);i++}
+      const g=(code,idx=0)=>data[code]?.[idx];
+      if(type==='LINE')ents.push({type:'line',x1:n(g(10)),y1:n(g(20)),x2:n(g(11)),y2:n(g(21))});
+      else if(type==='CIRCLE')ents.push({type:'circle',cx:n(g(10)),cy:n(g(20)),r:Math.abs(n(g(40)))});
+      else if(type==='ARC'){
+        const cx=n(g(10)),cy=n(g(20)),r=Math.abs(n(g(40))),a1=n(g(50))*Math.PI/180,a3=n(g(51))*Math.PI/180;
+        let da=(a3-a1+Math.PI*2)%(Math.PI*2),am=a1+da/2;
+        ents.push({type:'arc',p1:{x:cx+r*Math.cos(a1),y:cy+r*Math.sin(a1)},p2:{x:cx+r*Math.cos(am),y:cy+r*Math.sin(am)},p3:{x:cx+r*Math.cos(a3),y:cy+r*Math.sin(a3)}});
+      }else if(type==='TEXT')ents.push({type:'text',x:n(g(10)),y:n(g(20)),height:Math.max(.1,Math.abs(n(g(40)))||5),text:g(1)||'',purpose:'comment'});
+      else if(type==='LWPOLYLINE'){
+        const xs=data[10]||[],ys=data[20]||[],pts=xs.map((x,j)=>({x:n(x),y:n(ys[j])}));const closed=(parseInt(g(70)||'0',10)&1)!==0;if(closed&&pts.length)pts.push({...pts[0]});if(pts.length>1)ents.push({type:'polyline',points:pts});
+      }
+    }
+    return ents;
+  }
+  document.getElementById('cadOpenDxf').addEventListener('click',()=>document.getElementById('cadDxfInput').click());
+  document.getElementById('cadDxfInput').addEventListener('change',async ev=>{const f=ev.target.files[0];if(!f)return;try{const ents=cadParseDxf(await f.text());if(!ents.length){alert('Nenhuma entidade compatível encontrada no DXF.');return}cad.entities=[];cad.nextId=1;ents.forEach(e=>cadAdd(e));cad.selected=null;cadRender();cadFit()}catch(err){console.error(err);alert('Não foi possível importar este DXF.')}finally{ev.target.value=''}});
+
+  function cadDepths(finalDepth,step){if(finalDepth===0)return[0];const sign=Math.sign(finalDepth),a=Math.abs(finalDepth),st=Math.max(.001,Math.abs(step)),arr=[];for(let z=st;z<a-1e-9;z+=st)arr.push(sign*z);arr.push(finalDepth);return arr}
+  const CAD_FONT5X7={
+    'A':['01110','10001','10001','11111','10001','10001','10001'],'B':['11110','10001','10001','11110','10001','10001','11110'],'C':['01111','10000','10000','10000','10000','10000','01111'],'D':['11110','10001','10001','10001','10001','10001','11110'],'E':['11111','10000','10000','11110','10000','10000','11111'],'F':['11111','10000','10000','11110','10000','10000','10000'],'G':['01111','10000','10000','10111','10001','10001','01111'],'H':['10001','10001','10001','11111','10001','10001','10001'],'I':['11111','00100','00100','00100','00100','00100','11111'],'J':['00111','00010','00010','00010','10010','10010','01100'],'K':['10001','10010','10100','11000','10100','10010','10001'],'L':['10000','10000','10000','10000','10000','10000','11111'],'M':['10001','11011','10101','10101','10001','10001','10001'],'N':['10001','11001','10101','10011','10001','10001','10001'],'O':['01110','10001','10001','10001','10001','10001','01110'],'P':['11110','10001','10001','11110','10000','10000','10000'],'Q':['01110','10001','10001','10001','10101','10010','01101'],'R':['11110','10001','10001','11110','10100','10010','10001'],'S':['01111','10000','10000','01110','00001','00001','11110'],'T':['11111','00100','00100','00100','00100','00100','00100'],'U':['10001','10001','10001','10001','10001','10001','01110'],'V':['10001','10001','10001','10001','10001','01010','00100'],'W':['10001','10001','10001','10101','10101','10101','01010'],'X':['10001','10001','01010','00100','01010','10001','10001'],'Y':['10001','10001','01010','00100','00100','00100','00100'],'Z':['11111','00001','00010','00100','01000','10000','11111'],
+    '0':['01110','10001','10011','10101','11001','10001','01110'],'1':['00100','01100','00100','00100','00100','00100','01110'],'2':['01110','10001','00001','00010','00100','01000','11111'],'3':['11110','00001','00001','01110','00001','00001','11110'],'4':['00010','00110','01010','10010','11111','00010','00010'],'5':['11111','10000','10000','11110','00001','00001','11110'],'6':['01110','10000','10000','11110','10001','10001','01110'],'7':['11111','00001','00010','00100','01000','01000','01000'],'8':['01110','10001','10001','01110','10001','10001','01110'],'9':['01110','10001','10001','01111','00001','00001','01110'],
+    '-':['00000','00000','00000','11111','00000','00000','00000'],'.':['00000','00000','00000','00000','00000','00110','00110'],'/':['00001','00010','00010','00100','01000','01000','10000'],' ':['00000','00000','00000','00000','00000','00000','00000']
+  };
+  function cadTextSegments(e){
+    const h=Math.max(.1,+e.height||5),cell=h/7,step=cell*6,segments=[];let ox=e.x;
+    for(const ch0 of String(e.text||'').toUpperCase()){
+      const rows=CAD_FONT5X7[ch0]||CAD_FONT5X7[' '];
+      rows.forEach((row,ry)=>{let x=0;while(x<5){if(row[x]!=='1'){x++;continue}let x2=x;while(x2+1<5&&row[x2+1]==='1')x2++;const y=e.y+h-(ry+.5)*cell;segments.push([{x:ox+x*cell,y},{x:ox+(x2+1)*cell,y}]);x=x2+1;}});ox+=step;
+    }
+    return segments;
+  }
+
+  function cadIsClosedPolyline(e){if(e?.type!=='polyline'||e.points.length<3)return false;const a=e.points[0],b=e.points[e.points.length-1];return Math.hypot(a.x-b.x,a.y-b.y)<1e-6}
+  function cadPolyArea(pts){let a=0;for(let i=0,j=pts.length-1;i<pts.length;j=i++)a+=(pts[j].x*pts[i].y-pts[i].x*pts[j].y);return a/2}
+  function cadLineIntersection(a,b,c,d){const A1=b.y-a.y,B1=a.x-b.x,C1=A1*a.x+B1*a.y,A2=d.y-c.y,B2=c.x-d.x,C2=A2*c.x+B2*c.y,det=A1*B2-A2*B1;if(Math.abs(det)<1e-9)return null;return{x:(B2*C1-B1*C2)/det,y:(A1*C2-A2*C1)/det}}
+  function cadOffsetPolygon(points,offset){let pts=points.slice();if(pts.length>2&&Math.hypot(pts[0].x-pts.at(-1).x,pts[0].y-pts.at(-1).y)<1e-7)pts=pts.slice(0,-1);if(pts.length<3)return null;const ccw=cadPolyArea(pts)>0, lines=[];for(let i=0;i<pts.length;i++){const a=pts[i],b=pts[(i+1)%pts.length],dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;let nx=-dy/L,ny=dx/L;if(ccw){nx=-nx;ny=-ny}lines.push([{x:a.x+nx*offset,y:a.y+ny*offset},{x:b.x+nx*offset,y:b.y+ny*offset}])}const out=[];for(let i=0;i<lines.length;i++){const prev=lines[(i-1+lines.length)%lines.length],cur=lines[i],p=cadLineIntersection(prev[0],prev[1],cur[0],cur[1]);out.push(p||cur[0])}out.push({...out[0]});return out}
+  function cadPointInPoly(p,pts){let c=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if(((a.y>p.y)!=(b.y>p.y))&&(p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y+1e-20)+a.x))c=!c}return c}
+  function cadPocketScanlines(poly,spacing){let pts=poly.slice();if(Math.hypot(pts[0].x-pts.at(-1).x,pts[0].y-pts.at(-1).y)<1e-7)pts=pts.slice(0,-1);const ys=pts.map(p=>p.y),minY=Math.min(...ys),maxY=Math.max(...ys),rows=[];let flip=false;for(let y=minY;y<=maxY+1e-9;y+=spacing){const xs=[];for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[j],b=pts[i];if((a.y<=y&&b.y>y)||(b.y<=y&&a.y>y))xs.push(a.x+(y-a.y)*(b.x-a.x)/(b.y-a.y))}xs.sort((a,b)=>a-b);for(let k=0;k+1<xs.length;k+=2){let a={x:xs[k],y},b={x:xs[k+1],y};rows.push(flip?[b,a]:[a,b]);flip=!flip}}return rows}
+  function cadRotateEntity90(e){const b=cadBBox(e),cx=b.x+b.w/2,cy=b.y+b.h/2,rot=p=>({x:cx-(p.y-cy),y:cy+(p.x-cx)});if(e.type==='line'){let a=rot({x:e.x1,y:e.y1}),b=rot({x:e.x2,y:e.y2});Object.assign(e,{x1:a.x,y1:a.y,x2:b.x,y2:b.y})}else if(e.type==='polyline')e.points=e.points.map(rot);else if(e.type==='arc'){e.p1=rot(e.p1);e.p2=rot(e.p2);e.p3=rot(e.p3)}else if(e.type==='rect'){const pts=[rot({x:e.x,y:e.y}),rot({x:e.x+e.w,y:e.y}),rot({x:e.x+e.w,y:e.y+e.h}),rot({x:e.x,y:e.y+e.h})];const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);e.x=Math.min(...xs);e.y=Math.min(...ys);e.w=Math.max(...xs)-e.x;e.h=Math.max(...ys)-e.y}else if(e.type==='text'){const p=rot({x:e.x,y:e.y});e.x=p.x;e.y=p.y}}
+  function cadMirrorEntityX(e){const b=cadBBox(e),cx=b.x+b.w/2,m=p=>({x:2*cx-p.x,y:p.y});if(e.type==='line'){let a=m({x:e.x1,y:e.y1}),b=m({x:e.x2,y:e.y2});Object.assign(e,{x1:a.x,y1:a.y,x2:b.x,y2:b.y})}else if(e.type==='polyline')e.points=e.points.map(m).reverse();else if(e.type==='arc'){e.p1=m(e.p1);e.p2=m(e.p2);e.p3=m(e.p3)}else if(e.type==='text')e.x=2*cx-e.x}
+  function cadOffsetSelected(){const e=cad.entities.find(x=>x.id===cad.selected);if(!e)return alert('Selecione uma geometria.');const d=+document.getElementById('cadOffsetValue').value||0;if(Math.abs(d)<1e-9)return;if(e.type==='circle'){cadAdd({type:'circle',cx:e.cx,cy:e.cy,r:Math.max(.001,e.r+d)});return}if(e.type==='rect'){cadAdd({type:'rect',x:e.x-d,y:e.y-d,w:Math.max(.001,e.w+2*d),h:Math.max(.001,e.h+2*d)});return}if(e.type==='polyline'&&cadIsClosedPolyline(e)){const p=cadOffsetPolygon(e.points,d);if(p)cadAdd({type:'polyline',points:p});return}alert('Offset disponível para círculo, retângulo e polilinha fechada.')}
+  function cadJoinGeometry(){const tol=Math.max(.001,cad.grid*.05),lines=cad.entities.filter(e=>e.type==='line'||e.type==='polyline');if(lines.length<2)return alert('São necessárias ao menos duas linhas/polilinhas.');const chains=lines.map(e=>e.type==='line'?[{x:e.x1,y:e.y1},{x:e.x2,y:e.y2}]:e.points.map(p=>({...p}))),used=new Set(),result=[];for(let i=0;i<chains.length;i++){if(used.has(i))continue;let c=chains[i].slice();used.add(i);let changed=true;while(changed){changed=false;for(let j=0;j<chains.length;j++){if(used.has(j))continue;let q=chains[j],a=c[0],b=c.at(-1),q0=q[0],q1=q.at(-1),near=(u,v)=>Math.hypot(u.x-v.x,u.y-v.y)<=tol;if(near(b,q0)){c.push(...q.slice(1));used.add(j);changed=true;break}if(near(b,q1)){c.push(...q.slice(0,-1).reverse());used.add(j);changed=true;break}if(near(a,q1)){c.unshift(...q.slice(0,-1));used.add(j);changed=true;break}if(near(a,q0)){c.unshift(...q.slice(1).reverse());used.add(j);changed=true;break}}}result.push(c)}cad.entities=cad.entities.filter(e=>!lines.includes(e));result.forEach(points=>cadAdd({type:'polyline',points}));cad.selected=null;cadRender()}
+
+  function cadValidateCam(){
+    const safe=+document.getElementById('cadSafeZ').value;
+    const depth=+document.getElementById('cadDepth').value;
+    const step=+document.getElementById('cadStepDown').value;
+    const feed=+document.getElementById('cadFeed').value;
+    const plunge=+document.getElementById('cadPlunge').value;
+    const toolD=+document.getElementById('cadToolDiameter').value;
+    const rpm=+document.getElementById('cadSpindle').value;
+    const issues=[];
+    if(!Number.isFinite(safe)||safe<=0)issues.push('Safe Z deve ser maior que 0.');
+    if(!Number.isFinite(depth)||depth>=0)issues.push('Profundidade final deve ser negativa.');
+    if(!Number.isFinite(step)||step<=0)issues.push('Passo Z deve ser maior que 0.');
+    if(!Number.isFinite(feed)||feed<=0)issues.push('Avanço XY inválido.');
+    if(!Number.isFinite(plunge)||plunge<=0)issues.push('Avanço Z inválido.');
+    if(!Number.isFinite(toolD)||toolD<=0)issues.push('Diâmetro da ferramenta inválido.');
+    if(!Number.isFinite(rpm)||rpm<0)issues.push('RPM inválido.');
+    const op=document.getElementById('cadOperation').value;
+    if(op==='inside'||op==='pocket'){
+      cad.entities.forEach(e=>{if(e.type==='rect'&&(e.w<=toolD||e.h<=toolD))issues.push(`${e.id}: ferramenta não cabe no contorno interno.`);if(e.type==='circle'&&e.r<=toolD/2)issues.push(`${e.id}: ferramenta não cabe no círculo interno.`)});
+    }
+    return issues;
+  }
+  function cadUpdateCamSummary(){
+    const depth=+document.getElementById('cadDepth').value||0,step=Math.max(.001,+document.getElementById('cadStepDown').value||1);
+    const passes=depth<0?Math.ceil(Math.abs(depth)/step):0;
+    const machinable=cad.entities.filter(e=>!(e.type==='text'&&e.purpose!=='machine')).length;
+    const issues=cadValidateCam();
+    const el=document.getElementById('cadCamSummary');if(!el)return;
+    el.textContent=`${machinable} objeto(s) · ${passes} passada(s) Z${issues.length?` · ⚠ ${issues.length} aviso(s)`:''}`;
+    el.style.color=issues.length?'var(--accent-amber)':'var(--accent-cyan)';
+  }
+  ['cadOperation','cadToolDiameter','cadToolNumber','cadAllowance','cadFinishPass','cadStepover','cadSafeZ','cadDepth','cadStepDown','cadFeed','cadPlunge','cadSpindle','cadOptimize','cadRetractEach','cadEntry','cadLeadIn','cadLeadLen','cadTabsCount','cadTabWidth','cadTabHeight','cadPeck','cadSpindleDelay'].forEach(id=>document.getElementById(id)?.addEventListener('input',cadUpdateCamSummary));
+  document.getElementById('cadOffsetBtn').addEventListener('click',cadOffsetSelected);
+  document.getElementById('cadMirrorXBtn').addEventListener('click',()=>{const e=cad.entities.find(x=>x.id===cad.selected);if(!e)return;cadMirrorEntityX(e);cadRender()});
+  document.getElementById('cadRotate90Btn').addEventListener('click',()=>{const e=cad.entities.find(x=>x.id===cad.selected);if(!e)return;cadRotateEntity90(e);cadRender()});
+  document.getElementById('cadJoinBtn').addEventListener('click',cadJoinGeometry);
+
+
+  function cadGcode(){
+    const safe=+document.getElementById('cadSafeZ').value||5;
+    const depth=+document.getElementById('cadDepth').value||-1;
+    const step=+document.getElementById('cadStepDown').value||1;
+    const feed=Math.max(1,+document.getElementById('cadFeed').value||800);
+    const plunge=Math.max(1,+document.getElementById('cadPlunge').value||250);
+    const rpm=Math.max(0,+document.getElementById('cadSpindle').value||12000);
+    const toolD=Math.max(.001,+document.getElementById('cadToolDiameter').value||3.175);
+    const toolR=toolD/2;
+    const toolN=Math.max(1,Math.round(+document.getElementById('cadToolNumber')?.value||1));
+    const allowance=Math.max(0,+document.getElementById('cadAllowance')?.value||0);
+    const finishPass=document.getElementById('cadFinishPass')?.value!=='0';
+    const stepover=Math.max(.05,Math.min(.95,(+document.getElementById('cadStepover')?.value||45)/100))*toolD;
+    const operation=document.getElementById('cadOperation').value;
+    const optimize=document.getElementById('cadOptimize')?.value!=='0';
+    const retractEach=document.getElementById('cadRetractEach')?.value!=='0';
+    const entry=document.getElementById('cadEntry')?.value||'plunge';
+    const leadIn=document.getElementById('cadLeadIn')?.value==='1';
+    const leadLen=Math.max(.1,+document.getElementById('cadLeadLen')?.value||3);
+    const tabsCount=Math.max(0,Math.round(+document.getElementById('cadTabsCount')?.value||0));
+    const tabWidth=Math.max(.5,+document.getElementById('cadTabWidth')?.value||5);
+    const tabHeight=Math.max(0,+document.getElementById('cadTabHeight')?.value||.8);
+    const peck=Math.max(0,+document.getElementById('cadPeck')?.value||0);
+    const spindleDelay=Math.max(0,+document.getElementById('cadSpindleDelay')?.value||0);
+    const f=n=>Number(n).toFixed(3);
+    const passes=cadDepths(depth,step);
+    const out=['(G-code Studio - CAD/CAM Engine 4)','(Unidade: mm)',`(Ferramenta: T${toolN} - ${f(toolD)} mm)`,`(Sobremetal: ${f(allowance)} mm | Acabamento: ${finishPass?'sim':'nao'})`,`(Entrada: ${entry} | Tabs: ${tabsCount})`,`(Operacao: ${operation})`,`(Stepover: ${f(stepover)} mm)`,`(Profundidade: ${f(depth)} mm | Stepdown: ${f(step)} mm)`,`(Feed XY: ${f(feed)} | Plunge: ${f(plunge)} | Spindle: ${Math.round(rpm)})`,'G21','G90','G17','G40','G49',`T${toolN} M6`,`M3 S${Math.round(rpm)}`];
+    if(spindleDelay>0)out.push(`G4 P${Number(spindleDelay).toFixed(3)}`);
+    out.push(`G0 Z${f(safe)}`);
+    let cur={x:0,y:0,z:safe};
+
+    function rapidXY(p){
+      if(Math.hypot(cur.x-p.x,cur.y-p.y)>1e-7) out.push(`G0 X${f(p.x)} Y${f(p.y)}`);
+      cur.x=p.x;cur.y=p.y;
+    }
+    function retract(){if(Math.abs(cur.z-safe)>1e-7){out.push(`G0 Z${f(safe)}`);cur.z=safe}}
+    function plungeTo(z){out.push(`G1 Z${f(z)} F${f(plunge)}`);cur.z=z}
+    function enterCut(points,z){
+      if(entry==='ramp'&&points?.length>1){const p0=points[0],p1=points[1];rapidXY(p0);out.push(`G1 X${f(p1.x)} Y${f(p1.y)} Z${f(z)} F${f(plunge)}`);cur={x:p1.x,y:p1.y,z};return 2}
+      if(entry==='helix'&&points?.length>2){const bxs=points.map(p=>p.x),bys=points.map(p=>p.y),cx=(Math.min(...bxs)+Math.max(...bxs))/2,cy=(Math.min(...bys)+Math.max(...bys))/2,r=Math.max(.2,Math.min(toolD,Math.max(...bxs)-Math.min(...bxs),Math.max(...bys)-Math.min(...bys))/4);rapidXY({x:cx+r,y:cy});const turns=Math.max(1,Math.ceil(Math.abs(z-cur.z)/Math.max(.2,step)));for(let t=1;t<=turns;t++){const zz=cur.z+(z-cur.z)*t/turns;out.push(`G3 X${f(cx+r)} Y${f(cy)} Z${f(zz)} I${f(-r)} J0.000 F${f(plunge)}`)}cur={x:cx+r,y:cy,z};return 0}
+      rapidXY(points[0]);plungeTo(z);return 0
+    }
+
+    function cutPath(points,closed=false){
+      if(!points||points.length<2)return;
+      function emitTabbedLoop(loop,z){
+        const lens=[];let total=0;for(let i=1;i<loop.length;i++){const L=Math.hypot(loop[i].x-loop[i-1].x,loop[i].y-loop[i-1].y);lens.push(L);total+=L}
+        const centers=Array.from({length:tabsCount},(_,i)=>total*(i+.5)/tabsCount),tabZ=Math.min(0,z+tabHeight);let acc=0;
+        for(let i=1;i<loop.length;i++){
+          const a=loop[i-1],b=loop[i],L=lens[i-1]||1,marks=centers.filter(c=>c>=acc&&c<=acc+L);let prev=0;
+          for(const c of marks){const mid=(c-acc)/L,half=Math.min(.45,tabWidth/(2*L)),t1=Math.max(prev,mid-half),t2=Math.min(1,mid+half),p1={x:a.x+(b.x-a.x)*t1,y:a.y+(b.y-a.y)*t1},p2={x:a.x+(b.x-a.x)*t2,y:a.y+(b.y-a.y)*t2};
+            out.push(`G1 X${f(p1.x)} Y${f(p1.y)} F${f(feed)}`,`G1 Z${f(tabZ)} F${f(plunge)}`,`G1 X${f(p2.x)} Y${f(p2.y)} F${f(feed)}`,`G1 Z${f(z)} F${f(plunge)}`);prev=t2;cur={x:p2.x,y:p2.y,z};}
+          out.push(`G1 X${f(b.x)} Y${f(b.y)} F${f(feed)}`);cur.x=b.x;cur.y=b.y;acc+=L;
+        }
+      }
+      for(let pi=0;pi<passes.length;pi++){
+        const z=passes[pi];let startIdx=1;
+        if(pi===0||retractEach) retract();
+        if(leadIn && points.length>1){
+          const p0=points[0],p1=points[1],dx=p1.x-p0.x,dy=p1.y-p0.y,L=Math.hypot(dx,dy)||1;
+          const lp={x:p0.x-dx/L*leadLen,y:p0.y-dy/L*leadLen};
+          rapidXY(lp);plungeTo(z);out.push(`G1 X${f(p0.x)} Y${f(p0.y)} F${f(feed)}`);cur.x=p0.x;cur.y=p0.y;
+        }else startIdx=enterCut(points,z);
+        if(closed && tabsCount>0 && pi===passes.length-1){
+          if(startIdx>0 && (cur.x!==points[0].x||cur.y!==points[0].y)){out.push(`G1 X${f(points[0].x)} Y${f(points[0].y)} F${f(feed)}`);cur.x=points[0].x;cur.y=points[0].y}
+          emitTabbedLoop([...points,points[0]],z);
+        }else{
+          for(let i=startIdx;i<points.length;i++){out.push(`G1 X${f(points[i].x)} Y${f(points[i].y)}${i===startIdx?` F${f(feed)}`:''}`);cur.x=points[i].x;cur.y=points[i].y}
+          if(closed){out.push(`G1 X${f(points[0].x)} Y${f(points[0].y)}`);cur.x=points[0].x;cur.y=points[0].y}
+        }
+        if(pi<passes.length-1) retract();
+      }
+      if(retractEach) retract();
+    }
+    function drill(x,y){
+      retract();rapidXY({x,y});
+      if(peck>0){
+        let z=0;const target=depth;
+        while(z>target+1e-9){const next=Math.max(target,z-peck);plungeTo(next);retract();z=next}
+      }else{for(const z of passes){plungeTo(z);retract()}}
+    }
+    function startPoint(e,reverse=false){
+      if(e.type==='line')return reverse?{x:e.x2,y:e.y2}:{x:e.x1,y:e.y1};
+      if(e.type==='polyline'&&e.points.length)return reverse?e.points[e.points.length-1]:e.points[0];
+      if(e.type==='rect')return{x:e.x,y:e.y};
+      if(e.type==='circle')return{x:e.cx+e.r,y:e.cy};
+      if(e.type==='arc')return reverse?e.p3:e.p1;
+      if(e.type==='text')return{x:e.x,y:e.y};
+      return{x:0,y:0};
+    }
+    function orderEntities(list){
+      if(!optimize)return list.map(e=>({e,reverse:false}));
+      const left=list.slice(),ordered=[];let p={x:cur.x,y:cur.y};
+      while(left.length){let bi=0,br=false,bd=Infinity;
+        left.forEach((e,i)=>{
+          const a=startPoint(e,false),d1=Math.hypot(a.x-p.x,a.y-p.y);if(d1<bd){bd=d1;bi=i;br=false}
+          if(e.type==='line'||e.type==='polyline'||e.type==='arc'){const b=startPoint(e,true),d2=Math.hypot(b.x-p.x,b.y-p.y);if(d2<bd){bd=d2;bi=i;br=true}}
+        });
+        const e=left.splice(bi,1)[0];ordered.push({e,reverse:br});p=startPoint(e,br);
+      }
+      return ordered;
+    }
+    function rectPoints(e,mode){
+      let x=e.x,y=e.y,w=e.w,h=e.h;
+      if(mode==='outside'){const rr=toolR+allowance;x-=rr;y-=rr;w+=2*rr;h+=2*rr}
+      if(mode==='inside'){const rr=toolR+allowance;if(w<=2*rr||h<=2*rr){out.push(`(AVISO: ${e.id} menor que a ferramenta para contorno interno)`);return null}x+=rr;y+=rr;w-=2*rr;h-=2*rr}
+      return[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];
+    }
+    function machineCircle(e,mode){
+      let r=e.r;if(mode==='outside')r+=toolR+allowance;else if(mode==='inside')r-=toolR+allowance;
+      if(r<=.0005){out.push(`(AVISO: ${e.id} raio invalido apos compensacao)`);return}
+      const sx=e.cx+r,sy=e.cy;
+      for(const z of passes){retract();rapidXY({x:sx,y:sy});plungeTo(z);out.push(`G2 X${f(sx)} Y${f(sy)} I${f(-r)} J0.000 F${f(feed)}`);cur.x=sx;cur.y=sy;if(retractEach)retract()}
+    }
+    function machineArc(e,reverse=false){
+      const a=cadArc(e.p1,e.p2,e.p3);if(!a)return;
+      const sp=reverse?e.p3:e.p1,ep=reverse?e.p1:e.p3,cw=reverse?a.ccw:!a.ccw;
+      for(const z of passes){retract();rapidXY(sp);plungeTo(z);out.push(`${cw?'G2':'G3'} X${f(ep.x)} Y${f(ep.y)} I${f(a.cx-sp.x)} J${f(a.cy-sp.y)} F${f(feed)}`);cur.x=ep.x;cur.y=ep.y;if(retractEach)retract()}
+    }
+
+    function pocketRect(e){
+      if(e.w<=toolD||e.h<=toolD){out.push(`(AVISO: ${e.id} pequeno demais para pocket)`);return}
+      const x0=e.x+toolR,x1=e.x+e.w-toolR,y0=e.y+toolR,y1=e.y+e.h-toolR;
+      const rows=[];let y=y0,dir=1;
+      while(y<y1-1e-6){rows.push(dir>0?[{x:x0,y},{x:x1,y}]:[{x:x1,y},{x:x0,y}]);y+=stepover;dir*=-1}
+      if(!rows.length||Math.abs(rows[rows.length-1][0].y-y1)>1e-6)rows.push(dir>0?[{x:x0,y:y1},{x:x1,y:y1}]:[{x:x1,y:y1},{x:x0,y:y1}]);
+      for(const z of passes){
+        retract();rapidXY(rows[0][0]);plungeTo(z);
+        for(let i=0;i<rows.length;i++){const row=rows[i];if(i>0){out.push(`G1 X${f(row[0].x)} Y${f(row[0].y)} F${f(feed)}`);cur.x=row[0].x;cur.y=row[0].y}out.push(`G1 X${f(row[1].x)} Y${f(row[1].y)}${i===0?` F${f(feed)}`:''}`);cur.x=row[1].x;cur.y=row[1].y}
+        out.push(`G1 X${f(x0)} Y${f(y0)} F${f(feed)}`,`G1 X${f(x1)} Y${f(y0)}`,`G1 X${f(x1)} Y${f(y1)}`,`G1 X${f(x0)} Y${f(y1)}`,`G1 X${f(x0)} Y${f(y0)}`);cur.x=x0;cur.y=y0;
+      }
+      retract();
+    }
+    function pocketCircle(e){
+      const maxR=e.r-toolR;if(maxR<=0.001){out.push(`(AVISO: ${e.id} pequeno demais para pocket)`);return}
+      const radii=[];for(let r=Math.min(stepover,maxR);r<maxR-1e-6;r+=stepover)radii.push(r);radii.push(maxR);
+      for(const z of passes){
+        retract();rapidXY({x:e.cx,y:e.cy});plungeTo(z);
+        for(const r of radii){out.push(`G1 X${f(e.cx+r)} Y${f(e.cy)} F${f(feed)}`);cur.x=e.cx+r;cur.y=e.cy;out.push(`G2 X${f(e.cx+r)} Y${f(e.cy)} I${f(-r)} J0.000`)}
+      }
+      retract();
+    }
+
+    const comments=cad.entities.filter(e=>e.type==='text'&&e.purpose!=='machine');
+    comments.forEach(e=>out.push(`(COMENTARIO: ${String(e.text||'').replace(/[()]/g,'')})`));
+    const machinable=cad.entities.filter(e=>!(e.type==='text'&&e.purpose!=='machine'));
+    for(const item of orderEntities(machinable)){
+      const e=item.e,rev=item.reverse;out.push(`(Objeto ${e.id} ${e.type})`);
+      if(operation==='drill'){if(e.type==='circle')drill(e.cx,e.cy);continue}
+      if(operation==='pocket'){if(e.type==='rect')pocketRect(e);else if(e.type==='circle')pocketCircle(e);else if(e.type==='polyline'&&cadIsClosedPolyline(e)){const boundary=cadOffsetPolygon(e.points,-(toolR+allowance));if(!boundary){out.push(`(AVISO: pocket invalido ${e.id})`);continue}const rows=cadPocketScanlines(boundary,stepover);for(const z of passes){retract();if(!rows.length)break;rapidXY(rows[0][0]);plungeTo(z);for(let ri=0;ri<rows.length;ri++){const row=rows[ri];if(ri>0)out.push(`G1 X${f(row[0].x)} Y${f(row[0].y)} F${f(feed)}`);out.push(`G1 X${f(row[1].x)} Y${f(row[1].y)}${ri===0?` F${f(feed)}`:''}`);cur.x=row[1].x;cur.y=row[1].y} }retract();}else out.push(`(Nota: pocket ignorado para ${e.id} ${e.type})`);continue}
+      if(e.type==='line')cutPath(rev?[{x:e.x2,y:e.y2},{x:e.x1,y:e.y1}]:[{x:e.x1,y:e.y1},{x:e.x2,y:e.y2}]);
+      else if(e.type==='rect'){const pts=rectPoints(e,operation);if(pts)cutPath(pts,true);if(finishPass&&allowance>0&&(operation==='outside'||operation==='inside')){const saved=allowance;const mode=operation;let x=e.x,y=e.y,w=e.w,h=e.h,rr=toolR;if(mode==='outside'){x-=rr;y-=rr;w+=2*rr;h+=2*rr}else{x+=rr;y+=rr;w-=2*rr;h-=2*rr}if(w>0&&h>0){out.push(`(Acabamento ${e.id})`);cutPath([{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}],true)}}}
+      else if(e.type==='polyline'){
+        let pts=rev?[...e.points].reverse():e.points;
+        const closed=cadIsClosedPolyline(e);
+        if((operation==='outside'||operation==='inside')&&closed){const sign=operation==='outside'?1:-1,off=cadOffsetPolygon(pts,sign*(toolR+allowance));if(off)pts=off;else out.push(`(AVISO: falha offset ${e.id})`)}
+        else if(operation!=='follow'&&!closed)out.push(`(Nota: compensacao exige polilinha fechada ${e.id})`);
+        cutPath(pts,closed)
+        if(finishPass&&allowance>0&&closed&&(operation==='outside'||operation==='inside')){const sign=operation==='outside'?1:-1,fin=cadOffsetPolygon(rev?[...e.points].reverse():e.points,sign*toolR);if(fin){out.push(`(Acabamento ${e.id})`);cutPath(fin,true)}}
+      }
+      else if(e.type==='circle'){machineCircle(e,operation);if(finishPass&&allowance>0&&(operation==='outside'||operation==='inside')){const fake={...e,r:e.r};out.push(`(Acabamento ${e.id})`);let r=e.r+(operation==='outside'?toolR:-toolR);if(r>0){const sx=e.cx+r,sy=e.cy;for(const z of passes){retract();rapidXY({x:sx,y:sy});plungeTo(z);out.push(`G2 X${f(sx)} Y${f(sy)} I${f(-r)} J0.000 F${f(feed)}`);cur.x=sx;cur.y=sy}}}}
+      else if(e.type==='arc'){if(operation!=='follow')out.push(`(Nota: compensacao nao aplicada em arco ${e.id})`);machineArc(e,rev)}
+      else if(e.type==='text'&&e.purpose==='machine'){
+        let segs=cadTextSegments(e).map(p=>({points:p}));
+        if(optimize){const ordered=[];let p={x:cur.x,y:cur.y};while(segs.length){let bi=0,br=false,bd=Infinity;segs.forEach((s,i)=>{let a=s.points[0],b=s.points[1],da=Math.hypot(a.x-p.x,a.y-p.y),db=Math.hypot(b.x-p.x,b.y-p.y);if(da<bd){bd=da;bi=i;br=false}if(db<bd){bd=db;bi=i;br=true}});let q=segs.splice(bi,1)[0].points;if(br)q=[q[1],q[0]];ordered.push(q);p=q[1]}segs=ordered.map(points=>({points}))}
+        segs.forEach(s=>cutPath(s.points,false));
+      }
+    }
+    retract();out.push('M5','M30');return out.join('\n');
+  }
+  document.getElementById('cadGenerate').addEventListener('click',()=>{if(!cad.entities.length)return alert('Desenhe ao menos uma geometria.');const issues=cadValidateCam();if(issues.length&&!confirm('Avisos CAM:\n\n'+issues.join('\n')+'\n\nGerar mesmo assim?'))return;codeEl.value=cadGcode();state.currentFileName='cad_programa.tap';document.getElementById('filename').textContent=state.currentFileName;renderHighlight();runParse();pushHistory();cadDialog.close();setTimeout(fitView,30)});
+
+
+  // ============================================================
+  // PROJETO GCS + AUTOSAVE COMPLETO
+  // ============================================================
+  const GCS_CAM_FIELDS=['cadOperation','cadToolDiameter','cadToolNumber','cadAllowance','cadFinishPass','cadStepover','cadSafeZ','cadDepth','cadStepDown','cadFeed','cadPlunge','cadSpindle','cadOptimize','cadRetractEach','cadEntry','cadLeadIn','cadLeadLen','cadTabsCount','cadTabWidth','cadTabHeight','cadPeck','cadSpindleDelay'];
+  function gcsProjectObject(){const cam={};GCS_CAM_FIELDS.forEach(id=>cam[id]=document.getElementById(id)?.value);return{format:'GCODE_STUDIO_PROJECT',version:1,savedAt:new Date().toISOString(),name:state.currentFileName,code:codeEl.value,cad:{entities:cad.entities,nextId:cad.nextId,grid:cad.grid},cam,config:{stock:config.stock,limits:config.limits,safeZ:config.safeZ,rapidRate:config.rapidRate,workOffsets:config.workOffsets},view:{plane:state.viewPlane,azimuth:state.isoAzimuth,elevation:state.isoElevation,projection:state.projectionMode}}}
+  function gcsApplyProject(p){if(!p||p.format!=='GCODE_STUDIO_PROJECT')throw new Error('Projeto GCS inválido');codeEl.value=p.code||'';state.currentFileName=p.name||'projeto.tap';filename.textContent=state.currentFileName;if(p.cad){cad.entities=Array.isArray(p.cad.entities)?p.cad.entities:[];cad.nextId=p.cad.nextId||cad.entities.length+1;cad.grid=p.cad.grid||10}if(p.cam)GCS_CAM_FIELDS.forEach(id=>{if(p.cam[id]!=null&&document.getElementById(id))document.getElementById(id).value=p.cam[id]});if(p.config){if(p.config.stock)Object.assign(config.stock,p.config.stock);if(p.config.limits)Object.assign(config.limits,p.config.limits);if(p.config.safeZ!=null)config.safeZ=p.config.safeZ;if(p.config.rapidRate)config.rapidRate=p.config.rapidRate;if(p.config.workOffsets)config.workOffsets=p.config.workOffsets}if(p.view){state.isoAzimuth=p.view.azimuth??state.isoAzimuth;state.isoElevation=p.view.elevation??state.isoElevation;state.projectionMode=p.view.projection||state.projectionMode}renderHighlight();runParse();cadRender();cadFit();fitView();cadUpdateCamSummary()}
+  function gcsAutosaveFull(){try{localStorage.setItem('gcsProjectAutosaveV1',JSON.stringify(gcsProjectObject()))}catch(e){console.warn('Autosave projeto:',e)}}
+  setInterval(gcsAutosaveFull,10000);
+  document.getElementById('cadSaveProject').addEventListener('click',()=>cadDownload('projeto.gcs',JSON.stringify(gcsProjectObject(),null,2),'application/json'));
+  document.getElementById('cadOpenProject').addEventListener('click',()=>document.getElementById('cadProjectInput').click());
+  document.getElementById('cadProjectInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{gcsApplyProject(JSON.parse(await f.text()))}catch(err){alert('Não foi possível abrir o projeto: '+err.message)}e.target.value=''});
+  document.getElementById('cadRecoverProject').addEventListener('click',()=>{try{const p=JSON.parse(localStorage.getItem('gcsProjectAutosaveV1')||'null');if(!p)return alert('Nenhum autosave disponível.');gcsApplyProject(p)}catch(e){alert('Autosave inválido.')}});
+
 
 
 
@@ -1834,6 +2447,7 @@ M30
     const segments=[], tools=[], warnings=[];
     const bbox={minX:Infinity,minY:Infinity,minZ:Infinity,maxX:-Infinity,maxY:-Infinity,maxZ:-Infinity};
     let sawUnits=false, sawDistance=false;
+    let printFeature='UNKNOWN',printLayer=-1;
 
     const extend=p=>{
       bbox.minX=Math.min(bbox.minX,p.x); bbox.maxX=Math.max(bbox.maxX,p.x);
@@ -1928,6 +2542,8 @@ M30
 
     lines.forEach((raw,idx)=>{
       const lineNum=idx+1;
+      const cm=raw.match(/(?:;TYPE:|;FEATURE:|;TYPE\s*=\s*)([^;]+)/i);if(cm)printFeature=cm[1].trim().toUpperCase();
+      const lm=raw.match(/;LAYER:\s*(-?\d+)/i);if(lm)printLayer=parseInt(lm[1],10);
       let line=raw.replace(/\([^)]*\)/g,'');
       const semi=line.indexOf(';'); if(semi>=0) line=line.slice(0,semi);
       line=line.trim();
@@ -2065,7 +2681,8 @@ M30
       const extrusionInfo={
         extrusionDelta,
         extruding:extrusionDelta>1e-7,
-        retracting:extrusionDelta<-1e-7
+        retracting:extrusionDelta<-1e-7,
+        printFeature,printLayer
       };
 
       if(st.motion===0||st.motion===1){
@@ -2171,10 +2788,10 @@ M30
     }
 
     // Tolerância geométrica fixa em mm. A quantidade de pontos cresce com o raio/ângulo.
-    const tol=0.02;
+    const tol=Math.max(0.005, Number(config.simArcTolerance)||0.05);
     const denom = radius > tol ? 2*Math.acos(Math.max(-1, Math.min(1, 1-tol/radius))) : Math.PI/18;
     let steps=Math.ceil(Math.abs(delta)/Math.max(denom, Math.PI/180));
-    steps=Math.max(6, Math.min(20000, steps));
+    steps=Math.max(6, Math.min(Number(config.simArcMaxSteps)||4096, steps));
 
     const pts=[];
     for(let n=1;n<=steps;n++){
@@ -2637,13 +3254,14 @@ ${fileText}
   // WEBGL2 PURO - RENDERER 3D
   // ============================================================
   const webgl3d={
-    gl:null,available:false,program:null,lineProgram:null,lastError:null,
+    gl:null,available:false,program:null,lineProgram:null,lastError:null,renderer:'',vendor:'',maxTextureSize:0,
     meshVAO:null,meshVBO:null,meshNBO:null,meshCBO:null,meshIBO:null,meshIndexCount:0,
     wallVAO:null,wallVBO:null,wallNBO:null,wallCBO:null,wallVertexCount:0,
     lineVAO:null,lineVBO:null,lineCBO:null,lineVertexCount:0,
     pointVAO:null,pointVBO:null,pointCBO:null,pointVertexCount:0,
     depositVAO:null,depositVBO:null,depositNBO:null,depositCBO:null,depositIBO:null,
     depositIndexCount:0,depositSegmentCounts:[],depositSegmentRanges:[],depositKey:'',
+    depositLiveVAO:null,depositLiveVBO:null,depositLiveNBO:null,depositLiveCBO:null,depositLiveIBO:null,depositLiveIndexCount:0,
     stockKey:''
   };
 
@@ -2661,12 +3279,33 @@ ${fileText}
     return p;
   }
 
+  function updateGraphicsStatus(){
+    const box=document.getElementById('gpuStatus'),txt=document.getElementById('gpuStatusText');
+    if(!box||!txt)return;
+    box.classList.toggle('webgl2',!!webgl3d.available);
+    box.classList.toggle('canvas2d',!webgl3d.available);
+    if(webgl3d.available){
+      txt.textContent='WebGL2 · GPU';
+      const details=[webgl3d.vendor,webgl3d.renderer].filter(Boolean).join(' · ');
+      box.title=`WebGL2 ativo${details?'\n'+details:''}${webgl3d.maxTextureSize?'\nMax texture: '+webgl3d.maxTextureSize:''}`;
+    }else{
+      txt.textContent='Canvas 2D · fallback';
+      box.title=`WebGL2 indisponível. Usando Canvas 2D.${webgl3d.lastError?'\n'+webgl3d.lastError:''}`;
+    }
+  }
+
   function initWebGL3D(){
     try{
       const gl=glCanvas.getContext('webgl2',{
         alpha:true,antialias:true,depth:true,premultipliedAlpha:false,powerPreference:'high-performance'
       });
-      if(!gl)return false;
+      if(!gl){webgl3d.lastError='WebGL2 não suportado pelo navegador/GPU';updateGraphicsStatus();return false;}
+      try{
+        const dbg=gl.getExtension('WEBGL_debug_renderer_info');
+        webgl3d.renderer=dbg?String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)||''):String(gl.getParameter(gl.RENDERER)||'');
+        webgl3d.vendor=dbg?String(gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL)||''):String(gl.getParameter(gl.VENDOR)||'');
+        webgl3d.maxTextureSize=Number(gl.getParameter(gl.MAX_TEXTURE_SIZE)||0);
+      }catch(_){ }
 
       const transform=`
         uniform vec2 uViewport; uniform float uScale; uniform vec2 uOffset;
@@ -2745,6 +3384,14 @@ ${fileText}
       gl.bindVertexArray(webgl3d.depositVAO);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,webgl3d.depositIBO);
 
+      // Buffer dinâmico: somente o trecho que está saindo do nozzle neste frame.
+      // Mantemos a peça já concluída em STATIC_DRAW e atualizamos apenas este pequeno prefixo.
+      m=meshVAO();
+      webgl3d.depositLiveVAO=m.vao;webgl3d.depositLiveVBO=m.pos;webgl3d.depositLiveNBO=m.nor;webgl3d.depositLiveCBO=m.col;
+      webgl3d.depositLiveIBO=gl.createBuffer();
+      gl.bindVertexArray(webgl3d.depositLiveVAO);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,webgl3d.depositLiveIBO);
+
       function lineVAO(){
         const vao=gl.createVertexArray();gl.bindVertexArray(vao);
         const pos=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,pos);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
@@ -2758,9 +3405,9 @@ ${fileText}
       gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
       gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
       gl.clearColor(.0706,.0824,.0941,1);
-      webgl3d.available=true;return true;
+      webgl3d.available=true;webgl3d.lastError=null;updateGraphicsStatus();return true;
     }catch(err){
-      console.error('WebGL2 renderer:',err);webgl3d.lastError=String(err);webgl3d.available=false;return false;
+      console.error('WebGL2 renderer:',err);webgl3d.lastError=String(err);webgl3d.available=false;updateGraphicsStatus();return false;
     }
   }
 
@@ -2773,6 +3420,8 @@ ${fileText}
       e.preventDefault();
       console.warn('Contexto WebGL perdido — usando fallback 2D até recuperar.');
       webgl3d.available = false;
+      webgl3d.lastError='Contexto WebGL2 perdido';
+      updateGraphicsStatus();
       drawCanvas();
     }, false);
     glCanvas.addEventListener('webglcontextrestored', () => {
@@ -2927,6 +3576,87 @@ ${fileText}
     return Math.max(0.05,Math.min(1,diffs[Math.floor(diffs.length/2)]));
   }
 
+  function printFilamentColor(z,layerH){
+    // Variação discreta entre camadas adjacentes para evidenciar a deposição,
+    // mantendo uma única cor de filamento.
+    const lh=Math.max(.05,layerH||.2);
+    const layer=Math.max(0,Math.round((z||0)/lh));
+    const k=(layer%2)?1.00:.88;
+    return [0.20*k,0.82*k,0.50*k,1.0];
+  }
+
+  function uploadLiveDepositPrefix(segIndex,progress){
+    if(!webgl3d.available||state.jobType!=='print3d')return 0;
+    const seg=state.segments[segIndex];
+    if(!seg?.extruding||progress<=0){webgl3d.depositLiveIndexCount=0;return 0;}
+
+    const geom=state.renderGeometry.length===state.segments.length?state.renderGeometry:
+      state.segments.map(s=>({points:s.type==='arc'?[s.start,...(s.points||[]),s.end]:[s.start,s.end]}));
+    const pts=geom[segIndex]?.points;
+    if(!pts||pts.length<2){webgl3d.depositLiveIndexCount=0;return 0;}
+
+    const lengths=[];let total=0;
+    for(let i=1;i<pts.length;i++){
+      const d=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y,pts[i].z-pts[i-1].z);
+      lengths.push(d);total+=d;
+    }
+    if(total<1e-8){webgl3d.depositLiveIndexCount=0;return 0;}
+    let remaining=total*Math.max(0,Math.min(1,progress));
+
+    const layerH=inferPrintLayerHeight();
+    const width=Math.max(.20,state.printNozzleWidth||.45);
+    const sides=8,pos=[],nor=[],col=[],idx=[];
+    let vertexBase=0,indexTotal=0;
+
+    function pushVertex(v,n,c){pos.push(v.x,v.y,v.z);nor.push(n[0],n[1],n[2]);col.push(...c);}
+    function addPiece(a,b){
+      const dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,len=Math.hypot(dx,dy,dz);if(len<1e-8)return;
+      const ux=dx/len,uy=dy/len,uz=dz/len;
+      let px=-uy,py=ux,pz=0,pl=Math.hypot(px,py,pz);if(pl<1e-6){px=1;py=0;pz=0;pl=1;}px/=pl;py/=pl;pz/=pl;
+      let qx=uy*pz-uz*py,qy=uz*px-ux*pz,qz=ux*py-uy*px,ql=Math.hypot(qx,qy,qz)||1;qx/=ql;qy/=ql;qz/=ql;
+      const ringA=[],ringB=[],fc=printFilamentColor((a.z+b.z)*.5,layerH);
+      for(let side=0;side<sides;side++){
+        const ang=side/sides*Math.PI*2,ca=Math.cos(ang),sa=Math.sin(ang);
+        const ox=px*(width*.5)*ca+qx*(layerH*.5)*sa,oy=py*(width*.5)*ca+qy*(layerH*.5)*sa,oz=pz*(width*.5)*ca+qz*(layerH*.5)*sa-layerH*.5;
+        const nz=oz+layerH*.5,nl=Math.hypot(ox,oy,nz)||1,n=[ox/nl,oy/nl,nz/nl];
+        ringA.push(vertexBase++);pushVertex({x:a.x+ox,y:a.y+oy,z:a.z+oz},n,fc);
+        ringB.push(vertexBase++);pushVertex({x:b.x+ox,y:b.y+oy,z:b.z+oz},n,fc);
+      }
+      for(let side=0;side<sides;side++){
+        const n=(side+1)%sides;idx.push(ringA[side],ringB[side],ringB[n],ringA[side],ringB[n],ringA[n]);indexTotal+=6;
+      }
+    }
+    function addSpan(a,b,spanLen){
+      if(spanLen<1e-8)return;
+      // Limite de 4096 microtrechos no movimento atual para preservar FPS em segmentos gigantes.
+      const base=Math.max(.10,Math.min(.35,width*.55));
+      const step=Math.max(base,(total*Math.max(0,Math.min(1,progress)))/4096);
+      const parts=Math.max(1,Math.ceil(spanLen/step));
+      for(let j=0;j<parts;j++){
+        const t0=j/parts,t1=(j+1)/parts;
+        addPiece({x:a.x+(b.x-a.x)*t0,y:a.y+(b.y-a.y)*t0,z:a.z+(b.z-a.z)*t0},{x:a.x+(b.x-a.x)*t1,y:a.y+(b.y-a.y)*t1,z:a.z+(b.z-a.z)*t1});
+      }
+    }
+
+    for(let i=0;i<lengths.length&&remaining>1e-9;i++){
+      const a=pts[i],b=pts[i+1],take=Math.min(lengths[i],remaining);
+      if(take>=lengths[i]-1e-9)addSpan(a,b,lengths[i]);
+      else{
+        const t=lengths[i]>1e-9?take/lengths[i]:0;
+        addSpan(a,{x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,z:a.z+(b.z-a.z)*t},take);
+      }
+      remaining-=take;
+    }
+
+    const gl=webgl3d.gl;
+    gl.bindVertexArray(webgl3d.depositLiveVAO);
+    gl.bindBuffer(gl.ARRAY_BUFFER,webgl3d.depositLiveVBO);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(pos),gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER,webgl3d.depositLiveNBO);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(nor),gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER,webgl3d.depositLiveCBO);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(col),gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,webgl3d.depositLiveIBO);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(idx),gl.DYNAMIC_DRAW);
+    gl.bindVertexArray(null);webgl3d.depositLiveIndexCount=indexTotal;return indexTotal;
+  }
+
   function buildDepositWebGL(){
     if(!webgl3d.available || state.jobType!=='print3d'){
       webgl3d.depositIndexCount=0;
@@ -2948,8 +3678,6 @@ ${fileText}
     const ranges=new Array(state.segments.length).fill(null);
 
     let vertexBase=0,indexTotal=0;
-
-    const filamentColor=[0.20,0.82,0.50,1.0];
 
     function pushVertex(v,n,c){
       pos.push(v.x,v.y,v.z);
@@ -2989,6 +3717,7 @@ ${fileText}
         const n=[ox/nlen,oy/nlen,nz/nlen];
 
         ringA.push(vertexBase++);
+        const filamentColor=printFilamentColor((a.z+b.z)*0.5,layerH);
         pushVertex({x:a.x+ox,y:a.y+oy,z:a.z+oz},n,filamentColor);
 
         ringB.push(vertexBase++);
@@ -3103,32 +3832,14 @@ ${fileText}
       gl.drawElements(gl.TRIANGLES,completed,gl.UNSIGNED_INT,0);
     }
 
-    // Movimento atual aparece PROGRESSIVAMENTE, seguindo o nozzle.
-    const range=webgl3d.depositSegmentRanges[i];
-    if(range && range.count>0){
-      const progress=currentSegmentProgress();
-
-      // Cada trecho tubular gera 8 lados * 2 triângulos * 3 índices = 48 índices.
-      const indicesPerPolySegment=48;
-      const totalParts=Math.max(
-        1,
-        range.tubePieces||Math.floor(range.count/indicesPerPolySegment)
-      );
-
-      let visibleParts=Math.floor(totalParts*progress);
-      if(progress>0 && visibleParts===0) visibleParts=1;
-      visibleParts=Math.max(0,Math.min(totalParts,visibleParts));
-
-      const visibleCount=visibleParts*indicesPerPolySegment;
-
-      if(visibleCount>0){
-        gl.drawElements(
-          gl.TRIANGLES,
-          visibleCount,
-          gl.UNSIGNED_INT,
-          range.start*4
-        );
-      }
+    // Movimento atual nasce continuamente até a posição interpolada do nozzle.
+    // A malha estática contém o movimento inteiro, mas não a desenhamos aqui;
+    // geramos somente o prefixo realmente depositado neste frame.
+    const progress=currentSegmentProgress();
+    const liveCount=uploadLiveDepositPrefix(i,progress);
+    if(liveCount>0){
+      gl.bindVertexArray(webgl3d.depositLiveVAO);
+      gl.drawElements(gl.TRIANGLES,liveCount,gl.UNSIGNED_INT,0);
     }
 
     gl.bindVertexArray(null);
@@ -3184,8 +3895,8 @@ ${fileText}
         // Extrusão futura fica totalmente oculta.
         // A atual é representada pelo cordão sólido progressivo.
         if(seg.extruding){
-          if(!current)return;
-          color=[1,1,1,.10];
+          // O cordão sólido é a própria trajetória de extrusão; não desenhamos a linha-guia futura.
+          return;
         }else if(seg.retracting){
           color=current?[.78,.57,.92,.65]:[.78,.57,.92,.18];
         }else{
@@ -3199,7 +3910,7 @@ ${fileText}
     });
     // Cabeçote atual: fresa/holder para CNC ou hotend/nozzle para impressão 3D.
     if(state.segments.length && state.playIndex<state.segments.length){
-      const seg=state.segments[state.playIndex],q=state.jobType==='print3d'?currentPlaybackPosition():seg.end;
+      const seg=state.segments[state.playIndex],q=currentPlaybackPosition();
 
       if(state.jobType==='print3d'){
         // Nozzle cônico + bloco aquecedor + corpo do hotend (wireframe leve).
@@ -3244,8 +3955,10 @@ ${fileText}
     if(!state.segments.length)return {x:0,y:0,z:0};
     const i=Math.max(0,Math.min(state.playIndex,state.segments.length-1));
     const seg=state.segments[i];
-
-    if(state.jobType!=='print3d')return seg.end;
+    if(!seg||!seg.start||!seg.end){
+      for(let j=i-1;j>=0;j--){if(state.segments[j]?.end)return state.segments[j].end;}
+      return {x:0,y:0,z:0};
+    }
 
     const progress=currentSegmentProgress();
     const points=seg.type==='arc'?[seg.start,...(seg.points||[]),seg.end]:[seg.start,seg.end];
@@ -3930,11 +4643,45 @@ ${fileText}
     return hits;
   }
 
+  function drawPrintDepositCanvas2D(geom){
+    if(state.jobType!=='print3d')return false;
+    const layerH=inferPrintLayerHeight(),nozzleW=Math.max(.20,state.printNozzleWidth||.45);
+    const current=Math.max(0,Math.min(state.playIndex,state.segments.length-1));
+    const progress=currentSegmentProgress();
+
+    function drawChain(points,z,alpha=1){
+      if(!points||points.length<2)return;
+      const fc=printFilamentColor(z,layerH);
+      ctx.save();ctx.beginPath();
+      points.forEach((p,k)=>{const q=toScreen(p);if(k===0)ctx.moveTo(q[0],q[1]);else ctx.lineTo(q[0],q[1]);});
+      ctx.strokeStyle=`rgba(${Math.round(fc[0]*255)},${Math.round(fc[1]*255)},${Math.round(fc[2]*255)},${alpha})`;
+      ctx.lineWidth=Math.max(2,nozzleW*state.scale);ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.restore();
+    }
+    function prefix(points,pct){
+      if(!points||points.length<2||pct<=0)return [];
+      const ls=[];let total=0;for(let k=1;k<points.length;k++){const d=Math.hypot(points[k].x-points[k-1].x,points[k].y-points[k-1].y,points[k].z-points[k-1].z);ls.push(d);total+=d;}
+      let rem=total*Math.min(1,pct),out=[points[0]];
+      for(let k=0;k<ls.length&&rem>1e-9;k++){
+        const a=points[k],b=points[k+1];if(rem>=ls[k]-1e-9){out.push(b);rem-=ls[k];}
+        else{const t=ls[k]>1e-9?rem/ls[k]:0;out.push({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,z:a.z+(b.z-a.z)*t});break;}
+      }
+      return out;
+    }
+
+    for(let i=0;i<=current&&i<state.segments.length;i++){
+      const seg=state.segments[i];if(!seg?.extruding)continue;
+      const pts=geom[i]?.points;if(!pts?.length)continue;
+      if(i<current)drawChain(pts,seg.end?.z||seg.start?.z||0,.95);
+      else drawChain(prefix(pts,progress),currentPlaybackPosition().z,.98);
+    }
+    return true;
+  }
+
   function drawCanvas(){
     const rect = canvas.parentElement.getBoundingClientRect();
     const dpr=window.devicePixelRatio||1;
-    canvas.width = Math.max(1,rect.width*dpr);
-    canvas.height = Math.max(1,rect.height*dpr);
+    const targetW=Math.max(1,Math.round(rect.width*dpr)), targetH=Math.max(1,Math.round(rect.height*dpr));
+    if(canvas.width!==targetW || canvas.height!==targetH){ canvas.width=targetW; canvas.height=targetH; }
     ctx.setTransform(dpr,0,0,dpr,0,0);
 
     ctx.fillStyle='#121518';
@@ -3994,11 +4741,16 @@ ${fileText}
       ? state.renderGeometry
       : state.segments.map((seg,index)=>({index,type:seg.type,line:seg.line,feed:seg.feed,points:seg.type==='arc'?[seg.start,...seg.points]:[seg.start,seg.end]}));
 
+    // Em impressão 3D o material é revelado apenas até o nozzle atual.
+    // Futuras extrusões não são desenhadas como trajetória convencional.
+    if(state.jobType==='print3d')drawPrintDepositCanvas2D(geom);
+
     let violationCount=0;
 
     geom.forEach((g,idx)=>{
       const seg=state.segments[idx];
       if(!seg) return;
+      if(state.jobType==='print3d' && seg.extruding) return;
       if(seg.toolNumber && state.toolVisibility[seg.toolNumber]===false)return;
       if(seg.type==='rapid' && !state.showRapid)return;
       if(seg.type!=='rapid' && seg.type!=='event' && seg.type!=='dwell' && !state.showCut)return;
@@ -4071,7 +4823,7 @@ ${fileText}
 
     // Ponto/ferramenta atual.
     if(state.segments.length && state.playIndex<state.segments.length){
-      const tip=state.segments[state.playIndex].end;
+      const tip=currentPlaybackPosition();
       drawToolMarker(tip,state.segments[state.playIndex]);
       els.droX.textContent=tip.x.toFixed(3);
       els.droY.textContent=tip.y.toFixed(3);
@@ -4932,6 +5684,7 @@ ${fileText}
     if(state.jobType==='print3d'){
       machineHud.innerHTML=`<b>IMPRESSÃO 3D</b> • ${seg.extruding?'Extrudindo':(seg.retracting?'Retração':'Travel')}<br>
         F ${Number(seg.feed||0).toFixed(0)} mm/min • ΔE ${Number(seg.extrusionDelta||0).toFixed(4)}<br>
+        Layer ${seg.printLayer>=0?seg.printLayer:'?'} • ${seg.printFeature||'UNKNOWN'}<br>
         Z ${Number(currentPlaybackPosition().z||0).toFixed(3)} • ${state.projectionMode==='perspective'?'Perspectiva':'Axonométrica'}`;
     }else{
       machineHud.innerHTML=`<b>USINAGEM CNC</b> • ${seg.workOffset||state.activeWorkOffset} • T${seg.toolNumber||'-'} ${t.name||''}<br>
@@ -4944,8 +5697,25 @@ ${fileText}
      PARSER UPDATE, PLAYBACK & DRAWERS
   ============================================================ */
   function runParse(){
-    applyDetectedJobType(codeEl.value);
-    const parsed = parseGCode(codeEl.value);
+    const source=codeEl.value;
+    if(config.simAdaptive){
+      const lineCount=(source.match(/\n/g)||[]).length+1;
+      if(lineCount>100000){config.simArcTolerance=.25;config.simArcMaxSteps=768;}
+      else if(lineCount>50000){config.simArcTolerance=.15;config.simArcMaxSteps=1536;}
+      else if(lineCount>15000){config.simArcTolerance=.08;config.simArcMaxSteps=3072;}
+      else{config.simArcTolerance=.05;config.simArcMaxSteps=4096;}
+      state.simQualityLabel=lineCount>100000?'ULTRA LEVE':lineCount>50000?'LEVE':lineCount>15000?'OTIMIZADA':'PRECISA';
+    }
+    applyDetectedJobType(source);
+    const parsed = parseGCode(source);
+    if(state.jobType==='cnc'){
+      for(const seg of parsed.segments){
+        if((seg.type==='cut'||seg.type==='arc') && !seg.spindle && Math.min(seg.start.z,seg.end.z)<0) parsed.warnings.push({line:seg.line,severity:'warn',text:'Corte abaixo de Z0 com spindle desligado.'});
+        if(seg.type==='rapid' && Math.min(seg.start.z,seg.end.z)<(config.safeZ??0)-1e-6) parsed.warnings.push({line:seg.line,severity:'warn',text:'G0 abaixo do Safe Z configurado.'});
+        if(Math.max(Math.abs(seg.start.x),Math.abs(seg.end.x))>(config.limits?.x||Infinity)||Math.max(Math.abs(seg.start.y),Math.abs(seg.end.y))>(config.limits?.y||Infinity)) parsed.warnings.push({line:seg.line,severity:'error',text:'Movimento excede limites XY da máquina.'});
+        if(seg.feed>20000) parsed.warnings.push({line:seg.line,severity:'warn',text:'Avanço muito alto (> 20000 mm/min).'});
+      }
+    }
     state.segments = parsed.segments;
     state.geometryVersion = (state.geometryVersion||0) + 1; // invalida o cache de geometria WebGL (buildWebGLLines)
     if(typeof webgl3d!=='undefined') webgl3d.depositKey='';
@@ -4954,7 +5724,7 @@ ${fileText}
       type: seg.type,
       line: seg.line,
       feed: seg.feed,
-      points: seg.type === 'arc' ? [seg.start, ...seg.points] : [seg.start, seg.end]
+      points: seg.type === 'arc' ? [seg.start, ...(seg.points||[])] : [seg.start, seg.end]
     }));
     state.bbox = parsed.bbox;
     state.parsedTools = parsed.tools;
@@ -4985,6 +5755,7 @@ ${fileText}
     els.statLimitStatus.style.color = overflow ? 'var(--accent-red)' : 'var(--accent-green)';
 
     els.statBBox.textContent = `${(parsed.bbox.maxX-parsed.bbox.minX).toFixed(0)}x${(parsed.bbox.maxY-parsed.bbox.minY).toFixed(0)}x${(parsed.bbox.maxZ-parsed.bbox.minZ).toFixed(0)}mm`;
+    els.statBBox.title=`Qualidade da simulação: ${state.simQualityLabel||'PRECISA'} · tolerância arco ${config.simArcTolerance} mm`; 
     
     updateScrollMarks();
     
@@ -5085,23 +5856,25 @@ ${fileText}
     state.playing=true;
     state.stockQuality='preview';
     document.getElementById('btnPlay').textContent='⏸';
-    clearInterval(state.playTimer);
+    if(state.playTimer){cancelAnimationFrame(state.playTimer);state.playTimer=null;}
     if(state.playIndex<=0) state.virtualTime=0;
     else state.virtualTime=state.cumulativeTimes[Math.max(0,state.playIndex-1)]||0;
     state.playClockLast=performance.now();
+    state.playUiLast=0;
     if(state.playIndex>0) rebuildStockTo(state.playIndex,'preview'); else resetStockSimulation();
-    state.playTimer=setInterval(stepPlay,33);
+    state.playTimer=requestAnimationFrame(stepPlay);
   }
 
   function stopPlay(){
     state.playing=false;
     document.getElementById('btnPlay').textContent='▶';
-    clearInterval(state.playTimer);state.playTimer=null;
+    if(state.playTimer)cancelAnimationFrame(state.playTimer);state.playTimer=null;
     refineStockAfterPlayback();updatePlaybackUI();
   }
 
-  async function stepPlay(){
-    const now=performance.now();
+  async function stepPlay(now){
+    if(!state.playing)return;
+    now=Number.isFinite(now)?now:performance.now();
     const dt=Math.max(0,(now-state.playClockLast)/1000);
     state.playClockLast=now;
     state.virtualTime+=dt*state.playSpeed;
@@ -5151,7 +5924,7 @@ ${fileText}
     if(state.virtualTime>=state.totalTime || state.playIndex>=state.segments.length-1){
       state.playIndex=Math.max(0,state.segments.length-1);
       state.virtualTime=state.totalTime;
-      clearInterval(state.playTimer);state.playTimer=null;state.playing=false;
+      if(state.playTimer)cancelAnimationFrame(state.playTimer);state.playTimer=null;state.playing=false;
       if(state.sequencePlaying){
         const advanced=await advanceSequence();
         if(advanced)return;
@@ -5159,7 +5932,11 @@ ${fileText}
       document.getElementById('btnPlay').textContent='▶';
       refineStockAfterPlayback();
     }
-    updatePlaybackUI();drawCanvas();
+    // O canvas acompanha o refresh real do monitor (60/120/144 Hz). A UI textual é
+    // atualizada em frequência menor para não gastar layout/scroll a cada frame.
+    if(!state.playUiLast || now-state.playUiLast>=50){updatePlaybackUI();state.playUiLast=now;}
+    drawCanvas();
+    if(state.playing)state.playTimer=requestAnimationFrame(stepPlay);
   }
 
   document.getElementById('speedSelect').addEventListener('change', (e) => {
@@ -5297,20 +6074,166 @@ ${fileText}
     if(!state.playing) refineStockAfterPlayback();
   });
 
-  let historyTimer=null;
+  let historyTimer=null, parseInputTimer=null;
   codeEl.addEventListener('input', () => {
-    renderHighlight(); runParse(); clearTimeout(historyTimer); historyTimer=setTimeout(pushHistory,250);
+    renderHighlight();
+    clearTimeout(parseInputTimer); parseInputTimer=setTimeout(runParse,90);
+    clearTimeout(historyTimer); historyTimer=setTimeout(pushHistory,250);
     clearTimeout(state.autosaveTimer);state.autosaveTimer=setTimeout(()=>localStorage.setItem('gcsAutosave',JSON.stringify({name:state.currentFileName,code:codeEl.value,time:Date.now()})),500);
   });
   editorScrollEl.addEventListener('scroll', () => { gutterEl.scrollTop = editorScrollEl.scrollTop; });
 
   // Init
+  // O backend gráfico já foi detectado na inicialização do renderer acima.
+  updateGraphicsStatus();
   const saved=JSON.parse(localStorage.getItem('gcsAutosave')||'null');
   codeEl.value = saved?.code || SAMPLE_GCODE;
   if(saved?.name){state.currentFileName=saved.name;document.getElementById('filename').textContent=saved.name;}
   pushHistory();
   renderHighlight(); runParse(); updateRotationReadout(); setTimeout(fitView, 60);
 })();
+
+/* ===== V1.2 PRO SUITE ENGINE ===== */
+const pro={tools:[],ops:[],layers:[{id:'L0',name:'PADRAO',color:'#22c55e',visible:true,locked:false,cam:'follow'}],activeLayer:'L0',clamps:[],origin:{mode:'ll',x:0,y:0,zzero:'top'},visual:{mode:'normal',ghost:false,onlyDone:false,xray:false},post:'grbl',stock:null};
+function proLoad(){try{const x=JSON.parse(localStorage.getItem('gcs_pro_v12')||'null');if(x)Object.assign(pro,x)}catch{}if(!pro.tools.length)pro.tools=[{id:'T1',name:'End Mill 3.175',dia:3.175,shape:'flat',feed:800,plunge:250,rpm:12000,step:1,material:'MDF'}];}
+function proSave(){try{localStorage.setItem('gcs_pro_v12',JSON.stringify(pro))}catch{}}
+proLoad();
+const proDialog=document.getElementById('proDialog');document.getElementById('btnProSuite').onclick=()=>{proRefresh();proDialog.showModal()};document.getElementById('proClose').onclick=()=>proDialog.close();
+document.querySelectorAll('.proTab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.proTab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.proPage').forEach(x=>x.classList.toggle('active',x.dataset.page===b.dataset.pro));if(b.dataset.pro==='stats')proStats();if(b.dataset.pro==='timeline')proTimelineDraw();if(b.dataset.pro==='stock')proRebuildStock();if(b.dataset.pro==='print')proPrintRefresh()});
+function proRefresh(){proToolList();proOpRefresh();proLayerList();proClampList();proStats();proPrintRefresh();proTimelineDraw();}
+function pEsc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function proToolList(){const box=document.getElementById('ptList');box.innerHTML=pro.tools.map(t=>`<div class="proItem proTool"><b>${pEsc(t.id)}</b><span class="grow">${pEsc(t.name)} · Ø${t.dia} · ${pEsc(t.material)}</span><button data-use="${t.id}">Usar</button><button data-del="${t.id}">×</button></div>`).join('');box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{pro.tools=pro.tools.filter(t=>t.id!==b.dataset.del);proSave();proRefresh()});box.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>{const t=pro.tools.find(x=>x.id===b.dataset.use);if(!t)return;[['cadToolDia',t.dia],['cadFeed',t.feed],['cadPlunge',t.plunge],['cadSpindle',t.rpm],['cadStepDown',t.step],['cadToolNo',+(t.id.replace(/\D/g,''))||1]].forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.value=v});});const opts=pro.tools.map(t=>`<option value="${t.id}">${pEsc(t.id+' '+t.name)}</option>`).join('');['poTool','prRoughTool','prRestTool'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML=opts});}
+document.getElementById('ptAdd').onclick=()=>{const n=pro.tools.length+1;pro.tools.push({id:'T'+n,name:ptName.value||('Tool '+n),dia:+ptDia.value||3.175,shape:ptShape.value,feed:+ptFeed.value||800,plunge:+ptPlunge.value||250,rpm:+ptRpm.value||12000,step:+ptStep.value||1,material:ptMaterial.value});proSave();proRefresh()};
+function proOpRefresh(){const ent=document.getElementById('poEntity');if(typeof cad!=='undefined')ent.innerHTML=cad.entities.map(e=>`<option value="${e.id}">${e.id} · ${e.type}${e.layer?' · '+e.layer:''}</option>`).join('');const box=document.getElementById('poList');box.innerHTML=pro.ops.map((o,i)=>`<div class="proItem proOp"><span>${i+1}</span><b>${pEsc(o.entity)}</b><span class="grow">${pEsc(o.type)} · ${pEsc(o.tool)} · Z${o.depth}</span><button data-up="${i}">↑</button><button data-dn="${i}">↓</button><button data-od="${i}">×</button></div>`).join('');box.querySelectorAll('[data-od]').forEach(b=>b.onclick=()=>{pro.ops.splice(+b.dataset.od,1);proSave();proOpRefresh()});box.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{let i=+b.dataset.up;if(i){[pro.ops[i-1],pro.ops[i]]=[pro.ops[i],pro.ops[i-1]];proSave();proOpRefresh()}});box.querySelectorAll('[data-dn]').forEach(b=>b.onclick=()=>{let i=+b.dataset.dn;if(i<pro.ops.length-1){[pro.ops[i+1],pro.ops[i]]=[pro.ops[i],pro.ops[i+1]];proSave();proOpRefresh()}})}
+document.getElementById('poAdd').onclick=()=>{if(!poEntity.value)return;pro.ops.push({entity:poEntity.value,type:poType.value,tool:poTool.value,depth:+poDepth.value||-1,finish:+poFinish.value||0});proSave();proOpRefresh()};document.getElementById('poAutoOrder').onclick=()=>{const rank={drill:0,pocket:1,inside:2,follow:3,outside:4};pro.ops.sort((a,b)=>(rank[a.type]??9)-(rank[b.type]??9));proSave();proOpRefresh()};
+document.getElementById('poApplyGenerate').onclick=()=>{if(!pro.ops.length)return alert('Crie ao menos uma operação.');let blocks=[];for(const o of pro.ops){const e=cad.entities.find(x=>x.id===o.entity);const t=pro.tools.find(x=>x.id===o.tool)||pro.tools[0];if(!e)continue;cad.selected=e.id;cadOperation.value=o.type==='drill'?'drill':o.type;cadDepth.value=o.depth;cadToolDia.value=t.dia;cadFeed.value=t.feed;cadPlunge.value=t.plunge;cadSpindle.value=t.rpm;cadStepDown.value=t.step;blocks.push(`(PRO OP ${o.entity} ${o.type} ${o.tool})`)}alert('Operações configuradas. O gerador principal usa a operação selecionada; a fila PRO fica salva no projeto/autosave. Para pós-processar múltiplas operações, gere por operação ou use o post atual.')};
+document.getElementById('prAnalyze').onclick=()=>{const a=pro.tools.find(x=>x.id===prRoughTool.value),b=pro.tools.find(x=>x.id===prRestTool.value);prInfo.innerHTML=(!a||!b)?'Selecione ferramentas.':b.dia>=a.dia?'<span class="proWarn">A ferramenta Rest deve ser menor que a de desbaste.</span>':`Rest estimado ativo: regiões com raio local entre ${(b.dia/2).toFixed(2)} e ${(a.dia/2).toFixed(2)} mm serão candidatas. A execução usa pockets/contornos existentes.`;pro.rest={enabled:prEnable.checked,rough:a?.id,rest:b?.id};proSave()};
+function proStats(){const segs=state?.segments||[];let total=0,cut=0,rapid=0,arcs=0,extr=0,maxLayer=-1,feeds=[];for(const s of segs){let d=dist3(s.start,s.end);total+=d;if(s.type==='G0')rapid+=d;else cut+=d;if(s.type==='G2'||s.type==='G3')arcs++;if(s.isExtrude){extr+=Math.max(0,s.eDelta||0);maxLayer=Math.max(maxLayer,s.layer??-1)}if(s.feed)feeds.push(s.feed)}const mins=(state?.totalTime||0)/60;const cards=[['Tempo estimado',fmtTime(state?.totalTime||0)],['Distância total',(total/1000).toFixed(2)+' m'],['Corte / extrusão',(cut/1000).toFixed(2)+' m'],['Rapid',(rapid/1000).toFixed(2)+' m'],['Movimentos',segs.length.toLocaleString()],['Arcos',arcs.toLocaleString()],['Layers',maxLayer>=0?maxLayer+1:'—'],['Filamento E',extr.toFixed(2)+' mm'],['Feed médio',feeds.length?(feeds.reduce((a,b)=>a+b,0)/feeds.length).toFixed(0)+' mm/min':'—']];pStats.innerHTML=cards.map(x=>`<div class="proCard"><div class="proSmall">${x[0]}</div><div class="proStat">${x[1]}</div></div>`).join('')}
+function proTimelineDraw(){const c=pTimelineCanvas,ctx=c.getContext('2d'),segs=state?.segments||[];ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#020617';ctx.fillRect(0,0,c.width,c.height);const T=state?.totalTime||1;ctx.fillStyle='#334155';ctx.fillRect(10,42,c.width-20,6);for(const s of segs){if(!s.timeStart)continue;let special=s.toolChange||s.type==='G2'||s.type==='G3'||s.layer!=null&&s.layer!==segs[Math.max(0,segs.indexOf(s)-1)]?.layer;if(special){let x=10+(c.width-20)*(s.timeStart/T);ctx.fillStyle=s.toolChange?'#a78bfa':(s.layer!=null?'#22c55e':'#38bdf8');ctx.fillRect(x,28,1,32)}}pTimeTotal.textContent=fmtTime(T);pTimeline.max=1000;pTimeline.value=Math.round((state?.currentTime||0)/T*1000)}
+pTimeline.oninput=()=>{const T=state.totalTime||0;state.currentTime=T*(+pTimeline.value/1000);state.isPlaying=false;updatePlayBtn();updateCurrentFromTime();draw();pTimeNow.textContent=fmtTime(state.currentTime)};
+function proPrintRefresh(){const segs=state?.segments||[],max=Math.max(-1,...segs.map(s=>s.layer??-1));ppLayer.max=Math.max(0,max);ppLayer.value=Math.max(0,Math.min(+ppLayer.value,max));ppLayerInfo.textContent=max<0?'Sem layers detectados.':`Layer ${ppLayer.value} / ${max} · ${segs.filter(s=>(s.layer??-1)==+ppLayer.value).length} movimentos`};ppLayer.oninput=proPrintRefresh;ppApply.onclick=()=>{pro.visual.mode=ppColor.value;proSave();draw()};
+pvApply.onclick=()=>{pro.visual.mode=pvMode.value;proSave();draw()};['pvGhost','pvOnlyDone','pvXray'].forEach(id=>document.getElementById(id).onchange=e=>{pro.visual[id.replace('pv','').toLowerCase()]=e.target.checked;proSave();draw()});
+function proRebuildStock(){const c=proStockCanvas,ctx=c.getContext('2d'),segs=state?.segments||[];ctx.clearRect(0,0,c.width,c.height);if(!segs.length){proStockInfo.textContent='Sem percurso.';return}const cuts=segs.filter(s=>s.type!=='G0'&&Math.min(s.start.z,s.end.z)<0);if(!cuts.length){proStockInfo.textContent='Nenhum corte abaixo de Z0.';return}let minX=Math.min(...cuts.flatMap(s=>[s.start.x,s.end.x])),maxX=Math.max(...cuts.flatMap(s=>[s.start.x,s.end.x])),minY=Math.min(...cuts.flatMap(s=>[s.start.y,s.end.y])),maxY=Math.max(...cuts.flatMap(s=>[s.start.y,s.end.y]));let res=+proStockRes.value||2,w=Math.min(420,Math.max(10,Math.ceil((maxX-minX)/res)+1)),h=Math.min(260,Math.max(10,Math.ceil((maxY-minY)/res)+1)),grid=new Float32Array(w*h);let sx=(maxX-minX)/(w-1||1),sy=(maxY-minY)/(h-1||1);for(const s of cuts){let d=Math.hypot(s.end.x-s.start.x,s.end.y-s.start.y),n=Math.max(1,Math.ceil(d/Math.max(sx,sy,.5)));let dia=+(document.getElementById('cadToolDia')?.value||3.175),rr=Math.max(1,Math.ceil((dia/2)/Math.max(sx,sy,.1)));for(let k=0;k<=n;k++){let t=k/n,x=s.start.x+(s.end.x-s.start.x)*t,y=s.start.y+(s.end.y-s.start.y)*t,z=s.start.z+(s.end.z-s.start.z)*t,ix=Math.round((x-minX)/(sx||1)),iy=Math.round((y-minY)/(sy||1));for(let yy=-rr;yy<=rr;yy++)for(let xx=-rr;xx<=rr;xx++){if(xx*xx+yy*yy>rr*rr)continue;let X=ix+xx,Y=iy+yy;if(X>=0&&Y>=0&&X<w&&Y<h){let q=Y*w+X;grid[q]=Math.min(grid[q],z)}}}}let img=ctx.createImageData(w,h),minZ=Math.min(...grid);for(let i=0;i<grid.length;i++){let z=grid[i],v=z<0?Math.min(255,60+Math.round(195*Math.abs(z)/(Math.abs(minZ)||1))):18;img.data[i*4]=z<0?20:v;img.data[i*4+1]=z<0?110:v;img.data[i*4+2]=z<0?180:v;img.data[i*4+3]=255}let tmp=document.createElement('canvas');tmp.width=w;tmp.height=h;tmp.getContext('2d').putImageData(img,0,0);ctx.imageSmoothingEnabled=false;ctx.drawImage(tmp,0,0,c.width,c.height);pro.stock={minX,maxX,minY,maxY,minZ,w,h};proStockInfo.textContent=`Mapa ${w}×${h} · Z mínimo ${minZ.toFixed(2)} mm · resolução visual ≈ ${Math.max(sx,sy).toFixed(2)} mm`;proSave()}
+document.getElementById('proBuildStock').onclick=proRebuildStock;
+function proLayerList(){plList.innerHTML=pro.layers.map(l=>`<div class="proItem"><input type="checkbox" ${l.visible?'checked':''} data-lvis="${l.id}"><input type="checkbox" ${l.locked?'checked':''} data-llock="${l.id}"><span class="grow">${pEsc(l.name)}</span><input type="color" value="${l.color}" data-lcol="${l.id}"><button data-lact="${l.id}">${pro.activeLayer===l.id?'ATIVO':'usar'}</button></div>`).join('');plMap.innerHTML=pro.layers.map(l=>`<div class="proItem"><span class="grow">${pEsc(l.name)}</span><select data-lcam="${l.id}"><option value="follow">Gravação</option><option value="inside">Interno</option><option value="outside">Externo</option><option value="pocket">Pocket</option><option value="drill">Furação</option></select></div>`).join('');plMap.querySelectorAll('[data-lcam]').forEach(e=>{let l=pro.layers.find(x=>x.id===e.dataset.lcam);e.value=l.cam||'follow';e.onchange=()=>{l.cam=e.value;proSave()}});plList.querySelectorAll('[data-lact]').forEach(b=>b.onclick=()=>{pro.activeLayer=b.dataset.lact;proSave();proLayerList()});plList.querySelectorAll('[data-lvis]').forEach(e=>e.onchange=()=>{pro.layers.find(x=>x.id===e.dataset.lvis).visible=e.checked;proSave();cadRender?.()});plList.querySelectorAll('[data-llock]').forEach(e=>e.onchange=()=>{pro.layers.find(x=>x.id===e.dataset.llock).locked=e.checked;proSave()});plList.querySelectorAll('[data-lcol]').forEach(e=>e.onchange=()=>{pro.layers.find(x=>x.id===e.dataset.lcol).color=e.value;proSave();cadRender?.()})}
+plAdd.onclick=()=>{let name=plName.value.trim();if(!name)return;pro.layers.push({id:'L'+Date.now(),name,color:plColor.value,visible:true,locked:false,cam:'follow'});plName.value='';proSave();proLayerList()};
+poriginApply.onclick=()=>{pro.origin={mode:porigin.value,x:+poriginX.value||0,y:+poriginY.value||0,zzero:pzzero.value};if(typeof cad!=='undefined'&&cad.entities.length&&porigin.value!=='custom'){const bs=cad.entities.map(cadBBox),minX=Math.min(...bs.map(b=>b.x)),maxX=Math.max(...bs.map(b=>b.x+b.w)),minY=Math.min(...bs.map(b=>b.y)),maxY=Math.max(...bs.map(b=>b.y+b.h));let ox=minX,oy=minY;if(porigin.value==='lr'){ox=maxX;oy=minY}else if(porigin.value==='center'){ox=(minX+maxX)/2;oy=(minY+maxY)/2}else if(porigin.value==='ul'){ox=minX;oy=maxY}pro.origin.x=ox;pro.origin.y=oy;poriginX.value=ox.toFixed(3);poriginY.value=oy.toFixed(3)}poriginInfo.textContent=`X0=${pro.origin.x.toFixed(3)} Y0=${pro.origin.y.toFixed(3)} · Z0=${pro.origin.zzero}`;proSave()};
+function proClampList(){pcList.innerHTML=pro.clamps.map((c,i)=>`<div class="proItem proClamp"><span class="grow">#${i+1} X${c.x} Y${c.y} ${c.w}×${c.h} Z${c.z}</span><button data-cdel="${i}">×</button></div>`).join('');pcList.querySelectorAll('[data-cdel]').forEach(b=>b.onclick=()=>{pro.clamps.splice(+b.dataset.cdel,1);proSave();proClampList()})}pcAdd.onclick=()=>{pro.clamps.push({x:+pcx.value||0,y:+pcy.value||0,w:+pcw.value||10,h:+pch.value||10,z:+pcz.value||5});proSave();proClampList()};pcCheck.onclick=()=>{let hits=[];for(const s of state.segments||[]){if(s.type==='G0'&&Math.min(s.start.z,s.end.z)>Math.max(...pro.clamps.map(c=>c.z),0))continue;for(let i=0;i<pro.clamps.length;i++){let c=pro.clamps[i],x=(s.start.x+s.end.x)/2,y=(s.start.y+s.end.y)/2,z=Math.min(s.start.z,s.end.z);if(x>=c.x&&x<=c.x+c.w&&y>=c.y&&y<=c.y+c.h&&z<=c.z)hits.push({line:s.lineNo,clamp:i+1})}}pcInfo.innerHTML=hits.length?`<span class="proDanger">${hits.length} possível(is) colisão(ões). Primeira: linha ${hits[0].line}, grampo ${hits[0].clamp}.</span>`:'<span class="proOk">Nenhuma colisão aproximada detectada.</span>'};
+function proCadClone(e){return JSON.parse(JSON.stringify(e))}function proCadTransform(e,fn){if(e.type==='line'){let a=fn({x:e.x1,y:e.y1}),b=fn({x:e.x2,y:e.y2});Object.assign(e,{x1:a.x,y1:a.y,x2:b.x,y2:b.y})}else if(e.type==='polyline')e.points=e.points.map(fn);else if(e.type==='rect'){let a=fn({x:e.x,y:e.y}),b=fn({x:e.x+e.w,y:e.y+e.h});e.x=Math.min(a.x,b.x);e.y=Math.min(a.y,b.y);e.w=Math.abs(b.x-a.x);e.h=Math.abs(b.y-a.y)}else if(e.type==='circle'){let a=fn({x:e.cx,y:e.cy});e.cx=a.x;e.cy=a.y}}
+document.querySelectorAll('[data-cadcmd]').forEach(b=>b.onclick=()=>{if(typeof cad==='undefined'||!cad.selected)return alert('Selecione uma geometria no CAD 2D primeiro.');let e=cad.entities.find(x=>x.id===cad.selected);if(!e)return;let cmd=b.dataset.cadcmd;if(cmd==='scale'){let k=+(prompt('Fator de escala:','2')||0);if(!k)return;let bb=cadBBox(e),cx=bb.x+bb.w/2,cy=bb.y+bb.h/2;proCadTransform(e,p=>({x:cx+(p.x-cx)*k,y:cy+(p.y-cy)*k}));if(e.type==='circle')e.r*=Math.abs(k)}else if(cmd==='arrayLinear'){let n=+(prompt('Quantidade:','4')||0),dx=+(prompt('Passo X mm:','20')||0),dy=+(prompt('Passo Y mm:','0')||0);for(let i=1;i<n;i++){let q=proCadClone(e);q.id='E'+cad.nextId++;proCadTransform(q,p=>({x:p.x+dx*i,y:p.y+dy*i}));cad.entities.push(q)}}else if(cmd==='arrayCircular'){let n=+(prompt('Quantidade:','6')||0),bb=cadBBox(e),cx=+(prompt('Centro X:',String(bb.x+bb.w/2))||0),cy=+(prompt('Centro Y:',String(bb.y+bb.h/2))||0);for(let i=1;i<n;i++){let a=2*Math.PI*i/n,q=proCadClone(e);q.id='E'+cad.nextId++;proCadTransform(q,p=>({x:cx+(p.x-cx)*Math.cos(a)-(p.y-cy)*Math.sin(a),y:cy+(p.x-cx)*Math.sin(a)+(p.y-cy)*Math.cos(a)}));cad.entities.push(q)}}else if(cmd==='explode'&&e.type==='rect'){let pts=[{x:e.x,y:e.y},{x:e.x+e.w,y:e.y},{x:e.x+e.w,y:e.y+e.h},{x:e.x,y:e.y+e.h}];cad.entities=cad.entities.filter(x=>x!==e);for(let i=0;i<4;i++)cadAdd({type:'line',x1:pts[i].x,y1:pts[i].y,x2:pts[(i+1)%4].x,y2:pts[(i+1)%4].y})}else if(cmd==='break'&&e.type==='line'){let mx=(e.x1+e.x2)/2,my=(e.y1+e.y2)/2,q={type:'line',x1:mx,y1:my,x2:e.x2,y2:e.y2};e.x2=mx;e.y2=my;cadAdd(q)}else if(cmd==='measure'){let bb=cadBBox(e);alert(`ΔX ${bb.w.toFixed(3)} mm\nΔY ${bb.h.toFixed(3)} mm\nDiagonal ${Math.hypot(bb.w,bb.h).toFixed(3)} mm`)}else if(cmd==='dimension'){let bb=cadBBox(e);cadAdd({type:'text',x:bb.x,y:bb.y+bb.h+5,text:`${bb.w.toFixed(2)} × ${bb.h.toFixed(2)} mm`,size:4,textMode:'comment'})}else if(['trim','extend','fillet','chamfer'].includes(cmd)){alert(`${cmd.toUpperCase()}: ferramenta preparada no CAD+. Para evitar alterar geometria de forma ambígua, selecione/una as entidades antes; nesta V1.2 as operações automáticas ficam restritas às transformações determinísticas.`)}cadRender();cadUpdateProps?.();proSave()});
+pcCommand.addEventListener('keydown',e=>{if(e.key!=='Enter')return;let a=pcCommand.value.trim().split(/\s+/),cmd=(a.shift()||'').toUpperCase();try{if(cmd==='LINE'&&a.length>=2){let p=a.map(x=>x.split(',').map(Number));cadAdd({type:'line',x1:p[0][0],y1:p[0][1],x2:p[1][0],y2:p[1][1]})}else if(cmd==='CIRCLE'&&a.length>=2){let p=a[0].split(',').map(Number);cadAdd({type:'circle',cx:p[0],cy:p[1],r:+a[1]})}else if(cmd==='RECT'&&a.length>=2){let p=a[0].split(',').map(Number),q=a[1].split(',').map(Number);cadAdd({type:'rect',x:p[0],y:p[1],w:q[0],h:q[1]})}else throw 0;cadRender();pcResult.textContent='OK';pcCommand.value=''}catch{pcResult.textContent='Comando inválido. Use LINE x,y x,y | CIRCLE x,y r | RECT x,y w,h'}});
+function proApplyPost(kind){let text=codeEl.value;if(!text.trim())return alert('Sem G-code.');let lines=text.split(/\r?\n/);if(kind==='grbl')lines=lines.filter(l=>!/^T\d+\s*M6/i.test(l));else if(kind==='marlin'||kind==='reprap'||kind==='klipper'){lines=lines.map(l=>l.replace(/^M3\s+S(\d+)/i,'M106 S255 ; spindle S$1').replace(/^M5/i,'M107'))}else if(kind==='fanuc'){lines=['%','O1000',...lines.map(l=>l.replace(/\([^)]*\)/g,'')),'M30','%']}else if(kind==='siemens')lines=['; Siemens-style export',...lines];else if(kind==='custom'){try{let c=JSON.parse(ppostCustom.value||'{}');if(Array.isArray(c.header))lines=[...c.header,...lines];if(c.toolChange)lines=lines.map(l=>l.replace(/T(\d+)\s*M6/gi,(_,t)=>c.toolChange.replace('{T}',t)))}catch{return alert('JSON custom inválido')}}codeEl.value=lines.join('\n');state.currentFileName=`post_${kind}.nc`;filename.textContent=state.currentFileName;renderHighlight();runParse();pushHistory();ppostInfo.textContent=`Post ${kind} aplicado ao G-code atual.`}
+ppostApply.onclick=()=>{pro.post=ppost.value;proSave();proApplyPost(ppost.value)};
+// Extend project/autosave payload non-invasively
+const _proOrigSave=window.saveProjectData; if(typeof _proOrigSave==='function')window.saveProjectData=function(){let d=_proOrigSave();if(d&&typeof d==='object')d.pro=pro;return d};
+// Layer tagging for new CAD entities
+if(typeof cadAdd==='function'){const _cadAddPro=cadAdd;cadAdd=function(e){e.layer=e.layer||pro.activeLayer;return _cadAddPro(e)}}
+// Preserve PRO settings periodically
+setInterval(proSave,10000);
+
+
+/* ===== PRODUCTIVITY SUITE ENGINE ===== */
+const prod={workspace:localStorage.getItem('gcs_workspace')||'cnc',singleBlock:false,feedOverride:100,spindleOverride:100,snaps:JSON.parse(localStorage.getItem('gcs_snaps')||'{"end":true,"mid":true,"center":true,"intersection":false,"perp":false,"tangent":false,"angle":90}'),history:[],recent:JSON.parse(localStorage.getItem('gcs_recent')||'[]')};
+function prodHist(msg){prod.history.unshift({t:new Date().toLocaleTimeString(),msg});prod.history=prod.history.slice(0,30);renderProdHistory()}
+function renderProdHistory(){const e=document.getElementById('actionHistory');if(!e)return;e.innerHTML=prod.history.map(x=>`<div class="prod-item"><span>${x.t}</span><span class="grow">${x.msg}</span></div>`).join('')||'<div class="prod-small">Sem ações nesta sessão.</div>'}
+const prodDialog=document.getElementById('prodDialog');document.getElementById('btnProductivity').onclick=()=>{prodRefresh();prodDialog.showModal()};document.getElementById('prodClose').onclick=()=>prodDialog.close();
+document.querySelectorAll('.prod-tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.prod-tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.prod-page').forEach(x=>x.classList.toggle('active',x.dataset.pgpage===b.dataset.pg));if(b.dataset.pg==='ops')renderQueue();if(b.dataset.pg==='storage')renderRecent();});
+function applyWorkspace(ws){prod.workspace=ws;localStorage.setItem('gcs_workspace',ws);wsSelect.value=ws;pws.value=ws;const ep=document.querySelector('.editor-pane'),vp=document.querySelector('.view-pane'),chart=document.getElementById('xyzChartWrap');if(ws==='cnc'){ep.style.display='flex';vp.style.display='flex'}else if(ws==='print'){ep.style.display='none';vp.style.display='flex';document.getElementById('chkShowXYZChart').checked=true;chart.style.display='flex'}else if(ws==='cad'){document.getElementById('btnCad2D')?.click()}else if(ws==='inspect'){ep.style.display='none';vp.style.display='flex';document.getElementById('btnMeasure')?.click()}prodHist('Workspace '+ws)}
+wsSelect.onchange=()=>applyWorkspace(wsSelect.value);pwsApply.onclick=()=>applyWorkspace(pws.value);
+btnSingleBlock.onclick=()=>{prod.singleBlock=!prod.singleBlock;btnSingleBlock.classList.toggle('primary',prod.singleBlock);btnSingleBlock.textContent=prod.singleBlock?'Single Block ON':'Single Block';prodHist('Single Block '+(prod.singleBlock?'ativado':'desativado'))};
+feedOverride.oninput=()=>{prod.feedOverride=+feedOverride.value;feedOverrideVal.textContent=prod.feedOverride+'%'};spindleOverride.oninput=()=>{prod.spindleOverride=+spindleOverride.value;spindleOverrideVal.textContent=prod.spindleOverride+'%'};
+document.getElementById('btnStepNext').addEventListener('click',()=>{if(prod.singleBlock){state.isPlaying=false;updatePlayBtn()}});
+calcFeedBtn.onclick=()=>{let f=(+calcFlutes.value||1)*(+calcRpm.value||0)*(+calcChip.value||0);calcFeedOut.textContent=f.toFixed(0)+' mm/min';calcFeed.value=f.toFixed(0)};
+calcChipBtn.onclick=()=>{let c=(+calcFeed.value||0)/Math.max(1,(+calcFlutes.value||1)*(+calcRpm.value||1));calcChipOut.textContent=c.toFixed(4)+' mm/dente';calcChip.value=c.toFixed(4)};
+calcPowerBtn.onclick=()=>{let p=(+calcMrr.value||0)*(+calcMat.value||1)*12;calcPowerOut.textContent=p.toFixed(0)+' W aprox.'};
+function setupHtml(){let t=pro?.tools||[],o=pro?.ops||[];return `<!doctype html><meta charset="utf-8"><title>Setup Sheet</title><style>body{font:14px Arial;padding:24px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bbb;padding:6px}</style><h1>${setupJob.value||'Projeto CNC'}</h1><p>Operador: ${setupOperator.value||'—'}</p><p>Arquivo: ${state.currentFileName||'—'} · Tempo estimado: ${fmtTime(state.totalTime||0)}</p><h2>Ferramentas</h2><table><tr><th>ID</th><th>Nome</th><th>Ø</th><th>Feed</th><th>RPM</th></tr>${t.map(x=>`<tr><td>${x.id}</td><td>${x.name}</td><td>${x.dia}</td><td>${x.feed}</td><td>${x.rpm}</td></tr>`).join('')}</table><h2>Operações</h2><table><tr><th>#</th><th>Entidade</th><th>Tipo</th><th>Ferramenta</th><th>Z</th></tr>${o.map((x,i)=>`<tr><td>${i+1}</td><td>${x.entity}</td><td>${x.type}</td><td>${x.tool}</td><td>${x.depth}</td></tr>`).join('')}</table><h2>Origem</h2><p>X0=${pro?.origin?.x||0} Y0=${pro?.origin?.y||0} · Z0=${pro?.origin?.zzero||'top'}</p>`}
+setupPreview.onclick=()=>{setupOut.innerHTML=setupHtml().replace(/<style>[\s\S]*?<\/style>/,'').replace(/<!doctype html>|<meta[^>]+>|<title>.*?<\/title>/g,'')};
+setupDownload.onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([setupHtml()],{type:'text/html'}));a.download='setup_sheet.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+snapApply.onclick=()=>{document.querySelectorAll('.snapopt').forEach(x=>prod.snaps[x.value]=x.checked);prod.snaps.angle=+snapAngle.value;localStorage.setItem('gcs_snaps',JSON.stringify(prod.snaps));prodHist('Snaps atualizados')};
+function renderQueue(){const box=queueList;if(!box)return;box.innerHTML=(pro?.ops||[]).map((o,i)=>`<div class="prod-item"><input type="checkbox" ${o.enabled===false?'':'checked'} data-qen="${i}"><span class="grow">${i+1}. ${o.entity} · ${o.type} · ${o.tool}</span><button data-qup="${i}">↑</button><button data-qdn="${i}">↓</button></div>`).join('')||'<div class="prod-small">Sem operações PRO.</div>';box.querySelectorAll('[data-qen]').forEach(e=>e.onchange=()=>{pro.ops[+e.dataset.qen].enabled=e.checked;proSave()});box.querySelectorAll('[data-qup]').forEach(b=>b.onclick=()=>{let i=+b.dataset.qup;if(i){[pro.ops[i-1],pro.ops[i]]=[pro.ops[i],pro.ops[i-1]];proSave();renderQueue()}});box.querySelectorAll('[data-qdn]').forEach(b=>b.onclick=()=>{let i=+b.dataset.qdn;if(i<pro.ops.length-1){[pro.ops[i+1],pro.ops[i]]=[pro.ops[i],pro.ops[i+1]];proSave();renderQueue()}});queueTime.textContent=(pro.ops||[]).map((o,i)=>`${i+1}. ${o.entity}: ~${Math.max(1,Math.abs(o.depth||1))*2} min`).join(' · ')||'Sem operações PRO.'}
+queueGroupTool.onclick=()=>{pro.ops.sort((a,b)=>String(a.tool).localeCompare(String(b.tool)));proSave();renderQueue()};queueSmart.onclick=()=>{document.getElementById('poAutoOrder')?.click();renderQueue()};queueToggleAll.onclick=()=>{let on=pro.ops.some(o=>o.enabled===false);pro.ops.forEach(o=>o.enabled=on);proSave();renderQueue()};
+cmpRun.onclick=async()=>{const f=cmpFile.files[0];if(!f)return;const other=await f.text(),a=codeEl.value.split(/\r?\n/),b=other.split(/\r?\n/);let diff=0,max=Math.max(a.length,b.length);for(let i=0;i<max;i++)if((a[i]||'').trim()!==(b[i]||'').trim())diff++;cmpOut.textContent=`Atual: ${a.length} linhas · Comparado: ${b.length} linhas · Diferenças: ${diff} (${(100*diff/Math.max(1,max)).toFixed(1)}%)`};
+let _fpsFrames=0,_fpsLast=performance.now(),_fps=0;function prodFpsLoop(t){_fpsFrames++;if(t-_fpsLast>1000){_fps=_fpsFrames*1000/(t-_fpsLast);_fpsFrames=0;_fpsLast=t;benchFps.textContent=_fps.toFixed(0);benchMoves.textContent=(state.segments||[]).length.toLocaleString();if(performance.memory)benchMem.textContent=(performance.memory.usedJSHeapSize/1048576).toFixed(0)+' MB';benchMeter.style.width=Math.min(100,_fps/60*100)+'%'}requestAnimationFrame(prodFpsLoop)}requestAnimationFrame(prodFpsLoop);
+benchRun.onclick=()=>{let t=performance.now(),sum=0;for(let i=0;i<500000;i++)sum+=Math.sin(i*.001);let dt=performance.now()-t;benchOut.textContent=`CPU JS: ${dt.toFixed(1)} ms · WebGL2: ${!!window.WebGL2RenderingContext} · movimentos: ${(state.segments||[]).length}`};
+benchWorker.onclick=()=>{try{const blob=new Blob([`onmessage=e=>{let s=0;for(let i=0;i<2e6;i++)s+=Math.sqrt(i);postMessage(s)}`],{type:'text/javascript'}),w=new Worker(URL.createObjectURL(blob)),t=performance.now();w.onmessage=()=>{benchOut.textContent=`Web Worker OK: ${(performance.now()-t).toFixed(1)} ms`;perfChip.textContent='Parser: worker ready';w.terminate()};w.postMessage(1)}catch(e){benchOut.textContent='Worker indisponível: '+e.message}};
+function openDb(){return new Promise((res,rej)=>{const r=indexedDB.open('gcs_v10',1);r.onupgradeneeded=()=>r.result.createObjectStore('snap');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+dbSave.onclick=async()=>{try{let db=await openDb(),tx=db.transaction('snap','readwrite');tx.objectStore('snap').put({code:codeEl.value,pro,cad:typeof cad!=='undefined'?cad.entities:[],time:Date.now()},'last');tx.oncomplete=()=>{dbOut.textContent='Snapshot salvo no IndexedDB.';dbChip.textContent='Storage: IndexedDB';prodHist('Snapshot IndexedDB salvo')}}catch(e){dbOut.textContent='Erro IndexedDB: '+e.message}};
+dbLoad.onclick=async()=>{try{let db=await openDb(),tx=db.transaction('snap','readonly'),r=tx.objectStore('snap').get('last');r.onsuccess=()=>{if(!r.result)return;codeEl.value=r.result.code||'';if(r.result.pro)Object.assign(pro,r.result.pro);if(typeof cad!=='undefined'&&r.result.cad)cad.entities=r.result.cad;renderHighlight();runParse();cadRender?.();dbOut.textContent='Snapshot recuperado.';prodHist('Snapshot IndexedDB recuperado')}}catch(e){dbOut.textContent='Erro IndexedDB: '+e.message}};
+function renderRecent(){recentList.innerHTML=prod.recent.map(x=>`<div class="prod-item"><span class="grow">${x.name}</span><span>${new Date(x.t).toLocaleString()}</span></div>`).join('')||'<div class="prod-small">Sem recentes.</div>'}
+function addRecent(name){prod.recent=[{name,t:Date.now()},...prod.recent.filter(x=>x.name!==name)].slice(0,10);localStorage.setItem('gcs_recent',JSON.stringify(prod.recent))}
+function prodRefresh(){pws.value=prod.workspace;wsSelect.value=prod.workspace;document.querySelectorAll('.snapopt').forEach(x=>x.checked=!!prod.snaps[x.value]);snapAngle.value=prod.snaps.angle||90;renderProdHistory();renderQueue();renderRecent()}
+const _oldSaveBtn=document.getElementById('btnSave');_oldSaveBtn?.addEventListener('click',()=>addRecent(state.currentFileName||'programa.tap'));
+
 </script>
 </body>
-</html>
+</html
+
+<dialog id="prodDialog">
+ <div class="prod-head"><strong>G-Code Studio · Productivity Suite</strong><span class="prod-small">identidade externa permanece 1.0</span><div class="spacer"></div><button class="btn" id="prodClose">Fechar</button></div>
+ <div class="prod-tabs">
+  <button class="prod-tab active" data-pg="workspace">Workspaces</button>
+  <button class="prod-tab" data-pg="calc">Calculadoras</button>
+  <button class="prod-tab" data-pg="setup">Setup Sheet</button>
+  <button class="prod-tab" data-pg="snaps">Snaps CAD</button>
+  <button class="prod-tab" data-pg="ops">CAM Queue</button>
+  <button class="prod-tab" data-pg="compare">Comparar</button>
+  <button class="prod-tab" data-pg="performance">Performance</button>
+  <button class="prod-tab" data-pg="storage">Projetos</button>
+ </div>
+ <div class="prod-body">
+  <section class="prod-page active" data-pgpage="workspace"><div class="prod-grid">
+   <div class="prod-card"><h4>Workspace ativo</h4><div class="prod-row"><select id="pws"><option value="cnc">CNC</option><option value="print">3D Print</option><option value="cad">CAD</option><option value="inspect">Inspeção</option></select><button class="btn primary" id="pwsApply">Aplicar</button></div><div class="prod-small">CNC prioriza editor, visualizador e CAM. 3D Print mostra análise de layers. CAD abre o editor vetorial. Inspeção maximiza visualização e ferramentas de medição.</div></div>
+   <div class="prod-card"><h4>Histórico visual</h4><div id="actionHistory" class="prod-list"></div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="calc"><div class="prod-grid">
+   <div class="prod-card"><h4>Chip load / Feed</h4><div class="prod-row"><label>Dentes</label><input id="calcFlutes" type="number" value="2"><label>RPM</label><input id="calcRpm" type="number" value="12000"></div><div class="prod-row"><label>Chip mm</label><input id="calcChip" type="number" step="0.001" value="0.03"><button class="btn" id="calcFeedBtn">Calcular Feed</button></div><div class="prod-kpi" id="calcFeedOut">720 mm/min</div></div>
+   <div class="prod-card"><h4>Chip load atual</h4><div class="prod-row"><label>Feed</label><input id="calcFeed" type="number" value="800"><button class="btn" id="calcChipBtn">Calcular Chip</button></div><div class="prod-kpi" id="calcChipOut">0.033 mm/dente</div></div>
+   <div class="prod-card"><h4>Potência aproximada</h4><div class="prod-row"><label>MRR cm³/min</label><input id="calcMrr" type="number" step="0.1" value="5"><label>Material</label><select id="calcMat"><option value="0.4">MDF</option><option value="0.8">Madeira</option><option value="2.5">Acrílico</option><option value="8">Alumínio</option></select><button class="btn" id="calcPowerBtn">Estimar</button></div><div class="prod-kpi" id="calcPowerOut">— W</div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="setup"><div class="prod-grid">
+   <div class="prod-card"><h4>Setup sheet automático</h4><div class="prod-row"><input id="setupJob" value="Projeto CNC" placeholder="Nome do job"><input id="setupOperator" placeholder="Operador"></div><div class="prod-row"><button class="btn primary" id="setupPreview">Gerar preview</button><button class="btn" id="setupDownload">Baixar HTML</button></div></div>
+   <div class="prod-card"><h4>Preview</h4><div id="setupOut" class="prod-small">Ainda não gerado.</div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="snaps"><div class="prod-grid">
+   <div class="prod-card"><h4>Snaps</h4><div class="prod-row"><label><input type="checkbox" class="snapopt" value="end" checked> Endpoint</label><label><input type="checkbox" class="snapopt" value="mid" checked> Midpoint</label><label><input type="checkbox" class="snapopt" value="center" checked> Center</label><label><input type="checkbox" class="snapopt" value="intersection"> Intersection</label><label><input type="checkbox" class="snapopt" value="perp"> Perpendicular</label><label><input type="checkbox" class="snapopt" value="tangent"> Tangent</label></div><div class="prod-row"><label>Ortho</label><select id="snapAngle"><option>90</option><option>45</option><option>30</option><option>15</option></select><button class="btn" id="snapApply">Aplicar</button></div><div class="prod-small">A base do CAD já possui grid/snap. Estas opções refinam o modo de desenho e ficam persistidas para as próximas sessões.</div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="ops"><div class="prod-grid">
+   <div class="prod-card"><h4>Fila CAM</h4><div class="prod-row"><button class="btn" id="queueGroupTool">Agrupar por ferramenta</button><button class="btn" id="queueSmart">Ordem inteligente</button><button class="btn" id="queueToggleAll">Ativar/Desativar todas</button></div><div id="queueList" class="prod-list"></div></div>
+   <div class="prod-card"><h4>Tempo por operação</h4><div id="queueTime" class="prod-small">Sem operações PRO.</div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="compare"><div class="prod-grid">
+   <div class="prod-card"><h4>Comparar G-code</h4><div class="prod-row"><input id="cmpFile" type="file" accept=".nc,.tap,.gcode,.txt"><button class="btn" id="cmpRun">Comparar com atual</button></div><div id="cmpOut" class="prod-small">Selecione um segundo arquivo.</div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="performance"><div class="prod-grid">
+   <div class="prod-card"><h4>Performance</h4><div class="prod-row"><button class="btn" id="benchRun">Benchmark</button><button class="btn" id="benchWorker">Testar Worker</button></div><div class="prod-row"><span>FPS</span><b id="benchFps">—</b><span>Movimentos</span><b id="benchMoves">—</b><span>Memória</span><b id="benchMem">—</b></div><div class="prod-meter"><i id="benchMeter"></i></div><div id="benchOut" class="prod-small"></div></div>
+  </div></section>
+  <section class="prod-page" data-pgpage="storage"><div class="prod-grid">
+   <div class="prod-card"><h4>IndexedDB</h4><div class="prod-row"><button class="btn" id="dbSave">Salvar snapshot grande</button><button class="btn" id="dbLoad">Recuperar último</button></div><div id="dbOut" class="prod-small">Storage local ativo.</div></div>
+   <div class="prod-card"><h4>Recentes</h4><div id="recentList" class="prod-list"></div></div>
+  </div></section>
+ </div>
+</dialog>
+
+<dialog id="proDialog">
+ <div class="proHead"><strong>G-Code Studio · Pro Suite V1.2</strong><span class="proSmall">CAD/CAM · análise · impressão 3D</span><div class="spacer"></div><button class="btn" id="proClose">Fechar</button></div>
+ <div class="proTabs">
+  <button class="proTab active" data-pro="stock">Remoção</button><button class="proTab" data-pro="tools">Ferramentas</button><button class="proTab" data-pro="ops">Operações</button><button class="proTab" data-pro="rest">Rest</button><button class="proTab" data-pro="visual">Visual</button><button class="proTab" data-pro="timeline">Timeline</button><button class="proTab" data-pro="stats">Estatísticas</button><button class="proTab" data-pro="print">Impressão 3D</button><button class="proTab" data-pro="cadplus">CAD+</button><button class="proTab" data-pro="layers">Layers</button><button class="proTab" data-pro="origin">Origem</button><button class="proTab" data-pro="clamps">Grampos</button><button class="proTab" data-pro="post">Post</button>
+ </div>
+ <div class="proBody">
+  <section class="proPage active" data-page="stock"><div class="proGrid"><div class="proCard"><h3>Simulação de remoção</h3><div class="proRow"><label><input type="checkbox" id="proRemoval" checked> Mostrar material removido</label></div><div class="proRow"><label>Ferramenta</label><select id="proToolShape"><option value="flat">Fresa reta</option><option value="ball">Ball nose</option><option value="vbit">V-bit</option><option value="drill">Broca</option></select></div><div class="proRow"><label>Resolução</label><select id="proStockRes"><option value="1">1 mm</option><option value="2" selected>2 mm</option><option value="4">4 mm</option></select><button class="btn" id="proBuildStock">Recalcular mapa</button></div><p class="proSmall">Mapa de altura 2.5D calculado a partir do percurso. Mostra material restante e profundidade atingida; mantém o renderizador WebGL/Canvas atual.</p></div><div class="proCard"><h3>Resultado</h3><canvas id="proStockCanvas" class="proCanvas" width="700" height="300"></canvas><div id="proStockInfo" class="proSmall">Aguardando percurso.</div></div></div></section>
+  <section class="proPage" data-page="tools"><div class="proGrid"><div class="proCard"><h3>Tool Manager</h3><div class="proRow"><input id="ptName" placeholder="Nome" value="End Mill 3.175"><input id="ptDia" type="number" step="0.001" value="3.175"><select id="ptShape"><option value="flat">Reta</option><option value="ball">Ball nose</option><option value="vbit">V-bit</option><option value="drill">Broca</option></select></div><div class="proRow"><input id="ptFeed" type="number" value="800" title="Feed"><input id="ptPlunge" type="number" value="250" title="Plunge"><input id="ptRpm" type="number" value="12000" title="RPM"><input id="ptStep" type="number" step="0.1" value="1" title="Stepdown"></div><div class="proRow"><select id="ptMaterial"><option>MDF</option><option>Madeira</option><option>Acrílico</option><option>Alumínio</option><option>Latão</option><option>PCB</option><option>Espuma</option></select><button class="btn primary" id="ptAdd">Adicionar</button></div></div><div class="proCard"><h3>Biblioteca</h3><div id="ptList" class="proList"></div></div></div></section>
+  <section class="proPage" data-page="ops"><div class="proGrid"><div class="proCard"><h3>Operação por objeto</h3><div class="proRow"><select id="poEntity"></select><select id="poType"><option value="follow">Gravação</option><option value="inside">Contorno interno</option><option value="outside">Contorno externo</option><option value="pocket">Pocket</option><option value="drill">Furação</option></select><select id="poTool"></select></div><div class="proRow"><label>Prof.</label><input id="poDepth" type="number" step="0.1" value="-3"><label>Acab.</label><input id="poFinish" type="number" step="0.1" value="0"><button class="btn primary" id="poAdd">Adicionar</button></div></div><div class="proCard"><h3>Ordem CAM</h3><div id="poList" class="proList"></div><div class="proRow"><button class="btn" id="poAutoOrder">Ordem inteligente</button><button class="btn primary" id="poApplyGenerate">Aplicar seleção e gerar</button></div></div></div></section>
+  <section class="proPage" data-page="rest"><div class="proGrid"><div class="proCard"><h3>Rest machining</h3><div class="proRow"><label>Desbaste</label><select id="prRoughTool"></select><label>Rest</label><select id="prRestTool"></select></div><div class="proRow"><label><input id="prEnable" type="checkbox"> Ativar identificação de regiões inacessíveis</label></div><button class="btn" id="prAnalyze">Analisar</button><div id="prInfo" class="proSmall"></div></div></div></section>
+  <section class="proPage" data-page="visual"><div class="proGrid"><div class="proCard"><h3>Coloração</h3><div class="proRow"><select id="pvMode"><option value="normal">Normal</option><option value="feed">Feed</option><option value="depth">Profundidade Z</option><option value="type">Tipo / extrusão</option><option value="layer">Layer</option></select><button class="btn" id="pvApply">Aplicar</button></div><div class="proLegend"><span><i class="proSw" style="background:#38bdf8"></i>lento</span><span><i class="proSw" style="background:#22c55e"></i>normal</span><span><i class="proSw" style="background:#facc15"></i>rápido</span><span><i class="proSw" style="background:#ef4444"></i>alto</span></div></div><div class="proCard"><h3>Ghost / X-Ray</h3><div class="proRow"><label><input id="pvGhost" type="checkbox"> Ghost futuro</label><label><input id="pvOnlyDone" type="checkbox"> Só executado</label><label><input id="pvXray" type="checkbox"> X-Ray</label></div></div></div></section>
+  <section class="proPage" data-page="timeline"><div class="proCard"><h3>Timeline</h3><input id="pTimeline" class="proTimeline" type="range" min="0" max="1000" value="0"><div class="proRow"><strong id="pTimeNow">00:00</strong><span>/</span><span id="pTimeTotal">00:00</span><span class="spacer"></span><span id="pTimeEvent" class="proSmall">—</span></div><canvas id="pTimelineCanvas" width="1000" height="90" class="proCanvas" style="height:90px"></canvas></div></section>
+  <section class="proPage" data-page="stats"><div id="pStats" class="proGrid"></div></section>
+  <section class="proPage" data-page="print"><div class="proGrid"><div class="proCard"><h3>Layers</h3><div class="proRow"><input id="ppLayer" type="range" min="0" max="0" value="0" style="width:100%"></div><div id="ppLayerInfo" class="proSmall">Sem layers.</div></div><div class="proCard"><h3>Modo de cor</h3><div class="proRow"><select id="ppColor"><option value="type">Tipo</option><option value="speed">Velocidade</option><option value="layer">Layer</option><option value="flow">Flow</option></select><button class="btn" id="ppApply">Aplicar</button></div><div id="ppTypes" class="proSmall">Outer wall · Inner wall · Infill · Support · Bridge · Skirt/Brim · Travel</div></div></div></section>
+  <section class="proPage" data-page="cadplus"><div class="proGrid"><div class="proCard"><h3>Ferramentas CAD+</h3><div class="proRow"><button class="btn" data-cadcmd="trim">Trim</button><button class="btn" data-cadcmd="extend">Extend</button><button class="btn" data-cadcmd="fillet">Fillet</button><button class="btn" data-cadcmd="chamfer">Chamfer</button><button class="btn" data-cadcmd="scale">Scale</button><button class="btn" data-cadcmd="break">Break</button><button class="btn" data-cadcmd="explode">Explode</button></div><div class="proRow"><button class="btn" data-cadcmd="arrayLinear">Array linear</button><button class="btn" data-cadcmd="arrayCircular">Array circular</button><button class="btn" data-cadcmd="measure">Measure</button><button class="btn" data-cadcmd="dimension">Cota</button></div></div><div class="proCard"><h3>Linha de comando</h3><input id="pcCommand" class="proCmd" placeholder="Ex.: LINE 10,20 60,20  ou  CIRCLE 30,30 10"><div id="pcResult" class="proSmall">ENTER para executar.</div></div></div></section>
+  <section class="proPage" data-page="layers"><div class="proGrid"><div class="proCard"><h3>Layers CAD</h3><div class="proRow"><input id="plName" placeholder="Nome layer"><input id="plColor" type="color" value="#22c55e"><button class="btn" id="plAdd">Adicionar</button></div><div id="plList" class="proList"></div></div><div class="proCard"><h3>Mapeamento CAM</h3><p class="proSmall">Associe layer a uma operação; entidades novas usam o layer ativo.</p><div id="plMap" class="proList"></div></div></div></section>
+  <section class="proPage" data-page="origin"><div class="proGrid"><div class="proCard"><h3>Origem XY</h3><div class="proRow"><select id="porigin"><option value="ll">Inferior esquerda</option><option value="lr">Inferior direita</option><option value="center">Centro</option><option value="ul">Superior esquerda</option><option value="custom">Personalizada</option></select><input id="poriginX" type="number" value="0"><input id="poriginY" type="number" value="0"></div></div><div class="proCard"><h3>Z zero</h3><div class="proRow"><select id="pzzero"><option value="top">Topo do material</option><option value="table">Mesa</option></select><button class="btn primary" id="poriginApply">Aplicar ao CAD</button></div><div id="poriginInfo" class="proSmall"></div></div></div></section>
+  <section class="proPage" data-page="clamps"><div class="proGrid"><div class="proCard"><h3>Grampos / zonas proibidas</h3><div class="proRow"><label>X</label><input id="pcx" type="number" value="10"><label>Y</label><input id="pcy" type="number" value="10"><label>W</label><input id="pcw" type="number" value="20"><label>H</label><input id="pch" type="number" value="10"><label>Z</label><input id="pcz" type="number" value="8"><button class="btn" id="pcAdd">Adicionar</button></div></div><div class="proCard"><h3>Zonas</h3><div id="pcList" class="proList"></div><button class="btn" id="pcCheck">Verificar colisões</button><div id="pcInfo" class="proSmall"></div></div></div></section>
+  <section class="proPage" data-page="post"><div class="proGrid"><div class="proCard"><h3>Post-processador</h3><div class="proRow"><select id="ppost"><option value="grbl">GRBL</option><option value="mach3">Mach3</option><option value="linuxcnc">LinuxCNC</option><option value="fanuc">Fanuc</option><option value="marlin">Marlin</option><option value="klipper">Klipper</option><option value="reprap">RepRap</option><option value="siemens">Siemens</option><option value="custom">Custom</option></select><button class="btn" id="ppostApply">Converter atual</button></div><textarea id="ppostCustom" rows="8" style="width:100%" placeholder='Custom JSON: {"header":["G21","G90"],"toolChange":"T{T} M6"}'></textarea></div><div class="proCard"><h3>Notas</h3><div id="ppostInfo" class="proSmall">O post altera a saída textual sem modificar a geometria CAM.</div></div></div></section>
+ </div>
+</dialog>
+
+>
