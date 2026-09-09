@@ -1,0 +1,26 @@
+
+
+/* ===== PRODUCTIVITY SUITE / V1.0 INTERNAL REVISION ===== */
+.prodbar{display:flex;gap:6px;align-items:center;padding:6px 10px;border-top:1px solid var(--border);background:var(--bg-panel);font-size:11px}
+.prodbar select,.prodbar input{background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px}
+.prod-chip{padding:3px 7px;border-radius:999px;border:1px solid var(--border);color:var(--text-dim);font-family:var(--mono)}
+.prod-chip.on{color:var(--accent-green);border-color:#3ddc8466;background:#3ddc8410}
+#prodDialog{width:min(1080px,96vw);height:min(760px,92vh);padding:0;background:var(--bg-panel);color:var(--text-primary);border:1px solid var(--border);border-radius:12px}
+.prod-head{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.prod-tabs{display:flex;gap:5px;padding:8px 10px;border-bottom:1px solid var(--border);overflow:auto}
+.prod-tab{background:var(--bg-input);color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:6px 8px;cursor:pointer;white-space:nowrap}
+.prod-tab.active{color:#fff;background:#2563eb;border-color:#60a5fa}
+.prod-body{padding:12px;overflow:auto;height:calc(100% - 98px)}
+.prod-page{display:none}.prod-page.active{display:block}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.prod-card{background:var(--bg-input);border:1px solid var(--border-soft);border-radius:8px;padding:10px}
+.prod-card h4{margin:0 0 8px;color:var(--accent-cyan);font:700 12px var(--mono)}
+.prod-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.prod-row input,.prod-row select{background:#0b0d0f;color:#fff;border:1px solid var(--border);border-radius:4px;padding:5px 7px}
+.prod-row input[type=number]{width:90px}
+.prod-small{font-size:11px;color:var(--text-dim);line-height:1.45}
+.prod-list{display:flex;flex-direction:column;gap:5px}
+.prod-item{display:flex;gap:6px;align-items:center;padding:7px;background:#0f1418;border:1px solid var(--border-soft);border-radius:6px}
+.prod-item .grow{flex:1}
+.prod-meter{height:8px;background:#101316;border:1px solid var(--border);border-radius:999px;overflow:hidden}.prod-meter>i{display:block;height:100%;background:var(--accent-green);width:0%}
+.prod-kpi{font:700 20px var(--mono);color:#fff}
