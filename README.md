@@ -116,3 +116,8 @@ Antes de executar qualquer programa em uma máquina CNC real, verifique sempre:
 * profundidades de usinagem.
 
 **Wtec Sistemas — 2026**
+
+
+## Arquitetura JavaScript
+
+O `js/app.js` é um bundle gerado a partir dos módulos em `js/modules/`. Para reconstruí-lo após editar os módulos, execute `node tools/build.mjs`. A divisão mantém o closure original para preservar compatibilidade, enquanto os pontos de custo contínuo foram reduzidos: autosave é agendado sob demanda e o monitor de FPS só roda quando o painel de Performance está aberto.

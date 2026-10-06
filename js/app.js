@@ -1,3 +1,4 @@
+// G-Code Studio — generated bundle. Source is split under js/modules/.
 (function(){
   "use strict";
 
@@ -132,6 +133,8 @@ M30
   const xyzChartWrap = document.getElementById('xyzChartWrap');
 
 
+
+
   // ============================================================
   // CAD 2D EMBUTIDO + CAM BÁSICO (unidade interna fixa: mm)
   // ============================================================
@@ -157,6 +160,11 @@ M30
   function cadView(){cadViewport.setAttribute('transform',`translate(${cad.panX} ${cad.panY}) scale(${cad.zoom} ${-cad.zoom})`)}
   function cadScreen(ev){const r=cadSvg.getBoundingClientRect();return{x:(ev.clientX-r.left-cad.panX)/cad.zoom,y:-(ev.clientY-r.top-cad.panY)/cad.zoom}}
   function cadSnapP(p,anchor){let q={...p};if(cad.snap){q.x=Math.round(q.x/cad.grid)*cad.grid;q.y=Math.round(q.y/cad.grid)*cad.grid}if(cad.ortho&&anchor){if(Math.abs(q.x-anchor.x)>=Math.abs(q.y-anchor.y))q.y=anchor.y;else q.x=anchor.x}return q}
+  let cadRenderRaf=0;
+  function cadRenderScheduled(){
+    if(cadRenderRaf)return;
+    cadRenderRaf=requestAnimationFrame(()=>{cadRenderRaf=0;cadRender()});
+  }
   function cadRender(){cadEntitiesG.innerHTML='';cadOverlay.innerHTML='';cad.entities.forEach(e=>{const n=cadEl(e);if(n)cadEntitiesG.appendChild(n)});const selected=cadSelection();selected.forEach(e=>{const b=cadBBox(e);cadOverlay.appendChild(cadMake('rect',{x:b.x-2/cad.zoom,y:b.y-2/cad.zoom,width:b.w+4/cad.zoom,height:b.h+4/cad.zoom,class:'cad-selection'}))});if(selected.length===1){const e=selected[0],b=cadBBox(e);document.getElementById('cadSelectionInfo').textContent=`${e.type.toUpperCase()} · X ${b.x.toFixed(3)} · Y ${b.y.toFixed(3)} · ${b.w.toFixed(3)} × ${b.h.toFixed(3)} mm`;if(e.type==='text'){document.getElementById('cadTextValue').value=e.text||'';document.getElementById('cadTextHeight').value=e.height||5;document.getElementById('cadTextPurpose').value=e.purpose==='machine'?'machine':'comment';document.getElementById('cadSelectionInfo').textContent+=` · ${e.purpose==='machine'?'USINAR':'COMENTÁRIO'}`}}else document.getElementById('cadSelectionInfo').textContent=selected.length?`${selected.length} objetos selecionados`:'Nenhum objeto.';cadUpdatePropertyFields(selected);cadPreview();camRenderPreview();cadView();cadUpdateCamSummary()}
   function cadPreview(){const st={stroke:'#4fd1e5','stroke-width':1/cad.zoom,fill:'none','stroke-dasharray':`${5/cad.zoom} ${4/cad.zoom}`};if(cad.marquee){const m=cad.marquee;cadOverlay.appendChild(cadMake('rect',{x:Math.min(m.start.x,m.end.x),y:Math.min(m.start.y,m.end.y),width:Math.abs(m.end.x-m.start.x),height:Math.abs(m.end.y-m.start.y),fill:'#4fd1e522',...st}))}const d=cad.drawing;if(!d)return;if(d.type==='line'&&d.end)cadOverlay.appendChild(cadMake('line',{x1:d.start.x,y1:d.start.y,x2:d.end.x,y2:d.end.y,...st}));if(d.type==='rect'&&d.end)cadOverlay.appendChild(cadMake('rect',{x:Math.min(d.start.x,d.end.x),y:Math.min(d.start.y,d.end.y),width:Math.abs(d.end.x-d.start.x),height:Math.abs(d.end.y-d.start.y),...st}));if(d.type==='circle'&&d.end)cadOverlay.appendChild(cadMake('circle',{cx:d.start.x,cy:d.start.y,r:Math.hypot(d.end.x-d.start.x,d.end.y-d.start.y),...st}));if(d.type==='polyline'||d.type==='arc'){const p=[...d.points];if(d.end)p.push(d.end);cadOverlay.appendChild(cadMake('polyline',{points:p.map(x=>`${x.x},${x.y}`).join(' '),...st}))}}
   function cadAdd(e){e.id='C'+String(cad.nextId++).padStart(4,'0');cad.entities.push(e);cadSetSelection([e.id]);cadRender();cadCommitHistory()}
@@ -169,7 +177,7 @@ M30
   function cadSetTool(t){cad.tool=t;cad.drawing=null;document.querySelectorAll('[data-cad-tool]').forEach(b=>b.classList.toggle('active',b.dataset.cadTool===t));document.getElementById('cadTextToolBtn').classList.toggle('active',t==='text');if(t!=='text')document.getElementById('cadTextMenu').classList.remove('open');cadRender()}
   function cadFit(){const r=cadSvg.getBoundingClientRect();if(!cad.entities.length){cad.zoom=1;cad.panX=r.width/2;cad.panY=r.height/2;cadView();return}const bs=cad.entities.map(cadBBox),minX=Math.min(...bs.map(b=>b.x)),minY=Math.min(...bs.map(b=>b.y)),maxX=Math.max(...bs.map(b=>b.x+b.w)),maxY=Math.max(...bs.map(b=>b.y+b.h)),w=Math.max(1,maxX-minX),h=Math.max(1,maxY-minY);cad.zoom=Math.max(.05,Math.min(30,Math.min((r.width-100)/w,(r.height-100)/h)));cad.panX=r.width/2-(minX+w/2)*cad.zoom;cad.panY=r.height/2+(minY+h/2)*cad.zoom;cadView()}
   cadSvg.addEventListener('pointerdown',ev=>{if(ev.button===1||(ev.button===0&&ev.shiftKey)){cad.pan={x:ev.clientX,y:ev.clientY,px:cad.panX,py:cad.panY};cadSvg.setPointerCapture(ev.pointerId);return}if(ev.button!==0)return;let p=cadSnapP(cadScreen(ev));if(cad.tool==='select'){const t=ev.target.closest('.cad-entity'),id=t?.dataset.id||null;if(ev.ctrlKey||ev.metaKey){if(id){cad.selectedIds.has(id)?cad.selectedIds.delete(id):cad.selectedIds.add(id);cad.selected=[...cad.selectedIds][0]||null}}else if(id)cadSetSelection([id]);if(id&&cad.selectedIds.has(id)){cad.drag={ids:[...cad.selectedIds],last:p};cadSvg.setPointerCapture(ev.pointerId)}else if(!id){cad.marquee={start:p,end:p,append:ev.ctrlKey||ev.metaKey};cadSvg.setPointerCapture(ev.pointerId)}cadRender();return}if(cad.tool==='line'){if(!cad.drawing)cad.drawing={type:'line',start:p,end:p};else{p=cadSnapP(p,cad.drawing.start);cadAdd({type:'line',x1:cad.drawing.start.x,y1:cad.drawing.start.y,x2:p.x,y2:p.y});cad.drawing=null}cadRender();return}if(cad.tool==='rect'||cad.tool==='circle'){cad.drawing={type:cad.tool,start:p,end:p,dragging:true};cadSvg.setPointerCapture(ev.pointerId);cadRender();return}if(cad.tool==='polyline'){if(!cad.drawing)cad.drawing={type:'polyline',points:[p],end:p};else cad.drawing.points.push(cadSnapP(p,cad.drawing.points.at(-1)));cadRender();return}if(cad.tool==='arc'){if(!cad.drawing)cad.drawing={type:'arc',points:[p],end:p};else{cad.drawing.points.push(p);if(cad.drawing.points.length===3){cadAdd({type:'arc',p1:cad.drawing.points[0],p2:cad.drawing.points[1],p3:cad.drawing.points[2]});cad.drawing=null}}cadRender();return}if(cad.tool==='text'){const txt=document.getElementById('cadTextValue').value.trim(),h=Math.max(.1,+document.getElementById('cadTextHeight').value||5);if(!txt){alert('Digite o texto antes de posicioná-lo.');return}cadAdd({type:'text',x:p.x,y:p.y,text:txt,height:h,purpose:cad.textPurpose});return}});
-  cadSvg.addEventListener('pointermove',ev=>{let raw=cadScreen(ev);document.getElementById('cadStatus').textContent=`X ${raw.x.toFixed(3)} · Y ${raw.y.toFixed(3)} mm`;if(cad.pan){cad.panX=cad.pan.px+ev.clientX-cad.pan.x;cad.panY=cad.pan.py+ev.clientY-cad.pan.y;cadView();return}let p=cadSnapP(raw,cad.drawing?.start||cad.drawing?.points?.at(-1));if(cad.drag){const dx=p.x-cad.drag.last.x,dy=p.y-cad.drag.last.y;cad.entities.filter(x=>cad.drag.ids.includes(x.id)).forEach(e=>cadMove(e,dx,dy));cad.drag.last=p;cadRender();return}if(cad.marquee){cad.marquee.end=raw;cadRender();return}if(cad.drawing){cad.drawing.end=p;cadRender()}});
+  cadSvg.addEventListener('pointermove',ev=>{let raw=cadScreen(ev);document.getElementById('cadStatus').textContent=`X ${raw.x.toFixed(3)} · Y ${raw.y.toFixed(3)} mm`;if(cad.pan){cad.panX=cad.pan.px+ev.clientX-cad.pan.x;cad.panY=cad.pan.py+ev.clientY-cad.pan.y;cadView();return}let p=cadSnapP(raw,cad.drawing?.start||cad.drawing?.points?.at(-1));if(cad.drag){const dx=p.x-cad.drag.last.x,dy=p.y-cad.drag.last.y;cad.entities.filter(x=>cad.drag.ids.includes(x.id)).forEach(e=>cadMove(e,dx,dy));cad.drag.last=p;cadRenderScheduled();return}if(cad.marquee){cad.marquee.end=raw;cadRenderScheduled();return}if(cad.drawing){cad.drawing.end=p;cadRenderScheduled()}});
   cadSvg.addEventListener('pointerup',()=>{if(cad.pan){cad.pan=null;return}if(cad.drag){cad.drag=null;cadCommitHistory();return}if(cad.marquee){const m=cad.marquee,x1=Math.min(m.start.x,m.end.x),x2=Math.max(m.start.x,m.end.x),y1=Math.min(m.start.y,m.end.y),y2=Math.max(m.start.y,m.end.y),contain=m.end.x>=m.start.x,ids=cad.entities.filter(e=>{const b=cadBBox(e);return contain?(b.x>=x1&&b.y>=y1&&b.x+b.w<=x2&&b.y+b.h<=y2):(b.x<=x2&&b.x+b.w>=x1&&b.y<=y2&&b.y+b.h>=y1)}).map(e=>e.id);cadSetSelection(m.append?[...new Set([...cad.selectedIds,...ids])]:ids);cad.marquee=null;cadRender();return}if(cad.drawing?.dragging){const d=cad.drawing,p=d.end;if(d.type==='rect'){const w=Math.abs(p.x-d.start.x),h=Math.abs(p.y-d.start.y);if(w||h)cadAdd({type:'rect',x:Math.min(d.start.x,p.x),y:Math.min(d.start.y,p.y),w,h})}else{const r=Math.hypot(p.x-d.start.x,p.y-d.start.y);if(r)cadAdd({type:'circle',cx:d.start.x,cy:d.start.y,r})}cad.drawing=null;cadRender()}});
   cadSvg.addEventListener('dblclick',()=>{if(cad.tool==='polyline'&&cad.drawing?.points.length>=2){cadAdd({type:'polyline',points:cadClone(cad.drawing.points)});cad.drawing=null;cadRender()}});
   cadSvg.addEventListener('wheel',ev=>{ev.preventDefault();const r=cadSvg.getBoundingClientRect(),sx=ev.clientX-r.left,sy=ev.clientY-r.top,old=cad.zoom,f=ev.deltaY<0?1.12:1/1.12;cad.zoom=Math.max(.05,Math.min(30,cad.zoom*f));const wx=(sx-cad.panX)/old,wy=(sy-cad.panY)/old;cad.panX=sx-wx*cad.zoom;cad.panY=sy-wy*cad.zoom;cadView()},{passive:false});
@@ -619,6 +627,8 @@ M30
   });
 
 
+
+
   // ============================================================
   // PROJETO GCS + AUTOSAVE COMPLETO
   // ============================================================
@@ -626,11 +636,20 @@ M30
   function gcsProjectObject(){const cam={};GCS_CAM_FIELDS.forEach(id=>cam[id]=document.getElementById(id)?.value);return{format:'GCODE_STUDIO_PROJECT',version:4,savedAt:new Date().toISOString(),name:state.currentFileName,code:codeEl.value,cad:{entities:cad.entities,nextId:cad.nextId,grid:cad.grid},cam,camQueue,machineProfile:document.getElementById('cadMachineProfile').value,config:{stock:config.stock,limits:config.limits,safeZ:config.safeZ,rapidRate:config.rapidRate,workOffsets:config.workOffsets},view:{plane:state.viewPlane,azimuth:state.isoAzimuth,elevation:state.isoElevation,projection:state.projectionMode}}}
   function gcsApplyProject(p){if(!p||p.format!=='GCODE_STUDIO_PROJECT')throw new Error('Projeto GCS inválido');codeEl.value=p.code||'';state.currentFileName=p.name||'projeto.tap';filename.textContent=state.currentFileName;if(p.cad){cad.entities=Array.isArray(p.cad.entities)?p.cad.entities:[];cad.nextId=p.cad.nextId||cad.entities.length+1;cad.grid=p.cad.grid||10}cadSetSelection([]);if(p.cam)GCS_CAM_FIELDS.forEach(id=>{if(p.cam[id]!=null&&document.getElementById(id))document.getElementById(id).value=p.cam[id]});camQueue=camNormalizeQueue(p.camQueue);if(p.machineProfile&&window.GCS_CAM_PROFILES?.[p.machineProfile])document.getElementById('cadMachineProfile').value=p.machineProfile;if(p.config){if(p.config.stock)Object.assign(config.stock,p.config.stock);if(p.config.limits)Object.assign(config.limits,p.config.limits);if(p.config.safeZ!=null)config.safeZ=p.config.safeZ;if(p.config.rapidRate)config.rapidRate=p.config.rapidRate;if(p.config.workOffsets)config.workOffsets=p.config.workOffsets}if(p.view){state.isoAzimuth=p.view.azimuth??state.isoAzimuth;state.isoElevation=p.view.elevation??state.isoElevation;state.projectionMode=p.view.projection||state.projectionMode}cadCommitHistory();renderHighlight();runParse();cadRender();camQueueRender();cadFit();fitView();cadUpdateCamSummary()}
   function gcsAutosaveFull(){try{localStorage.setItem('gcsProjectAutosaveV1',JSON.stringify(gcsProjectObject()))}catch(e){console.warn('Autosave projeto:',e)}}
-  setInterval(gcsAutosaveFull,10000);
+  let gcsAutosaveTimer=null;
+  function gcsScheduleAutosave(){
+    if(document.hidden)return;
+    clearTimeout(gcsAutosaveTimer);
+    gcsAutosaveTimer=setTimeout(gcsAutosaveFull,1200);
+  }
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)gcsScheduleAutosave()});
+  gcsScheduleAutosave();
   document.getElementById('cadSaveProject').addEventListener('click',()=>cadDownload('projeto.gcs',JSON.stringify(gcsProjectObject(),null,2),'application/json'));
   document.getElementById('cadOpenProject').addEventListener('click',()=>document.getElementById('cadProjectInput').click());
   document.getElementById('cadProjectInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{gcsApplyProject(JSON.parse(await f.text()))}catch(err){alert('Não foi possível abrir o projeto: '+err.message)}e.target.value=''});
   document.getElementById('cadRecoverProject').addEventListener('click',()=>{try{const p=JSON.parse(localStorage.getItem('gcsProjectAutosaveV1')||'null');if(!p)return alert('Nenhum autosave disponível.');gcsApplyProject(p)}catch(e){alert('Autosave inválido.')}});
+
+
 
 
 
@@ -650,6 +669,8 @@ M30
     const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
     if(!inside) helpDialog.close();
   });
+
+
 
 
   // ============================================================
@@ -808,6 +829,8 @@ M30
     });
   });
 
+
+
   // ============================================================
   // SOBRE
   // ============================================================
@@ -924,6 +947,8 @@ M30
     statBBox: document.getElementById('statBBox'),
     statLimitStatus: document.getElementById('statLimitStatus')
   };
+
+
 
 
   // ============================================================
@@ -1878,6 +1903,8 @@ ${fileText}
   }
 
 
+
+
   // ============================================================
   // WEBGL2 PURO - RENDERER 3D
   // ============================================================
@@ -1890,7 +1917,7 @@ ${fileText}
     depositVAO:null,depositVBO:null,depositNBO:null,depositCBO:null,depositIBO:null,
     depositIndexCount:0,depositSegmentCounts:[],depositSegmentRanges:[],depositKey:'',
     depositLiveVAO:null,depositLiveVBO:null,depositLiveNBO:null,depositLiveCBO:null,depositLiveIBO:null,depositLiveIndexCount:0,
-    stockKey:''
+    stockKey:'',stockChunks:[],stockChunkKey:'',stockChunkSize:32
   };
 
   function glCompile(gl,type,source){
@@ -2054,9 +2081,9 @@ ${fileText}
     }, false);
     glCanvas.addEventListener('webglcontextrestored', () => {
       console.info('Contexto WebGL recuperado — reinicializando renderer 3D.');
-      webgl3d.stockKey = '';
+      webgl3d.stockKey = '';webgl3d.stockChunkKey='';webgl3d.stockChunks=[];
       webgl3d.lineKey = '';
-      webgl3d.depositKey = '';
+      webgl3d.depositKey = '';webgl3d.depositFrameKey='';webgl3d.depositLiveKey='';webgl3d.stockBuildKey='';
       initWebGL3D();
       drawCanvas();
     }, false);
@@ -2118,6 +2145,78 @@ ${fileText}
     webgl3d.meshIndexCount=0;uploadWebGLWalls(pos,nor,col);
   }
 
+  function deleteStockChunks(){
+    const gl=webgl3d.gl;
+    if(!gl)return;
+    for(const ch of webgl3d.stockChunks||[]){
+      try{gl.deleteVertexArray(ch.vao);gl.deleteBuffer(ch.pos);gl.deleteBuffer(ch.nor);gl.deleteBuffer(ch.col);gl.deleteBuffer(ch.ibo);}catch(e){}
+    }
+    webgl3d.stockChunks=[];
+  }
+
+  function createStockChunk(){
+    const gl=webgl3d.gl;
+    const vao=gl.createVertexArray();gl.bindVertexArray(vao);
+    const pos=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,pos);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
+    const nor=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nor);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,3,gl.FLOAT,false,0,0);
+    const col=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,col);gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,4,gl.FLOAT,false,0,0);
+    const ibo=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ibo);
+    gl.bindVertexArray(null);
+    return {vao,pos,nor,col,ibo,indexCount:0,cx:0,cy:0};
+  }
+
+  function stockChunkKey(sim,mode){
+    return [sim.nx,sim.ny,state.stockQuality,state.depthMap,state.sectionAxis,state.sectionValue,
+      config.stkX,config.stkY,config.stkZ,mode].join(':');
+  }
+
+  function stockVertexNormal(sim,ix,iy){
+    const vx=sim.nx+1,vy=sim.ny+1;
+    const h=(x,y)=>{
+      x=Math.max(0,Math.min(sim.nx-1,x));y=Math.max(0,Math.min(sim.ny-1,y));
+      return sim.top[y*sim.nx+x];
+    };
+    const hl=h(ix-1,iy),hr=h(ix,iy),hd=h(ix,iy-1),hu=h(ix,iy);
+    let nx=-(hr-hl)/Math.max(sim.dx,1e-6),ny=-(hu-hd)/Math.max(sim.dy,1e-6),nz=1;
+    const l=Math.hypot(nx,ny,nz)||1;return [nx/l,ny/l,nz/l];
+  }
+
+  function buildStockChunk(sim,ch,cx,cy){
+    const gl=webgl3d.gl,cs=sim.chunkSize||32;
+    const x0=cx*cs,y0=cy*cs,x1=Math.min(sim.nx,x0+cs),y1=Math.min(sim.ny,y0+cs),b=stockBounds();
+    const pos=[],nor=[],col=[],idx=[];
+    let vi=0;
+    for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){
+      const z00=sim.top[y*sim.nx+x],z10=sim.top[y*sim.nx+x+1]??z00,z01=sim.top[(y+1)*sim.nx+x]??z00,z11=sim.top[(y+1)*sim.nx+x+1]??z00;
+      const z=(z00+z10+z01+z11)/4;
+      if(!stockCellVisible((x+.5)*sim.dx,(y+.5)*sim.dy,z))continue;
+      const verts=[[x*sim.dx,y*sim.dy,z00],[(x+1)*sim.dx,y*sim.dy,z10],[(x+1)*sim.dx,(y+1)*sim.dy,z11],[x*sim.dx,(y+1)*sim.dy,z01]];
+      const ns=[stockVertexNormal(sim,x,y),stockVertexNormal(sim,x+1,y),stockVertexNormal(sim,x+1,y+1),stockVertexNormal(sim,x,y+1)];
+      for(let q=0;q<4;q++){pos.push(...verts[q]);nor.push(...ns[q]);col.push(...webglColorDepth((b.zTop-verts[q][2])/Math.max(.001,config.stkZ)));}
+      idx.push(vi,vi+1,vi+2,vi,vi+2,vi+3);vi+=4;
+    }
+    gl.bindVertexArray(ch.vao);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ch.pos);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(pos),gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ch.nor);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(nor),gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ch.col);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(col),gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ch.ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(idx),gl.DYNAMIC_DRAW);
+    gl.bindVertexArray(null);ch.indexCount=idx.length;ch.cx=cx;ch.cy=cy;
+  }
+
+  function buildStockChunksWebGL(sim,force=false){
+    const key=stockChunkKey(sim,document.getElementById('stockViewMode')?.value||'machined');
+    const gl=webgl3d.gl,cs=sim.chunkSize||32;
+    if(force||webgl3d.stockChunkKey!==key||!webgl3d.stockChunks.length){
+      deleteStockChunks();webgl3d.stockChunkKey=key;
+      const nx=Math.ceil(sim.nx/cs),ny=Math.ceil(sim.ny/cs);
+      for(let cy=0;cy<ny;cy++)for(let cx=0;cx<nx;cx++){const ch=createStockChunk();buildStockChunk(sim,ch,cx,cy);webgl3d.stockChunks.push(ch);}
+      sim.dirtyChunks?.clear();return;
+    }
+    if(!sim.dirtyChunks?.size)return;
+    for(const packed of sim.dirtyChunks){const cx=packed>>16,cy=packed&0xffff;const ch=webgl3d.stockChunks.find(v=>v.cx===cx&&v.cy===cy);if(ch)buildStockChunk(sim,ch,cx,cy);}
+    sim.dirtyChunks.clear();
+  }
+
   function buildStockWebGL(force=false){
     const mode=document.getElementById('stockViewMode')?.value||'machined';
     if(mode==='original'){
@@ -2127,6 +2226,21 @@ ${fileText}
     const sim=ensureStockSimulation();syncStockSimulation();const b=stockBounds();
     const key=[sim.nx,sim.ny,sim.lastIndex,state.stockQuality,state.depthMap,state.sectionAxis,state.sectionValue,config.stkX,config.stkY,config.stkZ,mode].join(':');
     if(!force&&webgl3d.stockKey===key)return;webgl3d.stockKey=key;
+    // A malha do estoque é dividida em chunks. Durante a usinagem, somente os
+    // chunks atingidos pelo corte são reconstruídos; o restante permanece na GPU.
+    if(mode!=='original'){
+      buildStockChunksWebGL(sim,force);
+      // As paredes são pequenas comparadas à superfície; mantemos a atualização simples.
+      const edgeChanged=sim.lastIndex>=0;
+      if(!force && !edgeChanged && webgl3d.wallVertexCount) return;
+      const wp=[],wn=[],wc=[];
+      function quad(a,b1,c,d,n){[[a,b1,c],[a,c,d]].forEach(t=>t.forEach(v=>{wp.push(...v);wn.push(...n);wc.push(.18,.48,.55,.65);}));}
+      const nx=sim.nx,ny=sim.ny,dx=sim.dx,dy=sim.dy;
+      const h=(x,y)=>sim.top[Math.max(0,Math.min(ny-1,y))*nx+Math.max(0,Math.min(nx-1,x))];
+      for(let x=0;x<nx;x++){let z0=h(x,0),z1=h(x+1,0);quad([x*dx,0,b.zBottom],[(x+1)*dx,0,b.zBottom],[(x+1)*dx,0,z1],[x*dx,0,z0],[0,-1,0]);z0=h(x,ny);z1=h(x+1,ny);quad([x*dx,ny*dy,b.zBottom],[x*dx,ny*dy,z0],[(x+1)*dx,ny*dy,z1],[(x+1)*dx,ny*dy,b.zBottom],[0,1,0]);}
+      for(let y=0;y<ny;y++){let z0=h(0,y),z1=h(0,y+1);quad([0,y*dy,b.zBottom],[0,y*dy,z0],[0,(y+1)*dy,z1],[0,(y+1)*dy,b.zBottom],[-1,0,0]);z0=h(nx,y);z1=h(nx,y+1);quad([nx*dx,y*dy,b.zBottom],[nx*dx,(y+1)*dy,b.zBottom],[nx*dx,(y+1)*dy,z1],[nx*dx,y*dy,z0],[1,0,0]);}
+      uploadWebGLWalls(wp,wn,wc);return;
+    }
 
     const nx=sim.nx,ny=sim.ny,dx=sim.dx,dy=sim.dy,vx=nx+1,vy=ny+1,count=vx*vy,heights=new Float32Array(count);
     function height(ix,iy){
@@ -2464,7 +2578,9 @@ ${fileText}
     // A malha estática contém o movimento inteiro, mas não a desenhamos aqui;
     // geramos somente o prefixo realmente depositado neste frame.
     const progress=currentSegmentProgress();
-    const liveCount=uploadLiveDepositPrefix(i,progress);
+    const liveKey=[state.geometryVersion||0,i,Math.round(progress*250)].join('|');
+    if(webgl3d.depositLiveKey!==liveKey){webgl3d.depositLiveKey=liveKey;uploadLiveDepositPrefix(i,progress);}
+    const liveCount=webgl3d.depositLiveIndexCount;
     if(liveCount>0){
       gl.bindVertexArray(webgl3d.depositLiveVAO);
       gl.drawElements(gl.TRIANGLES,liveCount,gl.UNSIGNED_INT,0);
@@ -2652,15 +2768,21 @@ ${fileText}
     if(!webgl3d.available)return false;
     const gl=webgl3d.gl,r=resizeWebGLCanvas();gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     if(state.jobType==='cnc' && document.getElementById('chkShowStock')?.checked){
-      buildStockWebGL(false);const pr=webgl3d.program;gl.useProgram(pr);glUniforms(webgl3d.programUniforms,r);
+      const stockFrameKey=[state.geometryVersion||0,state.playIndex,state.selectedLine,state.stockQuality,state.depthMap,state.sectionAxis,state.sectionValue,config.stkX,config.stkY,config.stkZ,document.getElementById('stockViewMode')?.value||'machined',state.xray].join('|');
+      if(webgl3d.stockBuildKey!==stockFrameKey){webgl3d.stockBuildKey=stockFrameKey;buildStockWebGL(false);}const pr=webgl3d.program;gl.useProgram(pr);glUniforms(webgl3d.programUniforms,r);
       const xr=webgl3d.programUniforms.uXray;if(xr!=null)gl.uniform1f(xr,state.xray?1:0);
       if(state.xray)gl.depthMask(false);
-      if(webgl3d.meshIndexCount){gl.bindVertexArray(webgl3d.meshVAO);gl.drawElements(gl.TRIANGLES,webgl3d.meshIndexCount,gl.UNSIGNED_INT,0);}
+      if(webgl3d.stockChunks?.length){for(const ch of webgl3d.stockChunks){if(ch.indexCount){gl.bindVertexArray(ch.vao);gl.drawElements(gl.TRIANGLES,ch.indexCount,gl.UNSIGNED_INT,0);}}}else if(webgl3d.meshIndexCount){gl.bindVertexArray(webgl3d.meshVAO);gl.drawElements(gl.TRIANGLES,webgl3d.meshIndexCount,gl.UNSIGNED_INT,0);}
       if(webgl3d.wallVertexCount){gl.bindVertexArray(webgl3d.wallVAO);gl.drawArrays(gl.TRIANGLES,0,webgl3d.wallVertexCount);}
       gl.depthMask(true);
     }
     if(state.jobType==='print3d'){
-      buildDepositWebGL();
+      const depositFrameKey=[state.geometryVersion||0,state.segments.length,state.jobType].join('|');
+      if(webgl3d.depositFrameKey!==depositFrameKey){
+        webgl3d.depositFrameKey=depositFrameKey;
+        buildDepositWebGL();
+        webgl3d.depositLiveKey='';
+      }
       drawDepositedPrintWebGL(r);
     }
 
@@ -2995,9 +3117,10 @@ ${fileText}
     const actualResX=(b.x1-b.x0)/nx, actualResY=(b.y1-b.y0)/ny;
     const top=new Float32Array(nx*ny);
     top.fill(b.zTop);
-    state.stockSim={nx,ny,dx:actualResX,dy:actualResY,top,bottom:b.zBottom,topOriginal:b.zTop,lastIndex:-1,resolution:res};
+    state.stockSim={nx,ny,dx:actualResX,dy:actualResY,top,bottom:b.zBottom,topOriginal:b.zTop,lastIndex:-1,resolution:res,chunkSize:32,dirtyChunks:new Set()};
     state.stockCache=null;
     state.stockRenderCache=null;
+    state.stockSim.dirtyChunks=new Set();
     if(typeof webgl3d!=='undefined')webgl3d.stockKey='';
   }
 
@@ -3036,7 +3159,11 @@ ${fileText}
           cutterZ=z + d/Math.max(Math.tan(angle/2),1e-6);
         }
         const k=iy*sim.nx+ix;
-        if(cutterZ<sim.top[k]) sim.top[k]=Math.max(sim.bottom,cutterZ);
+        if(cutterZ<sim.top[k]){
+          sim.top[k]=Math.max(sim.bottom,cutterZ);
+          const cs=sim.chunkSize||32;
+          sim.dirtyChunks?.add((Math.floor(ix/cs)<<16) ^ Math.floor(iy/cs));
+        }
       }
     }
   }
@@ -3074,42 +3201,76 @@ ${fileText}
     if(typeof webgl3d!=='undefined')webgl3d.stockKey='';
   }
 
+  // A simulação é deliberadamente incremental: o playback nunca deve bloquear
+  // a thread principal reconstruindo centenas/milhares de segmentos de uma vez.
+  // O restante é processado em frames ociosos e o último estado continua preciso.
+  function processStockBudget(target, quality, budgetMs){
+    const startTime=performance.now();
+    const sim=state.stockSim;
+    if(!sim) return false;
+    while(sim.lastIndex < target){
+      const next=sim.lastIndex+1;
+      simulateStockSegment(state.segments[next],sim);
+      sim.lastIndex=next;
+      // Mantemos uma margem para layout/input/paint do navegador.
+      if(performance.now()-startTime >= budgetMs) return false;
+    }
+    return true;
+  }
+
+  function scheduleStockContinuation(target, quality){
+    if(state.stockRefineTimer) return;
+    state.stockRefineTimer=requestAnimationFrame(()=>{
+      state.stockRefineTimer=null;
+      if(!state.stockSim || state.stockQuality!==quality) return;
+      const wanted=Math.min(target,state.segments.length-1);
+      const done=processStockBudget(wanted,quality,state.playing?3.0:7.0);
+      state.stockRenderCache=null;
+      if(typeof webgl3d!=='undefined') webgl3d.stockKey='';
+      if(!done) scheduleStockContinuation(wanted,quality);
+      // Só força outro frame quando ainda há simulação pendente.
+      if(done && !state.playing) drawCanvas();
+    });
+  }
+
   function syncStockSimulation(){
     const target=(state.playing || state.playIndex>0) ? Math.min(state.playIndex,state.segments.length-1) : -1;
     if(target<0) return;
 
     const wantedQuality=state.playing ? 'preview' : 'normal';
     if(!state.stockSim || state.stockQuality!==wantedQuality){
-      rebuildStockTo(target,wantedQuality);
-      return;
+      state.stockQuality=wantedQuality;
+      resetStockSimulation();
     }
 
     const sim=state.stockSim;
     if(target < sim.lastIndex){
-      rebuildStockTo(target,wantedQuality);
-      return;
+      // Seek para trás: reconstrói incrementalmente em vez de travar a UI.
+      resetStockSimulation();
     }
 
-    const start=sim.lastIndex+1;
-    for(let i=start;i<=target;i++) simulateStockSegment(state.segments[i],sim);
-    sim.lastIndex=target;
+    if(sim.lastIndex < target){
+      const done=processStockBudget(target,wantedQuality,state.playing?3.0:7.0);
+      state.stockRenderCache=null;
+      if(typeof webgl3d!=='undefined') webgl3d.stockKey='';
+      if(!done) scheduleStockContinuation(target,wantedQuality);
+    }
   }
 
   function refineStockAfterPlayback(){
     if(state.stockRefineTimer) cancelAnimationFrame(state.stockRefineTimer);
-    state.stockRefineTimer=requestAnimationFrame(()=>{
-      state.stockRefineTimer=null;
-      if(state.playing) return;
-      const target=state.playIndex>0 ? Math.min(state.playIndex,state.segments.length-1) : -1;
-      if(target<0){
-        state.stockQuality='normal';
-        resetStockSimulation();
-        drawCanvas();
-        return;
-      }
-      rebuildStockTo(target,'normal');
+    state.stockRefineTimer=null;
+    const target=state.playIndex>0 ? Math.min(state.playIndex,state.segments.length-1) : -1;
+    if(target<0){
+      state.stockQuality='normal';
+      resetStockSimulation();
       drawCanvas();
-    });
+      return;
+    }
+    state.stockQuality='normal';
+    // Recomeça em resolução normal, mas processa em pequenos blocos.
+    resetStockSimulation();
+    scheduleStockContinuation(target,'normal');
   }
 
 
@@ -3833,6 +3994,8 @@ ${fileText}
   });
 
 
+
+
   // ============================================================
   // RECURSOS DESKTOP 1.0
   // ============================================================
@@ -4106,6 +4269,8 @@ ${fileText}
     if(e.ctrlKey&&e.key.toLowerCase()==='z'){e.preventDefault();restoreHistory(-1);}
     if(e.ctrlKey&&(e.key.toLowerCase()==='y'||(e.shiftKey&&e.key.toLowerCase()==='z'))){e.preventDefault();restoreHistory(1);}
   });
+
+
 
 
   // ============================================================
@@ -4753,13 +4918,15 @@ ${fileText}
 // fechamento do escopo movido para o fim após os módulos PRO/Productivity
 
 
+
+
 /* ===== PRODUCTIVITY SUITE ENGINE ===== */
 function prodReadJson(key,fallback){try{const value=JSON.parse(localStorage.getItem(key)||'null');return value??fallback}catch{return fallback}}
 function prodEscape(value){return String(value??'').replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch])}
 const prod={workspace:localStorage.getItem('gcs_workspace')||'cnc',singleBlock:false,feedOverride:100,spindleOverride:100,snaps:prodReadJson('gcs_snaps',{"end":true,"mid":true,"center":true,"intersection":false,"perp":false,"tangent":false,"angle":90}),history:[],recent:prodReadJson('gcs_recent',[])};
 function prodHist(msg){prod.history.unshift({t:new Date().toLocaleTimeString(),msg});prod.history=prod.history.slice(0,30);renderProdHistory()}
 function renderProdHistory(){const e=document.getElementById('actionHistory');if(!e)return;e.innerHTML=prod.history.map(x=>`<div class="prod-item"><span>${prodEscape(x.t)}</span><span class="grow">${prodEscape(x.msg)}</span></div>`).join('')||'<div class="prod-small">Sem ações nesta sessão.</div>'}
-const prodDialog=document.getElementById('prodDialog');document.getElementById('btnProductivity').onclick=()=>{prodRefresh();prodDialog.showModal()};document.getElementById('prodClose').onclick=()=>prodDialog.close();
+const prodDialog=document.getElementById('prodDialog');let perfMonitorRunning=false;function startPerfMonitor(){if(perfMonitorRunning)return;perfMonitorRunning=true;requestAnimationFrame(prodFpsLoop)}document.getElementById('btnProductivity').onclick=()=>{prodRefresh();prodDialog.showModal();startPerfMonitor()};document.getElementById('prodClose').onclick=()=>prodDialog.close();
 document.querySelectorAll('.prod-tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.prod-tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.prod-page').forEach(x=>x.classList.toggle('active',x.dataset.pgpage===b.dataset.pg));if(b.dataset.pg==='ops')renderQueue();if(b.dataset.pg==='storage')renderRecent();});
 function applyWorkspace(ws){prod.workspace=ws;localStorage.setItem('gcs_workspace',ws);wsSelect.value=ws;pws.value=ws;const ep=document.querySelector('.editor-pane'),vp=document.querySelector('.view-pane'),chart=document.getElementById('xyzChartWrap');if(ws==='cnc'){ep.style.display='flex';vp.style.display='flex'}else if(ws==='print'){ep.style.display='none';vp.style.display='flex';document.getElementById('chkShowXYZChart').checked=true;chart.style.display='flex'}else if(ws==='cad'){document.getElementById('btnCad2D')?.click()}else if(ws==='inspect'){ep.style.display='none';vp.style.display='flex';document.getElementById('btnMeasure')?.click()}prodHist('Workspace '+ws)}
 wsSelect.onchange=()=>applyWorkspace(wsSelect.value);pwsApply.onclick=()=>applyWorkspace(pws.value);
@@ -4776,7 +4943,7 @@ snapApply.onclick=()=>{document.querySelectorAll('.snapopt').forEach(x=>prod.sna
 function renderQueue(){const box=queueList;if(!box)return;box.innerHTML=camQueue.map((o,i)=>`<div class="prod-item"><input type="checkbox" ${o.enabled===false?'':'checked'} data-qen="${i}"><span class="grow">${i+1}. ${prodEscape(o.name)} · ${camOpEntityIds(o).length} objeto(s) · ${prodEscape(o.fields?.cadOperation)} · T${prodEscape(o.fields?.cadToolNumber)}</span><button data-qup="${i}">↑</button><button data-qdn="${i}">↓</button></div>`).join('')||'<div class="prod-small">Sem operações CAM.</div>';box.querySelectorAll('[data-qen]').forEach(e=>e.onchange=()=>{camQueue[+e.dataset.qen].enabled=e.checked;cadCommitHistory();gcsAutosaveFull()});box.querySelectorAll('[data-qup]').forEach(b=>b.onclick=()=>{let i=+b.dataset.qup;if(i)[camQueue[i-1],camQueue[i]]=[camQueue[i],camQueue[i-1]];cadCommitHistory();gcsAutosaveFull();renderQueue()});box.querySelectorAll('[data-qdn]').forEach(b=>b.onclick=()=>{let i=+b.dataset.qdn;if(i<camQueue.length-1)[camQueue[i+1],camQueue[i]]=[camQueue[i],camQueue[i+1]];cadCommitHistory();gcsAutosaveFull();renderQueue()});queueTime.textContent=camQueue.map((o,i)=>`${i+1}. ${o.name}: ~${Math.max(1,Math.abs(+o.fields?.cadDepth||1))*2} min`).join(' · ')||'Sem operações CAM.'}
 queueGroupTool.onclick=()=>{camQueue.sort((a,b)=>String(a.fields?.cadToolNumber).localeCompare(String(b.fields?.cadToolNumber)));cadCommitHistory();gcsAutosaveFull();renderQueue()};queueSmart.onclick=()=>{const rank={drill:0,pocket:1,inside:2,follow:3,outside:4};camQueue.sort((a,b)=>String(a.fields?.cadToolNumber).localeCompare(String(b.fields?.cadToolNumber))||(rank[a.fields?.cadOperation]??9)-(rank[b.fields?.cadOperation]??9));cadCommitHistory();gcsAutosaveFull();renderQueue()};queueToggleAll.onclick=()=>{let on=camQueue.some(o=>o.enabled===false);camQueue.forEach(o=>o.enabled=on);cadCommitHistory();gcsAutosaveFull();renderQueue()};
 cmpRun.onclick=async()=>{const f=cmpFile.files[0];if(!f)return;const other=await f.text(),a=codeEl.value.split(/\r?\n/),b=other.split(/\r?\n/);let diff=0,max=Math.max(a.length,b.length);for(let i=0;i<max;i++)if((a[i]||'').trim()!==(b[i]||'').trim())diff++;cmpOut.textContent=`Atual: ${a.length} linhas · Comparado: ${b.length} linhas · Diferenças: ${diff} (${(100*diff/Math.max(1,max)).toFixed(1)}%)`};
-let _fpsFrames=0,_fpsLast=performance.now(),_fps=0;function prodFpsLoop(t){_fpsFrames++;if(t-_fpsLast>1000){_fps=_fpsFrames*1000/(t-_fpsLast);_fpsFrames=0;_fpsLast=t;benchFps.textContent=_fps.toFixed(0);benchMoves.textContent=(state.segments||[]).length.toLocaleString();if(performance.memory)benchMem.textContent=(performance.memory.usedJSHeapSize/1048576).toFixed(0)+' MB';benchMeter.style.width=Math.min(100,_fps/60*100)+'%'}requestAnimationFrame(prodFpsLoop)}requestAnimationFrame(prodFpsLoop);
+let _fpsFrames=0,_fpsLast=performance.now(),_fps=0;function prodFpsLoop(t){if(!prodDialog?.open){perfMonitorRunning=false;return}_fpsFrames++;if(t-_fpsLast>1000){_fps=_fpsFrames*1000/(t-_fpsLast);_fpsFrames=0;_fpsLast=t;benchFps.textContent=_fps.toFixed(0);benchMoves.textContent=(state.segments||[]).length.toLocaleString();if(performance.memory)benchMem.textContent=(performance.memory.usedJSHeapSize/1048576).toFixed(0)+' MB';benchMeter.style.width=Math.min(100,_fps/60*100)+'%'}requestAnimationFrame(prodFpsLoop)}
 benchRun.onclick=()=>{let t=performance.now(),sum=0;for(let i=0;i<500000;i++)sum+=Math.sin(i*.001);let dt=performance.now()-t;benchOut.textContent=`CPU JS: ${dt.toFixed(1)} ms · WebGL2: ${!!window.WebGL2RenderingContext} · movimentos: ${(state.segments||[]).length}`};
 benchWorker.onclick=()=>{try{const blob=new Blob([`onmessage=e=>{let s=0;for(let i=0;i<2e6;i++)s+=Math.sqrt(i);postMessage(s)}`],{type:'text/javascript'}),w=new Worker(URL.createObjectURL(blob)),t=performance.now();w.onmessage=()=>{benchOut.textContent=`Web Worker OK: ${(performance.now()-t).toFixed(1)} ms`;perfChip.textContent='Parser: worker ready';w.terminate()};w.postMessage(1)}catch(e){benchOut.textContent='Worker indisponível: '+e.message}};
 function openDb(){return new Promise((res,rej)=>{const r=indexedDB.open('gcs_v10',1);r.onupgradeneeded=()=>r.result.createObjectStore('snap');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
