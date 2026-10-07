@@ -1629,7 +1629,14 @@
 
     let violationCount=0;
 
-    geom.forEach((g,idx)=>{
+    // Janela de execução: 0 mostra o programa inteiro; valores maiores
+    // mostram somente os últimos N movimentos executados.
+    const windowSize=Math.max(0,Number(state.executionWindow)||0);
+    const windowStart=windowSize>0 ? Math.max(0,state.playIndex-windowSize+1) : 0;
+    const windowEnd=windowSize>0 ? Math.min(state.segments.length-1,state.playIndex) : state.segments.length-1;
+
+    for(let idx=windowStart;idx<=windowEnd;idx++){
+      const g=geom[idx];
       const seg=state.segments[idx];
       if(!seg) return;
       if(state.jobType==='print3d' && seg.extruding) return;
@@ -1699,9 +1706,11 @@
       if(document.getElementById('chkShowLimits').checked){
         if(drawLimitViolation(g.points)) violationCount++;
       }
-    });
+    }
 
     state.limitViolations=violationCount;
+
+    followCurrentTool();
 
     // Ponto/ferramenta atual.
     if(state.segments.length && state.playIndex<state.segments.length){
@@ -2010,6 +2019,88 @@
     if(typeof updateIsoControls==='function')updateIsoControls();
   }
 
+  // ============================================================
+  // ZOOM DA FERRAMENTA DURANTE A EXECUÇÃO
+  // Mantém o playback independente da câmera e permite aproximar
+  // rapidamente a região em que a ferramenta está trabalhando.
+  // ============================================================
+  function currentToolPoint(){
+    if(!state.segments.length) return null;
+    const idx=Math.max(0,Math.min(state.playIndex,state.segments.length-1));
+    return currentPlaybackPosition() || state.segments[idx]?.end || state.segments[idx]?.start || null;
+  }
+
+  function zoomAroundModelPoint(pt,factor,keepCenter=false){
+    if(!pt || !isFinite(factor) || factor<=0) return;
+    const rect=canvas.getBoundingClientRect();
+    const centerX=rect.width/2, centerY=rect.height/2;
+    const before=toScreen(pt);
+    const f=Math.max(0.2,Math.min(8,factor));
+    state.scale=Math.max(0.0005,Math.min(5000,state.scale*f));
+    if(keepCenter){
+      const after=toScreen(pt);
+      state.offsetX+=centerX-after[0];
+      state.offsetY+=centerY-after[1];
+    }else{
+      state.offsetX=centerX-(before[0]-state.offsetX)*f;
+      state.offsetY=centerY-(before[1]-state.offsetY)*f;
+    }
+    drawCanvas();
+  }
+
+  function focusCurrentTool(){
+    const pt=currentToolPoint();
+    if(!pt) return false;
+    const rect=canvas.getBoundingClientRect();
+    const centerX=rect.width/2,centerY=rect.height/2;
+    const oldScale=Math.max(0.0005,Number(state.scale)||1);
+    const f=Math.max(1,Number(state.toolZoomFactor)||1.8);
+    const before=toScreen(pt);
+    const modelX=before[0]-state.offsetX;
+    const modelY=before[1]-state.offsetY;
+    const targetScale=Math.max(0.0005,Math.min(5000,oldScale*f));
+    state.scale=targetScale;
+    state.offsetX=centerX-modelX*(targetScale/oldScale);
+    state.offsetY=centerY-modelY*(targetScale/oldScale);
+    state._suppressFollowOnce=true;
+    drawCanvas();
+    return true;
+  }
+
+  function setFollowTool(enabled){
+    state.followTool=!!enabled;
+    const btn=document.getElementById('btnFollowTool');
+    if(btn){
+      btn.textContent=state.followTool?'Seguir: Sim':'Seguir: Não';
+      btn.classList.toggle('active',state.followTool);
+      btn.setAttribute('aria-pressed',String(state.followTool));
+    }
+    if(state.followTool) focusCurrentTool();
+  }
+
+  function followCurrentTool(){
+    if(state._suppressFollowOnce){state._suppressFollowOnce=false;return;}
+    if(!state.followTool || !state.playing) return;
+    const pt=currentToolPoint();
+    if(!pt) return;
+    const rect=canvas.getBoundingClientRect();
+    const projected=toScreen(pt);
+    const dx=rect.width/2-projected[0],dy=rect.height/2-projected[1];
+    const deadX=rect.width*0.16,deadY=rect.height*0.16;
+    if(Math.abs(dx)>deadX || Math.abs(dy)>deadY){
+      state.offsetX+=dx;
+      state.offsetY+=dy;
+      // drawCanvas() já está executando; não fazer chamada recursiva.
+    }
+  }
+
+  document.getElementById('btnToolZoom')?.addEventListener('click',()=>focusCurrentTool());
+  document.getElementById('btnFollowTool')?.addEventListener('click',()=>setFollowTool(!state.followTool));
+  document.getElementById('executionWindow')?.addEventListener('change',e=>{
+    state.executionWindow=Math.max(0,Number(e.target.value)||0);
+    drawCanvas();
+  });
+
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
 
   canvas.addEventListener('mousedown', (e) => {
@@ -2059,6 +2150,8 @@
   });
 
   window.addEventListener('resize',()=>{if(webgl3d.available)resizeWebGLCanvas();drawCanvas();});
+  window.gcsFocusCurrentTool=focusCurrentTool;
+  window.gcsSetFollowTool=setFollowTool;
 
   /* ============================================================
      ATALHOS & EVENTOS DE EXECUÇÃO

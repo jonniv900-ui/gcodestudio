@@ -106,6 +106,9 @@ M30
     jobType:'cnc', jobConfidence:0, jobEvidence:[],
     printNozzleWidth:0.45, printLayerHeight:0.20,
     orbitSensitivity:0.006,
+    toolZoomFactor:1.8,
+    followTool:false,
+    executionWindow:0,
     materialLibrary:{
       aluminum:{name:'Alumínio',density:2.70,recommendedVc:250,chipLoad:0.05},
       steel:{name:'Aço carbono',density:7.85,recommendedVc:120,chipLoad:0.03},
