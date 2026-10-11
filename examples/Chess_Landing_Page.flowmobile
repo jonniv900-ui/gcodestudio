@@ -1,0 +1,101 @@
+{
+  "name": "Chess Landing Page",
+  "projectVersion": "1.0.0",
+  "icon": "",
+  "favicon": "",
+  "themeColor": "#20242a",
+  "type": "landing",
+  "framework": "none",
+  "designerMode": "framework",
+  "titlebar": false,
+  "active": 0,
+  "activePage": "landing",
+  "pages": [
+    {
+      "id": "landing",
+      "name": "Landing",
+      "slug": "landing",
+      "showTitlebar": false,
+      "titlebar": {
+        "name": "titlebar1",
+        "text": "Chess",
+        "height": "52px",
+        "bg": "#111827",
+        "color": "#fff",
+        "showMenu": false,
+        "autoStyle": false
+      },
+      "items": [
+        {
+          "id": "ch-h",
+          "kind": "hero",
+          "name": "chessHero",
+          "text": "Jogue xadrez no navegador",
+          "x": 55,
+          "y": 35,
+          "width": "690px",
+          "height": "140px",
+          "bg": "#111827",
+          "color": "#fff",
+          "events": {}
+        },
+        {
+          "id": "ch-l",
+          "kind": "label",
+          "name": "chessIntro",
+          "text": "Tabuleiro desenhado em tempo de execução com imagens SVG geradas pelo JavaScript — sem arquivos de peças.",
+          "x": 65,
+          "y": 190,
+          "width": "650px",
+          "height": "55px",
+          "bg": "transparent",
+          "color": "#222",
+          "events": {}
+        },
+        {
+          "id": "ch-c",
+          "kind": "canvas",
+          "name": "chessBoard",
+          "text": "",
+          "x": 65,
+          "y": 270,
+          "width": "480px",
+          "height": "480px",
+          "bg": "#fff",
+          "color": "#222",
+          "events": {
+            "click": "const c=document.getElementById('chessBoard');\nconst ctx=c.getContext('2d');\nconst s=Math.floor(Math.min(c.width,c.height)/8);\nconst light='#f0d9b5', dark='#b58863';\nconst back=['r','n','b','q','k','b','n','r'];\nconst whitePieces={k:'♔',q:'♕',r:'♖',b:'♗',n:'♘',p:'♙'};\nconst blackPieces={k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};\nconst board=[['r','n','b','q','k','b','n','r'],['p','p','p','p','p','p','p','p'],[null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null],['p','p','p','p','p','p','p','p'],['r','n','b','q','k','b','n','r']];\nfunction drawBoard(){\n  for(let r=0;r<8;r++){for(let col=0;col<8;col++){ctx.fillStyle=(r+col)%2?dark:light;ctx.fillRect(col*s,r*s,s,s);}}\n}\nfunction pieceSvg(symbol,fill,stroke){\n  const svg='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"80\" height=\"80\" viewBox=\"0 0 80 80\"><text x=\"40\" y=\"57\" text-anchor=\"middle\" font-family=\"DejaVu Sans,Segoe UI Symbol,Arial Unicode MS,sans-serif\" font-size=\"58\" fill=\"'+fill+'\" stroke=\"'+stroke+'\" stroke-width=\"1.5\" paint-order=\"stroke\">'+symbol+'</text></svg>';\n  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);\n}\nfunction drawPiece(r,col,type,white){\n  const img=new Image();\n  img.onload=function(){ctx.drawImage(img,col*s+4,r*s+4,s-8,s-8);};\n  img.src=pieceSvg(white?whitePieces[type]:blackPieces[type],white?'#fff':'#111',white?'#111':'#fff');\n}\ndrawBoard();\nfor(let r=0;r<8;r++){for(let col=0;col<8;col++){if(board[r][col]) drawPiece(r,col,board[r][col],r>=6);}}\n"
+          }
+        },
+        {
+          "id": "ch-t",
+          "kind": "heading",
+          "name": "chessTitle",
+          "text": "Tabuleiro demonstrativo",
+          "x": 575,
+          "y": 285,
+          "width": "250px",
+          "height": "55px",
+          "bg": "transparent",
+          "color": "#222",
+          "events": {}
+        },
+        {
+          "id": "ch-b",
+          "kind": "button",
+          "name": "chessStart",
+          "text": "Desenhar peças",
+          "x": 575,
+          "y": 500,
+          "width": "190px",
+          "height": "46px",
+          "bg": "#2563eb",
+          "color": "#fff",
+          "events": {
+            "click": "document.getElementById('chessBoard').click();"
+          }
+        }
+      ]
+    }
+  ]
+}

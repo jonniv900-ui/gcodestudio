@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><title>FlowForge semantic control regression</title>
+<div class="ff-component ff-kind-button"><button id="button2">Botão</button></div>
+<script>
+const b=document.getElementById('button2'); b.textContent='teste';
+if(b.tagName!=='BUTTON'||b.textContent!=='teste'||!b.closest('.ff-component')) throw Error('Button semantic regression');
+document.body.dataset.test='PASS';
+</script>
